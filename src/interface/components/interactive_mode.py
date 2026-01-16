@@ -12,7 +12,8 @@ import re
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from src.models.patient import Patient, Constantes
+from src.models.patient import Patient
+from src.models.constantes_vitales import ConstantesVitales as Constantes
 from src.agents.triage_agent import TriageAgent
 from src.models.triage_result import GravityLevel
 
@@ -209,10 +210,10 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 120,
                 "pression_diastolique": 75,
                 "temperature": 37.1,
-                "echelle_douleur": 15
+                "echelle_douleur": 7
             },
             "personnalite": "Patient coopératif mais douleur importante",
-            "expected_level": GravityLevel.ORANGE
+            "expected_level": GravityLevel.JAUNE
         },
         "⏰ Peu Urgent (Jaune)": {
             "age": 28,
@@ -230,7 +231,7 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 105,
                 "pression_diastolique": 65,
                 "temperature": 37.8,
-                "echelle_douleur": 15
+                "echelle_douleur": 7
             },
             "personnalite": "Patient fatigué mais conscient et cohérent",
             "expected_level": GravityLevel.JAUNE
@@ -250,7 +251,7 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 118,
                 "pression_diastolique": 72,
                 "temperature": 36.7,
-                "echelle_douleur": 15
+                "echelle_douleur": 7
             },
             "personnalite": "Patient calme, pas pressé",
             "expected_level": GravityLevel.VERT
@@ -272,7 +273,7 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 140,
                 "pression_diastolique": 90,
                 "temperature": 36.9,
-                "echelle_douleur": 15
+                "echelle_douleur": 7
             },
             "personnalite": "Patient très anxieux, dramatise, hyperventilation",
             "expected_level": GravityLevel.JAUNE  # Surveillance malgré anxiété
@@ -292,10 +293,10 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 150,
                 "pression_diastolique": 95,
                 "temperature": 36.5,
-                "echelle_douleur": 15
+                "echelle_douleur": 7
             },
             "personnalite": "Patient stoïque, minimise ses symptômes, ne veut pas déranger",
-            "expected_level": GravityLevel.ORANGE  # Malgré minimisation
+            "expected_level": GravityLevel.JAUNE  # Malgré minimisation
         },
         "😱 Patient Exagérant": {
             "age": 32,
@@ -313,7 +314,7 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 122,
                 "pression_diastolique": 78,
                 "temperature": 37.3,
-                "echelle_douleur": 15
+                "echelle_douleur": 7
             },
             "personnalite": "Patient dramatique, vocabulaire catastrophique pour symptômes mineurs",
             "expected_level": GravityLevel.GRIS
@@ -345,7 +346,7 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "echelle_douleur": 14
             },
             "personnalite": "Patient confus, descriptions vagues",
-            "expected_level": GravityLevel.ORANGE
+            "expected_level": GravityLevel.JAUNE
         }
     else:
         # Trouver le persona correspondant
@@ -362,7 +363,7 @@ def get_initial_patient_message(persona: Dict) -> str:
 
     messages = {
         GravityLevel.ROUGE: "Aidez-moi... j'ai très mal... à la poitrine... je n'arrive plus à respirer...",
-        GravityLevel.ORANGE: "Bonjour... j'ai très mal, je me suis blessé... c'est grave je pense...",
+        GravityLevel.JAUNE: "Bonjour... j'ai très mal, je me suis blessé... c'est grave je pense...",
         GravityLevel.JAUNE: "Bonjour, je ne me sens vraiment pas bien depuis hier...",
         GravityLevel.VERT: "Bonjour, je me suis fait un peu mal, je voulais juste vérifier que c'est pas grave.",
         GravityLevel.GRIS: "Bonjour, je sais que c'est pas grand chose mais je préfère être sûr..."
@@ -403,7 +404,7 @@ def generate_patient_response(persona: Dict, chat_history: List[Dict], nurse_que
     elif any(word in question_lower for word in ["depuis quand", "combien de temps", "début"]):
         durations = {
             GravityLevel.ROUGE: "Depuis environ 30 minutes... c'est arrivé brutalement...",
-            GravityLevel.ORANGE: "Il y a environ 2 heures, après ma chute...",
+            GravityLevel.JAUNE: "Il y a environ 2 heures, après ma chute...",
             GravityLevel.JAUNE: "Depuis hier soir, ça a commencé progressivement...",
             GravityLevel.VERT: "Depuis ce matin, en faisant du sport...",
             GravityLevel.GRIS: "Depuis quelques jours, mais ça ne s'améliore pas vraiment..."
@@ -416,7 +417,7 @@ def generate_patient_response(persona: Dict, chat_history: List[Dict], nurse_que
     elif any(word in question_lower for word in ["échelle", "sur 10", "intensité"]):
         levels = {
             GravityLevel.ROUGE: "10 sur 10 ! C'est insupportable !",
-            GravityLevel.ORANGE: "8 ou 9 sur 10, vraiment très douloureux...",
+            GravityLevel.JAUNE: "8 ou 9 sur 10, vraiment très douloureux...",
             GravityLevel.JAUNE: "Je dirais 5 ou 6 sur 10...",
             GravityLevel.VERT: "Peut-être 3 ou 4 sur 10, supportable...",
             GravityLevel.GRIS: "2 sur 10, c'est plus gênant que douloureux..."
@@ -544,7 +545,7 @@ def display_interactive_triage_result():
 
     level_color = {
         GravityLevel.ROUGE: "rouge",
-        GravityLevel.ORANGE: "orange",
+        GravityLevel.JAUNE: "orange",
         GravityLevel.JAUNE: "jaune",
         GravityLevel.VERT: "vert",
         GravityLevel.GRIS: "gris"

@@ -15,7 +15,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
 from src.models.triage_result import GravityLevel
 from src.agents.triage_agent import TriageAgent
-from src.models.patient import Patient, Constantes
+from src.models.patient import Patient
+from src.models.constantes_vitales import ConstantesVitales as Constantes
 
 
 def render_metrics_dashboard():
@@ -115,7 +116,7 @@ def run_benchmark(num_patients: int, use_rag: bool):
             results["confusion_matrix"]["false_negative"][expected_level.value] += 1
 
             # Détecter sur-triage / sous-triage
-            severity_order = [GravityLevel.GRIS, GravityLevel.VERT, GravityLevel.JAUNE, GravityLevel.ORANGE, GravityLevel.ROUGE]
+            severity_order = [GravityLevel.GRIS, GravityLevel.VERT, GravityLevel.JAUNE, GravityLevel.JAUNE, GravityLevel.ROUGE]
             predicted_idx = severity_order.index(result.niveau_gravite)
             expected_idx = severity_order.index(expected_level)
 
@@ -189,35 +190,35 @@ def generate_test_patients(num_patients: int) -> List[tuple]:
         # ORANGE
         ({"age": 42, "motif": "Fracture ouverte jambe droite", "constantes": {
             "frequence_cardiaque": 110, "frequence_respiratoire": 22, "saturation_oxygene": 95,
-            "pression_systolique": 115, "pression_diastolique": 70, "temperature": 37.0, "echelle_douleur": 15
-        }}, GravityLevel.ORANGE),
+            "pression_systolique": 115, "pression_diastolique": 70, "temperature": 37.0, "echelle_douleur": 5
+        }}, GravityLevel.JAUNE),
 
         ({"age": 35, "motif": "Crise d'asthme sévère", "constantes": {
             "frequence_cardiaque": 118, "frequence_respiratoire": 32, "saturation_oxygene": 89,
-            "pression_systolique": 130, "pression_diastolique": 85, "temperature": 37.1, "echelle_douleur": 15
-        }}, GravityLevel.ORANGE),
+            "pression_systolique": 130, "pression_diastolique": 85, "temperature": 37.1, "echelle_douleur": 5
+        }}, GravityLevel.JAUNE),
 
         # JAUNE
         ({"age": 25, "motif": "Entorse cheville gauche", "constantes": {
             "frequence_cardiaque": 85, "frequence_respiratoire": 16, "saturation_oxygene": 98,
-            "pression_systolique": 125, "pression_diastolique": 75, "temperature": 37.0, "echelle_douleur": 15
+            "pression_systolique": 125, "pression_diastolique": 75, "temperature": 37.0, "echelle_douleur": 5
         }}, GravityLevel.JAUNE),
 
         ({"age": 19, "motif": "Gastro-entérite avec déshydratation", "constantes": {
             "frequence_cardiaque": 95, "frequence_respiratoire": 18, "saturation_oxygene": 98,
-            "pression_systolique": 110, "pression_diastolique": 70, "temperature": 38.2, "echelle_douleur": 15
+            "pression_systolique": 110, "pression_diastolique": 70, "temperature": 38.2, "echelle_douleur": 5
         }}, GravityLevel.JAUNE),
 
         # VERT
         ({"age": 30, "motif": "Coupure main droite superficielle", "constantes": {
             "frequence_cardiaque": 72, "frequence_respiratoire": 14, "saturation_oxygene": 99,
-            "pression_systolique": 120, "pression_diastolique": 75, "temperature": 36.8, "echelle_douleur": 15
+            "pression_systolique": 120, "pression_diastolique": 75, "temperature": 36.8, "echelle_douleur": 5
         }}, GravityLevel.VERT),
 
         # GRIS
         ({"age": 18, "motif": "Petite écorchure au genou", "constantes": {
             "frequence_cardiaque": 68, "frequence_respiratoire": 14, "saturation_oxygene": 99,
-            "pression_systolique": 115, "pression_diastolique": 72, "temperature": 36.6, "echelle_douleur": 15
+            "pression_systolique": 115, "pression_diastolique": 72, "temperature": 36.6, "echelle_douleur": 5
         }}, GravityLevel.GRIS),
     ]
 
@@ -233,6 +234,7 @@ def generate_test_patients(num_patients: int) -> List[tuple]:
         # Créer le patient
         patient = Patient(
             age=varied_case["age"],
+            sexe=random.choice(["M", "F"]),
             motif_consultation=varied_case["motif"],
             constantes=Constantes(**varied_case["constantes"])
         )

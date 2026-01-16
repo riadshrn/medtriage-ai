@@ -317,35 +317,53 @@ python -m pytest tests/interface/test_metrics_dashboard.py -v
 python -m pytest tests/interface/test_utils.py -v
 ```
 
-### Tests unitaires
+### Resultats des tests
 
-**Total : 50+ tests**
+**Total : 28 tests - 28 passed**
 
-#### Simulation Mode (15 tests)
-- Validation des cas prédéfinis
-- Couverture de tous les niveaux
-- Tests de triage (Rouge, Orange, etc.)
-- Gestion des edge cases
-- Plages de constantes réalistes
+#### Simulation Mode (6 tests)
+| Test | Description | Statut |
+|------|-------------|--------|
+| test_all_predefined_cases_valid | Validation structure cas | PASSED |
+| test_cases_cover_all_gravity_levels | Couverture niveaux | PASSED |
+| test_gris_cases_normal_vitals | Constantes GRIS normales | PASSED |
+| test_predefined_cases_constantes_valid | Constantes valides | PASSED |
+| test_predefined_cases_expected_levels | Niveaux attendus | PASSED |
+| test_rouge_cases_critical_vitals | Constantes ROUGE critiques | PASSED |
 
-#### Interactive Mode (20 tests)
-- Génération de personas
-- Messages initiaux selon gravité
-- Réponses adaptées à la personnalité
-- Validation de complétude des constantes
+#### Interactive Mode (7 tests)
+| Test | Description | Statut |
+|------|-------------|--------|
+| test_generate_patient_persona_structure | Structure persona | PASSED |
+| test_get_initial_patient_message | Message initial | PASSED |
+| test_get_initial_patient_message_contains_context | Contexte message | PASSED |
+| test_patient_persona_age_valid | Age valide | PASSED |
+| test_patient_persona_constantes_valid | Constantes valides | PASSED |
+| test_patient_persona_expected_level_is_gravity | Niveau GravityLevel | PASSED |
+| test_patient_persona_motif_exists | Motif existe | PASSED |
 
-#### Metrics Dashboard (10 tests)
-- Génération de patients de test
-- Calcul d'accuracy
-- Tracking de latence
-- Détection sur/sous-triage
-- Matrice de confusion
+#### Metrics Dashboard (5 tests)
+| Test | Description | Statut |
+|------|-------------|--------|
+| test_generate_test_patients_count | Nombre patients | PASSED |
+| test_generate_test_patients_distribution | Distribution variee | PASSED |
+| test_generate_test_patients_structure | Structure patients | PASSED |
+| test_generate_test_patients_valid_ages | Ages valides | PASSED |
+| test_generate_test_patients_valid_constantes | Constantes valides | PASSED |
 
-#### Utils (15 tests)
-- Validation des données patient
-- Détection d'incohérences physiologiques
-- Formatage des résultats
-- Calcul de métriques agrégées
+#### Utils (10 tests)
+| Test | Description | Statut |
+|------|-------------|--------|
+| test_validate_patient_data_valid | Donnees valides | PASSED |
+| test_validate_patient_data_invalid_age | Age invalide | PASSED |
+| test_validate_patient_data_invalid_motif | Motif invalide | PASSED |
+| test_validate_patient_data_missing_constante | Constante manquante | PASSED |
+| test_format_triage_result_color | Couleur resultat | PASSED |
+| test_get_emoji_for_level | Emoji par niveau | PASSED |
+| test_calculate_metrics_summary_empty | Metriques vides | PASSED |
+| test_calculate_metrics_summary_valid | Metriques valides | PASSED |
+| test_calculate_metrics_summary_all_correct | 100% accuracy | PASSED |
+| test_calculate_metrics_summary_all_incorrect | 0% accuracy | PASSED |
 
 ### Coverage
 

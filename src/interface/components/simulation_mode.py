@@ -11,7 +11,8 @@ import time
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from src.models.patient import Patient, Constantes
+from src.models.patient import Patient
+from src.models.constantes_vitales import ConstantesVitales as Constantes
 from src.agents.triage_agent import TriageAgent
 from src.models.triage_result import GravityLevel
 
@@ -58,10 +59,10 @@ PREDEFINED_CASES = {
             "pression_systolique": 115,
             "pression_diastolique": 70,
             "temperature": 37.0,
-            "echelle_douleur": 15
+            "echelle_douleur": 8
         },
         "description": "Chute d'échelle (3m). Fracture ouverte tibia-péroné visible, saignement modéré, douleur intense (8/10). Patient conscient mais en état de choc.",
-        "expected_level": GravityLevel.ORANGE
+        "expected_level": GravityLevel.JAUNE
     },
     "🟠 ORANGE - Crise d'Asthme Sévère": {
         "age": 35,
@@ -73,10 +74,10 @@ PREDEFINED_CASES = {
             "pression_systolique": 130,
             "pression_diastolique": 85,
             "temperature": 37.1,
-            "echelle_douleur": 15
+            "echelle_douleur": 8
         },
         "description": "Patient asthmatique connu, crise déclenchée par allergène. Respiration sifflante audible, tirage intercostal, anxiété majeure. Ventoline inefficace.",
-        "expected_level": GravityLevel.ORANGE
+        "expected_level": GravityLevel.JAUNE
     },
     "🟡 JAUNE - Entorse Cheville": {
         "age": 25,
@@ -88,7 +89,7 @@ PREDEFINED_CASES = {
             "pression_systolique": 125,
             "pression_diastolique": 75,
             "temperature": 37.0,
-            "echelle_douleur": 15
+            "echelle_douleur": 8
         },
         "description": "Sportif amateur, entorse lors d'un match de basket. Cheville gonflée, ecchymose, douleur à la mobilisation. Pas de déformation.",
         "expected_level": GravityLevel.JAUNE
@@ -103,7 +104,7 @@ PREDEFINED_CASES = {
             "pression_systolique": 110,
             "pression_diastolique": 70,
             "temperature": 38.2,
-            "echelle_douleur": 15
+            "echelle_douleur": 8
         },
         "description": "Étudiant présentant une gastro-entérite aiguë. Nausées, vomissements répétés, diarrhée liquide. Légère déshydratation, faiblesse générale.",
         "expected_level": GravityLevel.JAUNE
@@ -118,7 +119,7 @@ PREDEFINED_CASES = {
             "pression_systolique": 120,
             "pression_diastolique": 75,
             "temperature": 36.8,
-            "echelle_douleur": 15
+            "echelle_douleur": 8
         },
         "description": "Coupure nette au couteau (2cm) sur la paume de la main. Saignement mineur contrôlé par compression. Pas de lésion tendineuse apparente.",
         "expected_level": GravityLevel.VERT
@@ -133,7 +134,7 @@ PREDEFINED_CASES = {
             "pression_systolique": 115,
             "pression_diastolique": 72,
             "temperature": 36.6,
-            "echelle_douleur": 15
+            "echelle_douleur": 8
         },
         "description": "Jeune patient avec écorchure superficielle suite à une chute en vélo. Plaie nettoyée, pas de corps étranger. Demande un avis médical par précaution.",
         "expected_level": GravityLevel.GRIS
@@ -151,7 +152,7 @@ PREDEFINED_CASES = {
             "echelle_douleur": 14  # Légère altération
         },
         "description": "Patient aux constantes contradictoires : bradycardie + tachypnée + hypertension + fièvre. Tester la capacité du système à gérer des cas complexes.",
-        "expected_level": GravityLevel.ORANGE  # Attendu car anomalies multiples
+        "expected_level": GravityLevel.JAUNE  # Attendu car anomalies multiples
     },
     "⚠️ EDGE CASE - Patient Anxieux": {
         "age": 22,
@@ -163,7 +164,7 @@ PREDEFINED_CASES = {
             "pression_systolique": 135,
             "pression_diastolique": 88,
             "temperature": 36.9,
-            "echelle_douleur": 15
+            "echelle_douleur": 8
         },
         "description": "Possible crise de panique : tous les symptômes d'urgence cardiaque mais constantes physiologiques correctes. Tester si le système sur-triage ou identifie correctement.",
         "expected_level": GravityLevel.JAUNE  # Surveillance nécessaire même si probablement anxiété
@@ -208,7 +209,7 @@ def render_simulation_mode():
     with col3:
         expected_emoji = {
             GravityLevel.ROUGE: "🔴",
-            GravityLevel.ORANGE: "🟠",
+            GravityLevel.JAUNE: "🟠",
             GravityLevel.JAUNE: "🟡",
             GravityLevel.VERT: "🟢",
             GravityLevel.GRIS: "⚪"
@@ -293,7 +294,7 @@ def display_triage_result(result, case_data: Dict, total_time: float, show_metri
         st.markdown("#### Niveau Attendu")
         level_color = {
             GravityLevel.ROUGE: "rouge",
-            GravityLevel.ORANGE: "orange",
+            GravityLevel.JAUNE: "orange",
             GravityLevel.JAUNE: "jaune",
             GravityLevel.VERT: "vert",
             GravityLevel.GRIS: "gris"
@@ -364,7 +365,7 @@ def display_triage_result(result, case_data: Dict, total_time: float, show_metri
     st.markdown("### 🎯 Recommandations Cliniques")
     recommendations = {
         GravityLevel.ROUGE: "🔴 **Prise en charge IMMÉDIATE** - Salle de déchocage - Équipe complète",
-        GravityLevel.ORANGE: "🟠 **Prise en charge URGENTE** - Délai max 20 min - Surveillance continue",
+        GravityLevel.JAUNE: "🟠 **Prise en charge URGENTE** - Délai max 20 min - Surveillance continue",
         GravityLevel.JAUNE: "🟡 **Prise en charge PROGRAMMÉE** - Délai max 60 min - Consultation standard",
         GravityLevel.VERT: "🟢 **Prise en charge DIFFÉRÉE** - Délai max 120 min - Consultation simple",
         GravityLevel.GRIS: "⚪ **Non urgent** - Orientation possible vers médecine de ville"

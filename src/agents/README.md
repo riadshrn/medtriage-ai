@@ -197,9 +197,31 @@ FC=72 bpm, PA=120/80 mmHg, SpO2=99%
    Consultation de suivi, prise en charge différée possible."
 ```
 
-## Dépendances
+## Tests
 
-- `src.ml` : Modèle de classification XGBoost
-- `src.llm` : Système RAG + LLM
-- `src.models` : Structures de données (Patient, TriageResult)
-- `src.data` : Génération de patients (pour tests)
+```bash
+python -m pytest tests/test_agents.py -v
+```
+
+### Resultats des tests
+
+| Test | Description | Statut |
+|------|-------------|--------|
+| test_rule_based_justification_rouge | Justification ROUGE | PASSED |
+| test_rule_based_justification_jaune | Justification JAUNE | PASSED |
+| test_rule_based_justification_vert | Justification VERT | PASSED |
+| test_rule_based_justification_gris | Justification GRIS | PASSED |
+| test_anomaly_detection_hypoxemia | Detection hypoxemie | PASSED |
+| test_anomaly_detection_tachycardia | Detection tachycardie | PASSED |
+| test_anomaly_detection_fever | Detection fievre | PASSED |
+| test_agent_stats | Statistiques agent | PASSED |
+| test_patient_to_dict_for_ml | Conversion patient | PASSED |
+
+**Total : 9 tests - 9 passed**
+
+## Dependances
+
+- `src.ml` : Modele de classification XGBoost
+- `src.llm` : Systeme RAG + LLM
+- `src.models` : Structures de donnees (Patient, TriageResult)
+- `src.data` : Generation de patients (pour tests)

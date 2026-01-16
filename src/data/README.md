@@ -82,3 +82,27 @@ Le fichier CSV généré contient les colonnes suivantes :
 | `antecedents` | Antécédents médicaux - optionnel |
 | `traitements_en_cours` | Traitements actuels - optionnel |
 | `gravity_level` | Niveau de gravité (GRIS/VERT/JAUNE/ROUGE) |
+
+## Tests
+
+```bash
+# Lancer les tests de generation de donnees
+python -m pytest tests/test_data_generation.py -v
+```
+
+### Resultats des tests
+
+| Test | Description | Statut |
+|------|-------------|--------|
+| test_generate_single_patient | Generation d'un patient | PASSED |
+| test_generate_patient_with_target_gravity | Generation avec gravite cible | PASSED |
+| test_generate_dataset | Generation d'un dataset | PASSED |
+| test_generate_dataset_with_custom_distribution | Distribution personnalisee | PASSED |
+| test_seed_consistency | Reproductibilite avec seed | PASSED |
+| test_label_critical_patient | Labellisation patient critique | PASSED |
+| test_label_stable_patient | Labellisation patient stable | PASSED |
+| test_label_moderate_urgency | Labellisation urgence moderee | PASSED |
+| test_label_with_keywords | Detection des mots-cles | PASSED |
+| test_label_elderly_with_abnormal_vitals | Patient age avec anomalies | PASSED |
+
+**Total : 10 tests - 10 passed**
