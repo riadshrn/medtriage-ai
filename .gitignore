@@ -16,9 +16,9 @@ build/
 .env
 .env.local
 
-# Data (generated)
-data/
-models/trained/
+# Data (generated) - only root level
+/data/
+/models/trained/
 
 # IDE
 .vscode/
