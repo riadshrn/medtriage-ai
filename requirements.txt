@@ -1,0 +1,33 @@
+# RedFlag-AI - Dependances Python
+
+# Core
+python-dotenv>=1.0.0
+
+# Machine Learning
+scikit-learn>=1.4.0
+xgboost>=2.0.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# LLM & RAG (Hugging Face)
+transformers>=4.35.0
+sentence-transformers>=2.2.0
+huggingface-hub>=0.20.0
+accelerate>=0.25.0
+torch>=2.0.0
+
+# Vector Store
+faiss-cpu>=1.7.4
+
+# Interface
+streamlit>=1.30.0
+
+# Monitoring & Visualization
+plotly>=5.18.0
+
+# Testing
+pytest>=8.0.0
+pytest-cov>=4.1.0
+
+# Utilities
+pydantic>=2.5.0
