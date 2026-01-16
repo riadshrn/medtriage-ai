@@ -1,0 +1,6 @@
+# Requirements spécifiques à l'interface Streamlit
+# Ces dépendances s'ajoutent à celles du projet principal
+
+streamlit>=1.28.0
+pandas>=2.0.0
+plotly>=5.18.0  # Pour les graphiques avancés (optionnel)
