@@ -466,6 +466,7 @@ def take_vitals(persona: Dict):
     st.session_state.constantes_prises = True
     st.session_state.patient_data = {
         "age": persona.get("age"),
+        "sexe": persona.get("sexe", "M"),
         "motif": persona.get("motif_reel"),
         "constantes": constantes
     }
@@ -513,6 +514,7 @@ def perform_final_triage():
         # Créer le patient
         patient = Patient(
             age=st.session_state.patient_data["age"],
+            sexe=st.session_state.patient_data["sexe"],
             motif_consultation=st.session_state.patient_data["motif"],
             constantes=Constantes(**st.session_state.patient_data["constantes"])
         )

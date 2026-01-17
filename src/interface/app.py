@@ -2,9 +2,11 @@
 RedFlag-AI - Interface Streamlit pour le Triage Médical aux Urgences
 Projet Data for Good - M2 SISE
 
-Cette application propose deux modes :
+Cette application propose plusieurs modes :
 1. SIMULATION : Cas prédéfinis pour démontrer le système
 2. INTERACTIF : Chat avec patient simulé pour tester les limites
+3. VALIDATION : Validation infirmière des prédictions
+4. MODÈLES : Gestion et réentraînement des modèles ML
 """
 
 import streamlit as st
@@ -17,6 +19,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from src.interface.components.simulation_mode import render_simulation_mode
 from src.interface.components.interactive_mode import render_interactive_mode
 from src.interface.components.metrics_dashboard import render_metrics_dashboard
+from src.interface.components.validation_mode import render_validation_mode
+from src.interface.components.models_management import render_models_management
 
 # Configuration de la page
 st.set_page_config(
@@ -99,18 +103,25 @@ def main():
         st.markdown("---")
 
         mode = st.radio(
-            "📋 Mode d'utilisation",
-            options=["🎬 Simulation (Cas Prédéfinis)", "💬 Interactif (Chat Patient)", "📊 Métriques"],
+            "Mode d'utilisation",
+            options=[
+                "Simulation (Cas Prédéfinis)",
+                "Interactif (Chat Patient)",
+                "Métriques",
+                "Validation Infirmière",
+                "Gestion Modèles"
+            ],
             index=0
         )
 
         st.markdown("---")
         st.markdown("### À propos")
         st.info("""
-        **RedFlag-AI** est un système de triage médical automatisé qui combine :
-        - 🤖 **ML** : Classification XGBoost (99% accuracy)
-        - 📚 **RAG** : Base documentaire médicale
-        - 🧠 **LLM** : Justifications contextuelles
+        **RedFlag-AI v2.0** - Système de triage basé sur :
+        - **Grille FRENCH** officielle (SFMU)
+        - **ML** : XGBoost + feedback loop
+        - **RAG** : Base documentaire médicale
+        - **MLflow** : Versioning des modèles
         """)
 
         st.markdown("---")
@@ -123,8 +134,14 @@ def main():
         render_simulation_mode()
     elif "Interactif" in mode:
         render_interactive_mode()
-    else:
+    elif "Métriques" in mode:
         render_metrics_dashboard()
+    elif "Validation" in mode:
+        render_validation_mode()
+    elif "Modèles" in mode:
+        render_models_management()
+    else:
+        render_simulation_mode()
 
     # Footer
     st.markdown("---")

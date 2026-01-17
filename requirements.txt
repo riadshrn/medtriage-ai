@@ -15,12 +15,23 @@ sentence-transformers>=2.2.0
 huggingface-hub>=0.20.0
 accelerate>=0.25.0
 torch>=2.0.0
+datasets>=2.14.0
 
 # Vector Store
 faiss-cpu>=1.7.4
 
 # Interface
 streamlit>=1.30.0
+
+# API Backend
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+sqlalchemy>=2.0.0
+pydantic-settings>=2.1.0
+httpx>=0.26.0
+
+# MLflow pour le tracking
+mlflow>=2.10.0
 
 # Monitoring & Visualization
 plotly>=5.18.0

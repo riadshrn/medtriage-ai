@@ -21,6 +21,7 @@ from src.models.triage_result import GravityLevel
 PREDEFINED_CASES = {
     "🔴 ROUGE - Arrêt Cardiaque": {
         "age": 65,
+        "sexe": "M",
         "motif": "Douleur thoracique intense, perte de conscience",
         "constantes": {
             "frequence_cardiaque": 180,
@@ -36,6 +37,7 @@ PREDEFINED_CASES = {
     },
     "🔴 ROUGE - Traumatisme Crânien Sévère": {
         "age": 28,
+        "sexe": "M",
         "motif": "Accident de moto, traumatisme crânien",
         "constantes": {
             "frequence_cardiaque": 125,
@@ -51,6 +53,7 @@ PREDEFINED_CASES = {
     },
     "🟠 ORANGE - Fracture Ouverte": {
         "age": 42,
+        "sexe": "M",
         "motif": "Chute, fracture ouverte jambe droite",
         "constantes": {
             "frequence_cardiaque": 110,
@@ -66,6 +69,7 @@ PREDEFINED_CASES = {
     },
     "🟠 ORANGE - Crise d'Asthme Sévère": {
         "age": 35,
+        "sexe": "F",
         "motif": "Crise d'asthme, dyspnée importante",
         "constantes": {
             "frequence_cardiaque": 118,
@@ -81,6 +85,7 @@ PREDEFINED_CASES = {
     },
     "🟡 JAUNE - Entorse Cheville": {
         "age": 25,
+        "sexe": "M",
         "motif": "Entorse cheville gauche au sport",
         "constantes": {
             "frequence_cardiaque": 85,
@@ -96,6 +101,7 @@ PREDEFINED_CASES = {
     },
     "🟡 JAUNE - Gastro-Entérite": {
         "age": 19,
+        "sexe": "F",
         "motif": "Vomissements et diarrhée depuis 24h",
         "constantes": {
             "frequence_cardiaque": 95,
@@ -111,6 +117,7 @@ PREDEFINED_CASES = {
     },
     "🟢 VERT - Plaie Superficielle": {
         "age": 30,
+        "sexe": "F",
         "motif": "Coupure main droite en cuisinant",
         "constantes": {
             "frequence_cardiaque": 72,
@@ -126,6 +133,7 @@ PREDEFINED_CASES = {
     },
     "⚪ GRIS - Consultation Mineure": {
         "age": 18,
+        "sexe": "M",
         "motif": "Petite écorchure au genou",
         "constantes": {
             "frequence_cardiaque": 68,
@@ -141,6 +149,7 @@ PREDEFINED_CASES = {
     },
     "⚠️ EDGE CASE - Constantes Contradictoires": {
         "age": 55,
+        "sexe": "M",
         "motif": "Malaise général",
         "constantes": {
             "frequence_cardiaque": 45,  # Bradycardie
@@ -156,6 +165,7 @@ PREDEFINED_CASES = {
     },
     "⚠️ EDGE CASE - Patient Anxieux": {
         "age": 22,
+        "sexe": "F",
         "motif": "Palpitations et sensation de mort imminente",
         "constantes": {
             "frequence_cardiaque": 115,  # Tachycardie de stress
@@ -250,6 +260,7 @@ def perform_triage(case_data: Dict[str, Any], use_rag: bool, show_metrics: bool,
         # Créer le patient
         patient = Patient(
             age=case_data['age'],
+            sexe=case_data['sexe'],
             motif_consultation=case_data['motif'],
             constantes=Constantes(**case_data['constantes'])
         )
