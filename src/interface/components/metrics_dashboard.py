@@ -99,25 +99,25 @@ def run_benchmark(num_patients: int, use_rag: bool):
     for i, (patient, expected_level) in enumerate(test_patients):
         # Triage
         start_time = time.time()
-        result = agent.triage_patient(patient)
+        result = agent.triage(patient)
         latency = (time.time() - start_time) * 1000  # en ms
 
         # Collecter les résultats
         results["latencies"].append(latency)
-        results["distribution"][result.niveau_gravite.value] += 1
+        results["distribution"][result.gravity_level.value] += 1
 
         # Vérifier la correction
-        is_correct = result.niveau_gravite == expected_level
+        is_correct = result.gravity_level == expected_level
         if is_correct:
             results["correct"] += 1
             results["confusion_matrix"]["true_positive"][expected_level.value] += 1
         else:
-            results["confusion_matrix"]["false_positive"][result.niveau_gravite.value] += 1
+            results["confusion_matrix"]["false_positive"][result.gravity_level.value] += 1
             results["confusion_matrix"]["false_negative"][expected_level.value] += 1
 
             # Détecter sur-triage / sous-triage
             severity_order = [GravityLevel.GRIS, GravityLevel.VERT, GravityLevel.JAUNE, GravityLevel.JAUNE, GravityLevel.ROUGE]
-            predicted_idx = severity_order.index(result.niveau_gravite)
+            predicted_idx = severity_order.index(result.gravity_level)
             expected_idx = severity_order.index(expected_level)
 
             if predicted_idx > expected_idx:
@@ -126,12 +126,12 @@ def run_benchmark(num_patients: int, use_rag: bool):
                 results["sous_triage"] += 1
 
         # Métriques ML/LLM
-        if "latence_ml_ms" in result.metadata:
-            results["total_ml_time"] += result.metadata["latence_ml_ms"]
+        if result.latency_ml is not None:
+            results["total_ml_time"] += result.latency_ml * 1000  # Convert to ms
             results["ml_only_count"] += 1
 
-        if "latence_llm_ms" in result.metadata:
-            results["total_llm_time"] += result.metadata["latence_llm_ms"]
+        if result.latency_llm is not None:
+            results["total_llm_time"] += result.latency_llm * 1000  # Convert to ms
             results["llm_used_count"] += 1
 
         # Sauvegarder la prédiction
@@ -139,10 +139,10 @@ def run_benchmark(num_patients: int, use_rag: bool):
             "patient_age": patient.age,
             "motif": patient.motif_consultation,
             "expected": expected_level.value,
-            "predicted": result.niveau_gravite.value,
+            "predicted": result.gravity_level.value,
             "correct": is_correct,
             "latency_ms": latency,
-            "confiance": result.confiance
+            "confiance": result.confidence_score
         })
 
         # Mise à jour de la progression

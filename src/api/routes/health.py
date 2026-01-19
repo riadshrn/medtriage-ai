@@ -4,6 +4,7 @@ Route Health Check
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from datetime import datetime
 
 from src.api.core.database import get_db
@@ -18,7 +19,7 @@ async def health_check(db: Session = Depends(get_db)):
     """
     # Test connexion DB
     try:
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         db_status = "healthy"
     except Exception as e:
         db_status = f"unhealthy: {str(e)}"

@@ -383,8 +383,13 @@ def generate_patient_response(persona: Dict, chat_history: List[Dict], nurse_que
 
     question_lower = nurse_question.lower()
 
-    # Détection de la question
-    if any(word in question_lower for word in ["symptôme", "ressent", "douleur", "mal", "qu'est-ce qui"]):
+    # Détection de l'âge
+    if any(word in question_lower for word in ["âge", "age", "quel age", "ans", "vieux", "née", "naissance"]):
+        age = persona.get("age", 45)
+        return f"J'ai {age} ans."
+
+    # Détection de la question sur les symptômes
+    if any(word in question_lower for word in ["symptôme", "ressent", "douleur", "mal", "qu'est-ce qui", "problème", "arrivé", "passé"]):
         symptomes = persona.get("symptomes", [])
         personnalite = persona.get("personnalite", "")
 
@@ -427,9 +432,32 @@ def generate_patient_response(persona: Dict, chat_history: List[Dict], nurse_que
     elif any(word in question_lower for word in ["constante", "tension", "température", "pouls", "mesure"]):
         return "Oui bien sûr, allez-y, vous pouvez prendre mes constantes."
 
+    # Questions sur le sexe/genre
+    elif any(word in question_lower for word in ["sexe", "homme", "femme", "monsieur", "madame", "genre"]):
+        sexe = persona.get("sexe", "M")
+        return "Je suis un homme." if sexe == "M" else "Je suis une femme."
+
+    # Questions de réconfort/rassurance
+    elif any(word in question_lower for word in ["mourir", "grave", "inquiet", "peur", "rassur", "calme"]):
+        personnalite = persona.get("personnalite", "")
+        if "anxieux" in personnalite.lower():
+            return "Vous êtes sûr ? J'ai vraiment très peur... mon cœur bat trop vite..."
+        else:
+            return "D'accord... merci de me rassurer..."
+
+    # Questions sur la localisation de la douleur
+    elif any(word in question_lower for word in ["où", "localis", "endroit", "côté", "zone"]):
+        symptomes = persona.get("symptomes", [])
+        if symptomes:
+            return f"C'est surtout au niveau... {symptomes[0].lower().split('(')[0]}..."
+        return "C'est difficile à dire exactement où..."
+
     else:
-        # Réponse générique
-        return "Euh... je ne suis pas sûr... pouvez-vous reformuler la question ?"
+        # Réponse générique mais plus naturelle
+        symptomes = persona.get("symptomes", [])
+        if symptomes:
+            return f"Je ne sais pas trop comment répondre... mais vraiment, {symptomes[0].lower()}..."
+        return "Je ne sais pas trop... je me sens juste mal..."
 
 
 def take_vitals(persona: Dict):
@@ -526,7 +554,7 @@ def perform_final_triage():
             vector_store_path="data/vector_store/medical_kb.pkl",
             use_rag=True
         )
-        result = agent.triage_patient(patient)
+        result = agent.triage(patient)
 
         st.session_state.triage_result = result
 
@@ -555,9 +583,9 @@ def display_interactive_triage_result():
 
     with col1:
         st.markdown("#### Niveau Détecté")
-        color = level_color.get(result.niveau_gravite, "gris")
+        color = level_color.get(result.gravity_level, "gris")
         st.markdown(
-            f'<div class="triage-{color}">{result.niveau_gravite.value.upper()}</div>',
+            f'<div class="triage-{color}">{result.gravity_level.value.upper()}</div>',
             unsafe_allow_html=True
         )
 
@@ -572,7 +600,7 @@ def display_interactive_triage_result():
 
     with col3:
         st.markdown("#### Évaluation")
-        is_correct = result.niveau_gravite == expected
+        is_correct = result.gravity_level == expected
         if is_correct:
             st.success("✅ Correct", icon="✅")
         else:
@@ -582,7 +610,7 @@ def display_interactive_triage_result():
     st.markdown("### 💡 Justification")
     st.info(result.justification)
 
-    st.metric("Confiance", f"{result.confiance:.1%}")
+    st.metric("Confiance", f"{result.confidence_score:.1%}")
 
     # Feedback pédagogique
     st.markdown("### 📚 Analyse Pédagogique")
@@ -591,7 +619,7 @@ def display_interactive_triage_result():
         st.success(f"""
         ✅ **Excellent diagnostic !**
 
-        Le système a correctement identifié le niveau de gravité comme **{result.niveau_gravite.value}**.
+        Le système a correctement identifié le niveau de gravité comme **{result.gravity_level.value}**.
 
         **Points clés du cas :**
         - {persona.get('personnalite', 'N/A')}
@@ -601,7 +629,7 @@ def display_interactive_triage_result():
         st.warning(f"""
         ⚠️ **Divergence détectée**
 
-        - **Triage système** : {result.niveau_gravite.value}
+        - **Triage système** : {result.gravity_level.value}
         - **Réalité clinique** : {expected.value}
 
         **Raisons possibles :**
@@ -612,4 +640,4 @@ def display_interactive_triage_result():
 
     # Métadonnées
     with st.expander("🔍 Détails Techniques"):
-        st.json(result.metadata)
+        st.json(result.to_dict())

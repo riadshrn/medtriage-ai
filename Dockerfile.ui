@@ -32,17 +32,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copie des fichiers de dépendances
 COPY requirements.txt .
 
-# Installation des dépendances Python (version légère pour UI)
+# Installation des dépendances Python (full requirements pour triage local)
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir \
-    streamlit>=1.30.0 \
-    plotly>=5.18.0 \
-    pandas>=2.0.0 \
-    httpx>=0.26.0 \
-    pydantic>=2.5.0
+    pip install --no-cache-dir -r requirements.txt
 
-# Copie du code source de l'interface
+# Pré-téléchargement du modèle d'embeddings
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+
+# Copie du code source de l'interface et des dépendances
 COPY src/interface/ ./src/interface/
+COPY src/models/ ./src/models/
+COPY src/agents/ ./src/agents/
+COPY src/ml/ ./src/ml/
+COPY src/llm/ ./src/llm/
+COPY src/data/ ./src/data/
+COPY src/__init__.py ./src/
+
+# Création des répertoires de données
+RUN mkdir -p data/raw data/vector_store models/trained
 
 # Exposition du port Streamlit
 EXPOSE 8501

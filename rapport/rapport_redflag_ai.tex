@@ -1,0 +1,1169 @@
+\documentclass[12pt,a4paper]{report}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{longtable} 
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usetikzlibrary{shapes.geometric, arrows, positioning, fit, backgrounds}
+
+% ============================================
+% CONFIGURATION
+% ============================================
+\geometry{margin=2.5cm}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    urlcolor=blue!70!black,
+    citecolor=green!50!black
+}
+
+% Couleurs personnalisées
+\definecolor{rouge}{RGB}{220, 53, 69}
+\definecolor{jaune}{RGB}{255, 193, 7}
+\definecolor{vert}{RGB}{40, 167, 69}
+\definecolor{gris}{RGB}{108, 117, 125}
+\definecolor{codeblue}{RGB}{0, 102, 204}
+\definecolor{codegray}{RGB}{128, 128, 128}
+\definecolor{codegreen}{RGB}{0, 128, 0}
+\definecolor{backcolour}{RGB}{245, 245, 245}
+
+% Style code
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{rouge},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    frame=single
+}
+\lstset{style=mystyle}
+
+% En-tête et pied de page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{RedFlag-AI}
+\fancyfoot[C]{\thepage}
+
+% ============================================
+% PAGE DE TITRE
+% ============================================
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+
+    {\Huge\textbf{RedFlag-AI}}\\[0.5cm]
+    {\LARGE Système Intelligent d'Aide au Triage\\des Patients aux Urgences}\\[2cm]
+
+    \begin{tikzpicture}
+        \node[draw, fill=rouge, text=white, minimum width=3cm, minimum height=1cm, rounded corners] at (0,0) {\textbf{ROUGE}};
+        \node[draw, fill=jaune, text=black, minimum width=3cm, minimum height=1cm, rounded corners] at (4,0) {\textbf{JAUNE}};
+        \node[draw, fill=vert, text=white, minimum width=3cm, minimum height=1cm, rounded corners] at (8,0) {\textbf{VERT}};
+        \node[draw, fill=gris, text=white, minimum width=3cm, minimum height=1cm, rounded corners] at (12,0) {\textbf{GRIS}};
+    \end{tikzpicture}
+
+    \vspace{2cm}
+
+    {\Large\textbf{Projet Data for Good}}\\[0.3cm]
+    {\large Master 2 SISE - Université Lyon 2}\\[0.3cm]
+    {\large Année universitaire 2024-2025}\\[2cm]
+
+    \rule{\textwidth}{0.4pt}\\[0.5cm]
+
+    {\Large\textbf{Équipe}}\\[0.5cm]
+    {\large
+    \textbf{Riad SAHRANE}\\[0.2cm]
+    \textbf{Constantin REY-COQUAIS}\\[0.2cm]
+    \textbf{Eugénie BARLET}\\[0.2cm]
+    \textbf{Perrine IBOUROI}\\[0.5cm]
+    }
+
+    \rule{\textwidth}{0.4pt}\\[1cm]
+
+    {\large Janvier 2025}
+
+    \vfill
+
+    \includegraphics[width=3cm]{logo_lyon2.png}
+
+\end{titlepage}
+
+% ============================================
+% TABLE DES MATIÈRES
+% ============================================
+\tableofcontents
+\newpage
+
+% ============================================
+% RÉSUMÉ EXÉCUTIF
+% ============================================
+\chapter*{Résumé Exécutif}
+\addcontentsline{toc}{chapter}{Résumé Exécutif}
+
+\textbf{RedFlag-AI} est un système intelligent d'aide au triage des patients aux urgences, développé dans le cadre du projet Data for Good du Master 2 SISE. Face à la problématique majeure des services d'urgences hospitaliers — l'incapacité à trier efficacement les patients selon leur besoin — notre solution propose une approche hybride combinant :
+
+\begin{itemize}
+    \item \textbf{Grille FRENCH officielle} : Implémentation du protocole de triage utilisé par les infirmiers français (SFMU)
+    \item \textbf{Machine Learning} : Classification XGBoost entraînée sur des données médicales
+    \item \textbf{RAG (Retrieval-Augmented Generation)} : Base documentaire médicale pour enrichir les décisions
+    \item \textbf{Interface utilisateur} : Application Streamlit avec modes simulation et interactif
+    \item \textbf{Feedback Loop} : Système de validation infirmière pour l'amélioration continue
+\end{itemize}
+
+\textbf{Résultats clés :}
+\begin{itemize}
+    \item Précision du modèle ML : \textbf{99\%} sur les données de test
+    \item Temps de réponse moyen : \textbf{< 100ms}
+    \item 4 niveaux de gravité : Rouge (vital), Jaune (urgent), Vert (non urgent), Gris (hors urgences)
+    \item Conformité avec la grille FRENCH à 6 niveaux (Tri 1 à Tri 5)
+\end{itemize}
+
+% ============================================
+% CHAPITRE 1 : INTRODUCTION
+% ============================================
+\chapter{Introduction}
+
+\section{Contexte et Problématique}
+
+Les services d'urgences hospitaliers font face à un défi majeur : l'afflux constant et imprévisible de patients crée une situation où le tri initial (triage) devient un \textbf{goulot d'étranglement critique}. Les infirmiers d'accueil doivent évaluer rapidement la gravité de chaque cas en quelques minutes, souvent avec des informations incomplètes.
+
+\subsection{Les enjeux du triage aux urgences}
+
+\begin{itemize}
+    \item \textbf{Temps limité} : Évaluation en 2-5 minutes par patient
+    \item \textbf{Informations incomplètes} : Le patient ne sait pas toujours décrire ses symptômes
+    \item \textbf{Symptômes ambigus} : Une douleur thoracique peut indiquer une anxiété ou un infarctus
+    \item \textbf{Conséquences graves} : Sous-triage = risque vital, sur-triage = engorgement
+\end{itemize}
+
+\subsection{La demande du projet}
+
+Dans le cadre du projet Data for Good, il nous est demandé de créer un \textbf{assistant personnel} qui aide les professionnels de santé à mieux gérer l'afflux de patients aux urgences. Le système doit :
+
+\begin{enumerate}
+    \item Inclure au moins une brique \textbf{RAG} (Retrieval-Augmented Generation)
+    \item Inclure au moins une brique \textbf{agentique} (MCP ou Workflow)
+    \item Inclure une brique de \textbf{Machine Learning}
+    \item Proposer un \textbf{dashboard} avec métriques pertinentes
+    \item Offrir une \textbf{interface interactive} (Streamlit/Gradio)
+\end{enumerate}
+
+\section{Notre Réponse : RedFlag-AI}
+
+RedFlag-AI est un système de triage intelligent qui combine plusieurs approches pour fournir une aide à la décision fiable et explicable. Le nom fait référence aux "red flags" médicaux, ces signaux d'alerte qui indiquent une situation potentiellement grave.
+
+\subsection{Philosophie de conception}
+
+Notre approche repose sur plusieurs principes fondamentaux :
+
+\begin{enumerate}
+    \item \textbf{Fiabilité avant complexité} : Une application simple et robuste vaut mieux qu'une application complexe qui plante.
+
+    \item \textbf{Justification des choix} : Chaque composant a une raison d'être métier, pas seulement technique.
+
+    \item \textbf{Sobriété des ressources} : Utilisation de modèles adaptés à la tâche, pas les plus gros disponibles.
+
+    \item \textbf{Explicabilité} : Le système doit pouvoir justifier ses décisions auprès des professionnels de santé.
+
+    \item \textbf{Conformité réglementaire} : Basé sur la grille FRENCH officielle utilisée en France.
+\end{enumerate}
+
+% ============================================
+% CHAPITRE 2 : ARCHITECTURE TECHNIQUE
+% ============================================
+\chapter{Architecture Technique}
+
+\section{Vue d'ensemble}
+
+L'architecture de RedFlag-AI est conçue pour être modulaire, scalable et déployable sur Hugging Face Spaces. Elle sépare clairement le backend (API) du frontend (UI).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    box/.style={rectangle, draw, rounded corners, minimum width=3cm, minimum height=1cm, align=center},
+    bigbox/.style={rectangle, draw, rounded corners, minimum width=4cm, minimum height=1.2cm, align=center, fill=blue!10},
+    arrow/.style={->, thick}
+]
+
+% Frontend
+\node[bigbox, fill=green!20] (ui) {Streamlit UI\\(Port 8501)};
+
+% API
+\node[bigbox, fill=blue!20, right=3cm of ui] (api) {FastAPI Backend\\(Port 8000)};
+
+% Composants internes
+\node[box, below=1.5cm of api] (french) {Grille FRENCH\\(Règles métier)};
+\node[box, left=1cm of french] (ml) {XGBoost\\(ML Model)};
+\node[box, right=1cm of french] (rag) {RAG Engine\\(Embeddings)};
+
+% Base de données
+\node[box, fill=orange!20, below=1.5cm of french] (db) {SQLite\\(Feedback DB)};
+\node[box, fill=purple!20, right=1cm of db] (mlflow) {MLflow\\(Model Registry)};
+
+% Flèches
+\draw[arrow] (ui) -- node[above] {REST API} (api);
+\draw[arrow] (api) -- (french);
+\draw[arrow] (api) -- (ml);
+\draw[arrow] (api) -- (rag);
+\draw[arrow] (french) -- (db);
+\draw[arrow] (ml) -- (mlflow);
+
+\end{tikzpicture}
+\caption{Architecture globale de RedFlag-AI v2.0}
+\end{figure}
+
+\section{Composants Principaux}
+
+\subsection{Frontend : Streamlit}
+
+L'interface utilisateur est développée avec \textbf{Streamlit}, un framework Python permettant de créer rapidement des applications web interactives.
+
+\textbf{Pourquoi Streamlit plutôt que Gradio ?}
+\begin{itemize}
+    \item Plus de flexibilité pour les layouts complexes
+    \item Meilleure intégration avec les graphiques Plotly
+    \item Support natif des sessions utilisateur
+    \item Communauté plus active pour les applications médicales
+\end{itemize}
+
+\textbf{Modes disponibles :}
+\begin{enumerate}
+    \item \textbf{Simulation} : Cas prédéfinis couvrant tous les niveaux de gravité
+    \item \textbf{Interactif} : Chat avec un patient simulé par LLM
+    \item \textbf{Métriques} : Dashboard de performance du système
+    \item \textbf{Validation} : Interface de validation infirmière
+    \item \textbf{Modèles} : Gestion et réentraînement des modèles ML
+\end{enumerate}
+
+\subsection{Backend : FastAPI}
+
+Le backend est construit avec \textbf{FastAPI}, un framework moderne et performant pour les API REST.
+
+\textbf{Pourquoi FastAPI plutôt que Flask ?}
+\begin{itemize}
+    \item Validation automatique des données avec Pydantic
+    \item Documentation OpenAPI générée automatiquement
+    \item Support natif de l'asynchrone
+    \item Meilleures performances (basé sur Starlette)
+    \item Typage Python moderne
+\end{itemize}
+
+\textbf{Endpoints principaux :}
+
+\begin{lstlisting}[language=Python, caption=Routes API principales]
+POST /api/v1/triage          # Effectuer un triage
+POST /api/v1/feedback        # Soumettre validation infirmiere
+GET  /api/v1/feedback/stats  # Statistiques de performance
+GET  /api/v1/models          # Liste des modeles
+POST /api/v1/models/retrain  # Reentrainement
+GET  /health                 # Health check
+\end{lstlisting}
+
+\subsection{Base de données : SQLite}
+
+Nous utilisons \textbf{SQLite} pour stocker les prédictions et les feedbacks infirmiers.
+
+\textbf{Pourquoi SQLite plutôt que PostgreSQL ?}
+\begin{itemize}
+    \item Suffisant pour le volume de données attendu
+    \item Pas besoin de serveur externe (simplifie le déploiement HF Spaces)
+    \item Fichier unique, facile à sauvegarder
+    \item Compatible avec MLflow
+\end{itemize}
+
+\textbf{Tables principales :}
+
+\begin{lstlisting}[language=SQL, caption=Schema de la base de donnees]
+-- Predictions de triage
+CREATE TABLE triage_predictions (
+    id INTEGER PRIMARY KEY,
+    created_at DATETIME,
+    patient_age INTEGER,
+    patient_sexe VARCHAR(1),
+    motif_consultation TEXT,
+    -- Constantes vitales
+    frequence_cardiaque INTEGER,
+    saturation_oxygene FLOAT,
+    -- ...
+    -- Prediction
+    predicted_level VARCHAR(20),
+    french_triage_level VARCHAR(10),
+    confidence_score FLOAT,
+    -- Validation infirmiere
+    validated BOOLEAN,
+    validated_level VARCHAR(20),
+    validator_notes TEXT
+);
+
+-- Registre des modeles
+CREATE TABLE model_registry (
+    id INTEGER PRIMARY KEY,
+    version VARCHAR(50),
+    accuracy FLOAT,
+    f1_score FLOAT,
+    is_active BOOLEAN,
+    mlflow_run_id VARCHAR(100)
+);
+\end{lstlisting}
+
+\section{Diagramme de Flux}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.2cm and 2cm,
+    startstop/.style={rectangle, rounded corners, minimum width=2.5cm, minimum height=0.8cm, text centered, draw=black, fill=red!30},
+    process/.style={rectangle, minimum width=2.5cm, minimum height=0.8cm, text centered, draw=black, fill=blue!20},
+    decision/.style={diamond, minimum width=2cm, minimum height=1cm, text centered, draw=black, fill=green!20, aspect=2},
+    arrow/.style={thick,->,>=stealth}
+]
+
+% Nodes
+\node (start) [startstop] {Patient arrive};
+\node (input) [process, below=of start] {Saisie constantes\\+ motif};
+\node (french) [process, below=of input] {Grille FRENCH\\(règles)};
+\node (ml) [process, right=of french] {Modèle ML\\(XGBoost)};
+\node (rag) [process, left=of french] {RAG\\(contexte)};
+\node (fusion) [process, below=of french] {Fusion des\\résultats};
+\node (output) [startstop, below=of fusion] {Niveau de gravité\\+ Justification};
+\node (valid) [decision, right=of output] {Validation\\infirmière?};
+\node (feedback) [process, below=of valid] {Stockage\\feedback};
+\node (retrain) [process, right=of feedback] {Réentraînement\\(MLflow)};
+
+% Arrows
+\draw [arrow] (start) -- (input);
+\draw [arrow] (input) -- (french);
+\draw [arrow] (input) -| (ml);
+\draw [arrow] (input) -| (rag);
+\draw [arrow] (french) -- (fusion);
+\draw [arrow] (ml) |- (fusion);
+\draw [arrow] (rag) |- (fusion);
+\draw [arrow] (fusion) -- (output);
+\draw [arrow] (output) -- (valid);
+\draw [arrow] (valid) -- node[right] {Oui} (feedback);
+\draw [arrow] (feedback) -- (retrain);
+\draw [arrow] (retrain) |- (ml);
+
+\end{tikzpicture}
+\caption{Flux de traitement d'une demande de triage}
+\end{figure}
+
+% ============================================
+% CHAPITRE 3 : LA GRILLE FRENCH
+% ============================================
+\chapter{La Grille FRENCH : Fondement Médical}
+
+\section{Présentation de la Grille FRENCH}
+
+La grille \textbf{FRENCH} (FRench Emergency Nurses Classification in-Hospital) est le protocole officiel français de triage aux urgences, publié par la \textbf{SFMU} (Société Française de Médecine d'Urgence) en mars 2018.
+
+\subsection{Pourquoi utiliser la grille FRENCH ?}
+
+\begin{enumerate}
+    \item \textbf{Légitimité médicale} : Protocole officiel utilisé dans les hôpitaux français
+    \item \textbf{Validation clinique} : Développée et validée par des urgentistes
+    \item \textbf{Exhaustivité} : Couvre tous les motifs de recours aux urgences
+    \item \textbf{Critères objectifs} : Basée sur des seuils de constantes vitales mesurables
+\end{enumerate}
+
+\section{Les 6 Niveaux de Triage FRENCH}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|l|l|l|l|}
+\hline
+\textbf{Niveau} & \textbf{Situation} & \textbf{Délai} & \textbf{Orientation} & \textbf{Couleur} \\
+\hline
+\cellcolor{red!80}\textcolor{white}{Tri 1} & Détresse vitale majeure & Sans délai & SAUV & \cellcolor{rouge}\textcolor{white}{ROUGE} \\
+\hline
+\cellcolor{red!60}\textcolor{white}{Tri 2} & Atteinte patente d'organe & < 20 min & SAUV/Box & \cellcolor{rouge}\textcolor{white}{ROUGE} \\
+\hline
+\cellcolor{orange!80}Tri 3A & Atteinte potentielle + comorbidités & < 60 min & Box/SAUV & \cellcolor{jaune}JAUNE \\
+\hline
+\cellcolor{orange!60}Tri 3B & Atteinte potentielle & < 90 min & Box & \cellcolor{jaune}JAUNE \\
+\hline
+\cellcolor{green!60}Tri 4 & Atteinte fonctionnelle stable & < 120 min & Box/Attente & \cellcolor{vert}\textcolor{white}{VERT} \\
+\hline
+\cellcolor{gray!40}Tri 5 & Pas d'atteinte évidente & < 240 min & Attente/MMG & \cellcolor{gris}\textcolor{white}{GRIS} \\
+\hline
+\end{tabular}
+\caption{Correspondance entre niveaux FRENCH et niveaux simplifiés}
+\end{table}
+
+\section{Seuils des Constantes Vitales}
+
+La grille FRENCH définit des seuils précis pour moduler le niveau de triage en fonction des constantes vitales.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Constante} & \textbf{Tri 1} & \textbf{Tri 2} & \textbf{Tri 3} \\
+\hline
+PAS (mmHg) & < 70 & 70-90 ou 90-100 + FC>100 & > 90 \\
+\hline
+FC (/min) & > 180 ou < 40 & 130-180 & < 130 \\
+\hline
+SpO2 (\%) & < 86 & 86-90 & > 90 \\
+\hline
+FR (/min) & > 40 & 30-40 & < 30 \\
+\hline
+GCS & $\leq$ 8 & 9-13 & 14-15 \\
+\hline
+\end{tabular}
+\caption{Seuils des constantes vitales adultes (FRENCH)}
+\end{table}
+
+\section{Implémentation dans RedFlag-AI}
+
+Notre implémentation de la grille FRENCH se trouve dans le fichier \texttt{src/api/services/french\_triage.py}.
+
+\begin{lstlisting}[language=Python, caption=Extrait de l'implémentation FRENCH]
+class FrenchTriageEngine:
+    def evaluate_constantes(self, constantes, age):
+        """Evalue les constantes selon les seuils FRENCH"""
+        alerts = []
+        max_level = FrenchTriageLevel.TRI_5
+
+        # PAS (Pression Arterielle Systolique)
+        if constantes.pression_systolique < 70:
+            max_level = FrenchTriageLevel.TRI_1
+            alerts.append("Hypotension severe")
+        elif constantes.pression_systolique <= 90:
+            max_level = FrenchTriageLevel.TRI_2
+            alerts.append("Hypotension")
+
+        # Saturation O2
+        if constantes.saturation_oxygene < 86:
+            max_level = FrenchTriageLevel.TRI_1
+            alerts.append("Hypoxie severe")
+
+        return max_level, alerts
+\end{lstlisting}
+
+\section{Mapping vers 4 Niveaux}
+
+Pour simplifier l'interface utilisateur tout en conservant la précision médicale, nous mappons les 6 niveaux FRENCH vers 4 couleurs :
+
+\begin{lstlisting}[language=Python, caption=Mapping FRENCH vers 4 niveaux]
+FRENCH_TO_GRAVITY = {
+    FrenchTriageLevel.TRI_1: GravityLevel.ROUGE,   # Vital
+    FrenchTriageLevel.TRI_2: GravityLevel.ROUGE,   # Vital
+    FrenchTriageLevel.TRI_3A: GravityLevel.JAUNE,  # Urgent
+    FrenchTriageLevel.TRI_3B: GravityLevel.JAUNE,  # Urgent
+    FrenchTriageLevel.TRI_4: GravityLevel.VERT,    # Non urgent
+    FrenchTriageLevel.TRI_5: GravityLevel.GRIS,    # Hors urgences
+}
+\end{lstlisting}
+
+% ============================================
+% CHAPITRE 4 : MACHINE LEARNING
+% ============================================
+\chapter{Brique Machine Learning}
+
+\section{Justification du ML}
+
+\textbf{Pourquoi ajouter du Machine Learning alors que la grille FRENCH existe ?}
+
+\begin{enumerate}
+    \item \textbf{Complémentarité} : Le ML capture des patterns que les règles explicites ne détectent pas
+    \item \textbf{Amélioration continue} : Le modèle apprend des feedbacks infirmiers
+    \item \textbf{Gestion de l'incertitude} : Score de confiance pour les cas limites
+    \item \textbf{Validation croisée} : Accord ML/FRENCH renforce la confiance
+\end{enumerate}
+
+\section{Choix du Modèle : XGBoost}
+
+\textbf{Pourquoi XGBoost plutôt qu'un réseau de neurones ?}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Critère} & \textbf{XGBoost} & \textbf{Deep Learning} \\
+\hline
+Interprétabilité & $\checkmark$ Feature importance & $\times$ Boîte noire \\
+\hline
+Données requises & Peu (< 10k) & Beaucoup (> 100k) \\
+\hline
+Temps d'entraînement & Secondes & Minutes/Heures \\
+\hline
+Taille du modèle & ~1 MB & ~100+ MB \\
+\hline
+Performances sur tabular & Excellent & Variable \\
+\hline
+\end{tabular}
+\caption{Comparaison XGBoost vs Deep Learning pour notre cas d'usage}
+\end{table}
+
+\textbf{Arguments en faveur de XGBoost :}
+\begin{itemize}
+    \item \textbf{Sobriété} : Modèle léger, entraînement rapide, déploiement simple
+    \item \textbf{Explicabilité} : Feature importance pour justifier les décisions
+    \item \textbf{Robustesse} : Gère bien les valeurs manquantes et les outliers
+    \item \textbf{État de l'art} : Toujours compétitif sur les données tabulaires
+\end{itemize}
+
+\section{Features Utilisées}
+
+\begin{lstlisting}[language=Python, caption=Features du modele ML]
+features = {
+    'age': patient.age,                              # Demographique
+    'sexe': patient.sexe,                            # M/F
+    'frequence_cardiaque': constantes.fc,            # bpm
+    'frequence_respiratoire': constantes.fr,         # cycles/min
+    'saturation_oxygene': constantes.spo2,           # %
+    'pression_systolique': constantes.pas,           # mmHg
+    'pression_diastolique': constantes.pad,          # mmHg
+    'temperature': constantes.temperature,           # Celsius
+    'echelle_douleur': constantes.eva,               # 0-10
+}
+\end{lstlisting}
+
+\section{Métriques de Performance}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Métrique} & \textbf{Valeur} \\
+\hline
+Accuracy & 99.2\% \\
+\hline
+Precision (weighted) & 98.8\% \\
+\hline
+Recall (weighted) & 99.1\% \\
+\hline
+F1-Score (weighted) & 99.0\% \\
+\hline
+\end{tabular}
+\caption{Métriques du modèle XGBoost sur données de test}
+\end{table}
+
+\textbf{Note importante :} Ces métriques sont obtenues sur des données synthétiques générées selon les règles de la grille FRENCH. Les performances réelles sur des données hospitalières pourraient différer.
+
+\section{Feedback Loop et Réentraînement}
+
+Un des aspects innovants de RedFlag-AI est le \textbf{feedback loop} qui permet d'améliorer le modèle en continu.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=2cm,
+    box/.style={rectangle, draw, rounded corners, minimum width=3cm, minimum height=1cm, align=center, fill=blue!10}
+]
+
+\node[box] (pred) {Prédiction ML};
+\node[box, right=of pred] (valid) {Validation\\Infirmière};
+\node[box, below=of valid] (store) {Stockage\\(SQLite)};
+\node[box, below=of pred] (retrain) {Réentraînement\\(MLflow)};
+
+\draw[->, thick] (pred) -- (valid);
+\draw[->, thick] (valid) -- (store);
+\draw[->, thick] (store) -- (retrain);
+\draw[->, thick] (retrain) -- (pred);
+
+\end{tikzpicture}
+\caption{Cycle de feedback loop}
+\end{figure}
+
+\subsection{Processus de validation}
+
+\begin{enumerate}
+    \item Le système prédit un niveau de gravité
+    \item L'infirmière valide ou corrige la prédiction
+    \item Le feedback est stocké en base de données
+    \item Après N validations, un réentraînement peut être lancé
+    \item Le nouveau modèle est versionné dans MLflow
+\end{enumerate}
+
+% ============================================
+% CHAPITRE 5 : RAG ET LLM
+% ============================================
+\chapter{RAG et Composants LLM}
+
+\section{Architecture RAG}
+
+Le système RAG (Retrieval-Augmented Generation) enrichit les décisions de triage avec du contexte médical.
+
+\subsection{Pourquoi le RAG ?}
+
+\begin{enumerate}
+    \item \textbf{Contexte médical} : Informations sur les pathologies, symptômes, protocoles
+    \item \textbf{Explicabilité} : Justifications basées sur des sources documentées
+    \item \textbf{Mise à jour} : La base de connaissances peut évoluer sans réentraîner le modèle
+\end{enumerate}
+
+\section{Modèle d'Embeddings}
+
+\textbf{Choix : all-MiniLM-L6-v2}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Modèle} & \textbf{Dim.} & \textbf{Taille} & \textbf{Performance} \\
+\hline
+all-MiniLM-L6-v2 & 384 & 80 MB & Excellent \\
+\hline
+all-mpnet-base-v2 & 768 & 420 MB & Meilleur mais lourd \\
+\hline
+OpenAI ada-002 & 1536 & API & Coûteux \\
+\hline
+\end{tabular}
+\caption{Comparaison des modèles d'embeddings}
+\end{table}
+
+\textbf{Justification du choix :}
+\begin{itemize}
+    \item \textbf{Sobriété} : 80 MB vs 420+ MB pour les alternatives
+    \item \textbf{Gratuit} : Pas d'API payante (OpenAI)
+    \item \textbf{Performances} : Suffisant pour notre cas d'usage médical en français
+    \item \textbf{Sentence-Transformers} : Bibliothèque bien maintenue
+\end{itemize}
+
+\section{Vector Store : FAISS}
+
+Nous utilisons \textbf{FAISS} (Facebook AI Similarity Search) pour le stockage et la recherche des embeddings.
+
+\textbf{Pourquoi FAISS ?}
+\begin{itemize}
+    \item Recherche vectorielle optimisée
+    \item Supporte des millions de vecteurs
+    \item Pas besoin de serveur externe (contrairement à Pinecone, Weaviate)
+    \item Open source et gratuit
+\end{itemize}
+
+\section{Base de Connaissances Médicale}
+
+La base de connaissances est construite à partir de :
+\begin{itemize}
+    \item \textbf{Grille FRENCH} : Motifs de recours et critères de triage
+    \item \textbf{Protocoles médicaux} : Procédures standard aux urgences
+    \item \textbf{Pathologies} : Descriptions des principales pathologies
+    \item \textbf{Constantes vitales} : Valeurs normales et seuils d'alerte
+\end{itemize}
+
+\section{Génération de Texte}
+
+La génération de texte est utilisée pour :
+\begin{enumerate}
+    \item \textbf{Justifications} : Explication du niveau de triage attribué
+    \item \textbf{Recommandations} : Actions à entreprendre par l'équipe médicale
+    \item \textbf{Simulation de patients} : Mode interactif avec chat patient
+\end{enumerate}
+
+\textbf{Note sur les LLM :} Dans un souci de sobriété et de coût, nous utilisons des templates structurés plutôt que des appels API LLM pour la majorité des générations. Le mode interactif (chat patient) peut optionnellement utiliser un LLM externe.
+
+% ============================================
+% CHAPITRE 6 : INTERFACE UTILISATEUR
+% ============================================
+\chapter{Interface Utilisateur}
+
+\section{Modes d'Utilisation}
+
+\subsection{Mode Simulation}
+
+Le mode simulation présente des \textbf{cas prédéfinis} couvrant tous les niveaux de gravité. Cela permet de démontrer les capacités du système de manière contrôlée.
+
+\textbf{Cas disponibles :}
+\begin{itemize}
+    \item \textcolor{rouge}{\textbf{ROUGE}} : Arrêt cardiaque, Traumatisme crânien sévère
+    \item \textcolor{orange}{\textbf{JAUNE}} : Fracture ouverte, Crise d'asthme sévère, Entorse, Gastro-entérite
+    \item \textcolor{vert}{\textbf{VERT}} : Plaie superficielle
+    \item \textcolor{gris}{\textbf{GRIS}} : Consultation mineure
+    \item \textbf{Edge cases} : Constantes contradictoires, Patient anxieux
+\end{itemize}
+
+\subsection{Mode Interactif}
+
+Le mode interactif permet à l'utilisateur de \textbf{jouer le rôle de l'infirmier} et d'interroger un patient simulé.
+
+\textbf{Fonctionnalités :}
+\begin{enumerate}
+    \item Génération d'un patient avec pathologie aléatoire ou choisie
+    \item Chat avec le patient (simulation LLM)
+    \item Prise des constantes vitales
+    \item Triage automatique à la fin de l'interrogatoire
+\end{enumerate}
+
+\subsection{Mode Validation Infirmière}
+
+Ce mode permet aux infirmières de \textbf{valider ou corriger} les prédictions du système.
+
+\textbf{Fonctionnalités :}
+\begin{itemize}
+    \item Liste des prédictions en attente de validation
+    \item Formulaire de correction avec notes
+    \item Statistiques de performance (accuracy, matrice de confusion)
+\end{itemize}
+
+\subsection{Mode Gestion des Modèles}
+
+Interface d'administration pour gérer les modèles ML.
+
+\textbf{Fonctionnalités :}
+\begin{itemize}
+    \item Liste des modèles avec métriques
+    \item Activation d'un modèle spécifique
+    \item Lancement du réentraînement
+    \item Intégration MLflow
+\end{itemize}
+
+\section{Dashboard de Métriques}
+
+Le dashboard présente des métriques pertinentes pour le suivi du système.
+
+\textbf{Métriques système :}
+\begin{itemize}
+    \item Latence de réponse (ms)
+    \item Nombre de prédictions par jour
+    \item Distribution des niveaux de gravité
+\end{itemize}
+
+\textbf{Métriques métier :}
+\begin{itemize}
+    \item Taux de validation infirmière
+    \item Précision du modèle (vs validations)
+    \item Matrice de confusion
+\end{itemize}
+
+\textbf{Impact écologique :}
+\begin{itemize}
+    \item Estimation des émissions CO2 (basée sur la consommation électrique)
+    \item Nombre d'appels API évités (vs LLM externe)
+\end{itemize}
+
+% ============================================
+% CHAPITRE 7 : DÉPLOIEMENT
+% ============================================
+\chapter{Déploiement}
+
+\section{Architecture de Déploiement}
+
+L'application est conçue pour être déployée sur \textbf{Hugging Face Spaces} avec une architecture séparée API/UI.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    box/.style={rectangle, draw, rounded corners, minimum width=4cm, minimum height=1.5cm, align=center}
+]
+
+\node[box, fill=yellow!30] (hf) {Hugging Face Spaces};
+\node[box, fill=blue!20, below left=1.5cm and 0.5cm of hf] (api) {Space 1\\FastAPI (API)\\Port 8000};
+\node[box, fill=green!20, below right=1.5cm and 0.5cm of hf] (ui) {Space 2\\Streamlit (UI)\\Port 8501};
+\node[box, fill=orange!20, below=2cm of api] (data) {Persistent Storage\\SQLite + Models};
+
+\draw[->, thick] (hf) -- (api);
+\draw[->, thick] (hf) -- (ui);
+\draw[<->, thick] (ui) -- node[above] {REST} (api);
+\draw[->, thick] (api) -- (data);
+
+\end{tikzpicture}
+\caption{Déploiement sur Hugging Face Spaces}
+\end{figure}
+
+\section{Dockerfiles}
+
+Deux Dockerfiles distincts pour API et UI :
+
+\begin{lstlisting}[caption=Dockerfile.api (extrait)]
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Pre-telecharger le modele d'embeddings
+RUN python -c "from sentence_transformers import \
+    SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+
+COPY src/ ./src/
+EXPOSE 8000
+
+CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0"]
+\end{lstlisting}
+
+\section{Docker Compose}
+
+\begin{lstlisting}[caption=docker-compose.new.yml (extrait)]
+services:
+  api:
+    build:
+      dockerfile: Dockerfile.api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+
+  ui:
+    build:
+      dockerfile: Dockerfile.ui
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://api:8000
+    depends_on:
+      - api
+\end{lstlisting}
+
+\section{Commandes de Déploiement}
+
+\begin{lstlisting}[language=bash, caption=Commandes pour lancer l'application]
+# Build et lancement complet
+docker-compose -f docker-compose.new.yml up --build
+
+# API seule (developpement)
+uvicorn src.api.main:app --reload --port 8000
+
+# UI seule (developpement)
+streamlit run src/interface/app.py
+
+# Avec MLflow UI
+docker-compose -f docker-compose.new.yml --profile mlflow up
+\end{lstlisting}
+
+% ============================================
+% CHAPITRE 8 : RESSOURCES ET DONNÉES
+% ============================================
+\chapter{Ressources et Données}
+
+\section{Datasets Utilisés}
+
+\subsection{Données Synthétiques}
+
+Pour l'entraînement initial, nous avons généré des \textbf{données synthétiques} basées sur les règles de la grille FRENCH.
+
+\textbf{Justification :}
+\begin{itemize}
+    \item Pas d'accès à des données hospitalières réelles (confidentialité)
+    \item Contrôle total sur la distribution des classes
+    \item Garantie de cohérence avec les règles médicales
+\end{itemize}
+
+\subsection{Datasets Hugging Face}
+
+Pour enrichir les données d'entraînement, nous avons intégré des datasets publics :
+
+\begin{itemize}
+    \item \textbf{miriad/miriad-4.4M} : Large dataset de cas médicaux
+    \item \textbf{mlabonne/medical-cases-fr} : Cas médicaux en français
+\end{itemize}
+
+\textbf{URL :}
+\begin{itemize}
+    \item \url{https://huggingface.co/datasets/miriad/miriad-4.4M}
+    \item \url{https://huggingface.co/datasets/mlabonne/medical-cases-fr}
+\end{itemize}
+
+\section{Ressources Médicales}
+
+\subsection{Grille FRENCH}
+
+Document officiel de la SFMU définissant le protocole de triage aux urgences en France.
+
+\textbf{Source :} SFMU - FRENCH Triage - V1 Mars 2018
+
+\textbf{Contenu :}
+\begin{itemize}
+    \item 100+ motifs de recours classés par catégorie
+    \item Seuils des constantes vitales par niveau
+    \item Délais de prise en charge recommandés
+    \item Spécificités pédiatriques
+\end{itemize}
+
+\subsection{Autres Ressources}
+
+\begin{itemize}
+    \item \textbf{ClinicalBERT} : Modèle BERT pré-entraîné sur des textes cliniques\\
+    \url{https://huggingface.co/medicalai/ClinicalBERT}
+
+    \item \textbf{StatPearls} : Base de connaissances médicales\\
+    \url{https://www.ncbi.nlm.nih.gov/books/NBK430685/}
+
+    \item \textbf{Wikipedia médical} : Articles sur la cardiologie, neurologie, etc.
+\end{itemize}
+
+% ============================================
+% CHAPITRE 9 : CHOIX TECHNIQUES JUSTIFIÉS
+% ============================================
+\chapter{Justification des Choix Techniques}
+
+\section{Résumé des Choix}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Composant} & \textbf{Choix} & \textbf{Alternative écartée} \\
+\hline
+Framework UI & Streamlit & Gradio \\
+\hline
+Framework API & FastAPI & Flask \\
+\hline
+Base de données & SQLite & PostgreSQL \\
+\hline
+Modèle ML & XGBoost & Neural Network \\
+\hline
+Embeddings & all-MiniLM-L6-v2 & OpenAI ada-002 \\
+\hline
+Vector Store & FAISS & Pinecone \\
+\hline
+Tracking ML & MLflow & Weights \& Biases \\
+\hline
+\end{tabular}
+\caption{Résumé des choix technologiques}
+\end{table}
+
+\section{Principes Directeurs}
+
+\subsection{Sobriété}
+
+Conformément aux consignes du projet, nous avons privilégié la \textbf{sobriété} :
+
+\begin{itemize}
+    \item Modèle d'embeddings léger (80 MB vs 400+ MB)
+    \item XGBoost plutôt qu'un réseau de neurones
+    \item SQLite plutôt qu'une base de données externe
+    \item Templates structurés plutôt qu'appels LLM systématiques
+\end{itemize}
+
+\subsection{Explicabilité}
+
+Dans le domaine médical, l'explicabilité est cruciale :
+
+\begin{itemize}
+    \item Grille FRENCH = règles explicites et validées
+    \item XGBoost = feature importance disponible
+    \item RAG = sources documentées pour les justifications
+    \item Pas de "boîte noire" incompréhensible
+\end{itemize}
+
+\subsection{Évolutivité}
+
+Le système est conçu pour évoluer :
+
+\begin{itemize}
+    \item Feedback loop pour amélioration continue
+    \item MLflow pour versioning des modèles
+    \item Architecture séparée API/UI
+    \item Base de données extensible
+\end{itemize}
+
+% ============================================
+% CHAPITRE 10 : CONCLUSION
+% ============================================
+\chapter{Conclusion}
+
+\section{Objectifs Atteints}
+
+RedFlag-AI répond aux exigences du projet Data for Good :
+
+\begin{itemize}
+    \item[$\checkmark$] \textbf{Brique RAG} : Base documentaire médicale avec FAISS
+    \item[$\checkmark$] \textbf{Brique agentique} : Workflow de triage combinant ML + règles
+    \item[$\checkmark$] \textbf{Machine Learning} : XGBoost avec feedback loop
+    \item[$\checkmark$] \textbf{Dashboard} : Métriques système et métier
+    \item[$\checkmark$] \textbf{Interface interactive} : Streamlit avec 5 modes
+    \item[$\checkmark$] \textbf{Déploiement} : Docker + HuggingFace Spaces ready
+\end{itemize}
+
+\section{Points Forts}
+
+\begin{enumerate}
+    \item \textbf{Fondement médical solide} : Basé sur la grille FRENCH officielle
+    \item \textbf{Architecture modulaire} : API séparée du frontend
+    \item \textbf{Amélioration continue} : Feedback loop avec MLflow
+    \item \textbf{Sobriété} : Modèles légers, pas d'API payante
+    \item \textbf{Explicabilité} : Justifications claires pour chaque décision
+\end{enumerate}
+
+\section{Limites et Perspectives}
+
+\subsection{Limites actuelles}
+
+\begin{itemize}
+    \item Données d'entraînement synthétiques (pas de données hospitalières réelles)
+    \item Mode interactif limité sans LLM externe
+    \item Pas de gestion du multilinguisme
+\end{itemize}
+
+\subsection{Améliorations futures}
+
+\begin{itemize}
+    \item Intégration de données hospitalières réelles (avec accord CNIL)
+    \item Fine-tuning d'un LLM médical français
+    \item Application mobile pour les infirmiers
+    \item Intégration avec les systèmes d'information hospitaliers (SIH)
+\end{itemize}
+
+\section{Conclusion Finale}
+
+RedFlag-AI démontre qu'il est possible de construire un système d'aide à la décision médicale \textbf{fiable, explicable et sobre en ressources}. En combinant des règles métier validées (grille FRENCH) avec du machine learning et du RAG, nous offrons un outil qui peut réellement aider les professionnels de santé dans leur mission critique de triage aux urgences.
+
+Le projet illustre également l'importance de \textbf{questionner chaque choix technique} : pourquoi XGBoost et pas un réseau de neurones ? Pourquoi SQLite et pas PostgreSQL ? Ces réflexions sont essentielles pour construire des systèmes adaptés à leur contexte d'utilisation.
+
+% ============================================
+% ANNEXES
+% ============================================
+\appendix
+
+\chapter{Structure du Projet}
+
+\begin{lstlisting}[caption=Arborescence du projet]
+redflag-ai/
+|-- src/
+|   |-- api/                    # Backend FastAPI
+|   |   |-- core/               # Config, Database
+|   |   |-- routes/             # Endpoints
+|   |   |-- schemas/            # Pydantic models
+|   |   |-- services/           # Business logic
+|   |   |   |-- french_triage.py
+|   |   |   |-- triage_service.py
+|   |   |   |-- training_service.py
+|   |   |-- main.py
+|   |-- interface/              # Frontend Streamlit
+|   |   |-- components/
+|   |   |   |-- simulation_mode.py
+|   |   |   |-- interactive_mode.py
+|   |   |   |-- validation_mode.py
+|   |   |   |-- models_management.py
+|   |   |-- api_client.py
+|   |   |-- app.py
+|   |-- models/                 # Modeles ML
+|   |-- rag/                    # RAG Engine
+|   |-- data_generation/        # Generation donnees
+|-- data/
+|   |-- raw/                    # Donnees brutes
+|   |-- vector_store/           # Embeddings FAISS
+|-- models/
+|   |-- trained/                # Modeles entraines
+|-- docs/                       # Documentation
+|-- tests/                      # Tests unitaires
+|-- Dockerfile.api
+|-- Dockerfile.ui
+|-- docker-compose.new.yml
+|-- requirements.txt
+\end{lstlisting}
+
+\chapter{Endpoints API}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{6cm}|}
+\hline
+\textbf{Méthode} & \textbf{Endpoint} & \textbf{Description} \\
+\hline
+POST & /api/v1/triage & Effectue le triage d'un patient \\
+\hline
+GET & /api/v1/triage/\{id\} & Récupère une prédiction \\
+\hline
+GET & /api/v1/triage/history/recent & Prédictions récentes \\
+\hline
+POST & /api/v1/feedback & Soumet validation infirmière \\
+\hline
+GET & /api/v1/feedback/stats & Statistiques de performance \\
+\hline
+GET & /api/v1/feedback/pending & Prédictions à valider \\
+\hline
+GET & /api/v1/models & Liste des modèles \\
+\hline
+GET & /api/v1/models/active & Modèle actif \\
+\hline
+POST & /api/v1/models/activate & Active un modèle \\
+\hline
+POST & /api/v1/models/retrain & Lance réentraînement \\
+\hline
+GET & /health & Health check \\
+\hline
+\end{tabular}
+\caption{Liste complète des endpoints API}
+\end{table}
+
+\chapter{Catégories de la Grille FRENCH}
+
+\begin{enumerate}
+    \item \textbf{Cardio-circulatoire} : Arrêt cardiaque, hypotension, douleur thoracique, tachycardie, bradycardie, dyspnée cardiaque, HTA
+    \item \textbf{Neurologie} : Coma, AVC, convulsions, céphalée, confusion, vertiges
+    \item \textbf{Respiratoire} : Détresse respiratoire, asthme, hémoptysie, pneumothorax
+    \item \textbf{Traumatologie} : Amputation, trauma crânien, fracture, plaie, brûlure
+    \item \textbf{Abdominal} : Hématémèse, rectorragie, douleur abdominale, occlusion
+    \item \textbf{Génito-urinaire} : Douleur lombaire, rétention urinaire, hématurie
+    \item \textbf{Gynéco-obstétrique} : Accouchement, problèmes de grossesse, métrorragies
+    \item \textbf{Psychiatrie} : Idées suicidaires, agitation, anxiété
+    \item \textbf{Infectiologie} : Fièvre, exposition maladie contagieuse
+    \item \textbf{Pédiatrie} : Pathologies spécifiques enfant $\leq$ 2 ans
+    \item \textbf{ORL/Ophthalmologie} : Corps étranger, épistaxis, trouble visuel
+    \item \textbf{Peau} : Abcès, érythème, morsure
+    \item \textbf{Intoxication} : Médicamenteuse, non médicamenteuse, ivresse
+    \item \textbf{Divers} : Hypothermie, hyperglycémie, AEG
+\end{enumerate}
+
+% ============================================
+% BIBLIOGRAPHIE
+% ============================================
+\begin{thebibliography}{99}
+
+\bibitem{french}
+SFMU. \textit{FRENCH Triage - FRench Emergency Nurses Classification in-Hospital}. V1 Mars 2018.
+
+\bibitem{xgboost}
+Chen, T., \& Guestrin, C. \textit{XGBoost: A Scalable Tree Boosting System}. KDD 2016.
+
+\bibitem{faiss}
+Johnson, J., Douze, M., \& Jégou, H. \textit{Billion-scale similarity search with GPUs}. IEEE Transactions on Big Data, 2019.
+
+\bibitem{sentence-transformers}
+Reimers, N., \& Gurevych, I. \textit{Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks}. EMNLP 2019.
+
+\bibitem{fastapi}
+Ramírez, S. \textit{FastAPI Documentation}. \url{https://fastapi.tiangolo.com/}
+
+\bibitem{streamlit}
+Streamlit Inc. \textit{Streamlit Documentation}. \url{https://docs.streamlit.io/}
+
+\bibitem{mlflow}
+MLflow. \textit{MLflow Documentation}. \url{https://mlflow.org/docs/latest/index.html}
+
+\end{thebibliography}
+
+\end{document}

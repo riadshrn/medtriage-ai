@@ -47,8 +47,8 @@ class RetrainRequest(BaseModel):
         description="Inclure les datasets Hugging Face"
     )
     min_feedback_samples: int = Field(
-        default=100,
-        ge=10,
+        default=10,
+        ge=5,
         description="Nombre minimum de feedbacks pour réentraîner"
     )
     hyperparameters: Optional[Dict[str, Any]] = Field(

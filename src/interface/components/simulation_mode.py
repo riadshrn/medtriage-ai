@@ -276,7 +276,7 @@ def perform_triage(case_data: Dict[str, Any], use_rag: bool, show_metrics: bool,
 
             # Effectuer le triage
             start_time = time.time()
-            result = agent.triage_patient(patient)
+            result = agent.triage(patient)
             end_time = time.time()
 
             # Afficher les résultats
@@ -295,7 +295,7 @@ def display_triage_result(result, case_data: Dict, total_time: float, show_metri
 
     # Comparaison attendu vs obtenu
     expected_level = case_data['expected_level']
-    obtained_level = result.niveau_gravite
+    obtained_level = result.gravity_level
 
     is_correct = expected_level == obtained_level
 
@@ -333,11 +333,11 @@ def display_triage_result(result, case_data: Dict, total_time: float, show_metri
 
     # Confiance et justification
     st.markdown("### 💡 Justification Clinique")
-    st.markdown(f"**Confiance :** {result.confiance:.1%}")
+    st.markdown(f"**Confiance :** {result.confidence_score:.1%}")
 
-    if result.confiance >= 0.90:
+    if result.confidence_score >= 0.90:
         st.success(result.justification)
-    elif result.confiance >= 0.70:
+    elif result.confidence_score >= 0.70:
         st.info(result.justification)
     else:
         st.warning(result.justification)
@@ -346,19 +346,18 @@ def display_triage_result(result, case_data: Dict, total_time: float, show_metri
     if show_metrics:
         st.markdown("### ⚡ Métriques de Performance")
 
-        metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
+        metric_col1, metric_col2, metric_col3 = st.columns(3)
 
         with metric_col1:
             st.metric("Latence Totale", f"{total_time*1000:.2f} ms")
         with metric_col2:
-            st.metric("Latence ML", f"{result.metadata.get('latence_ml_ms', 0):.2f} ms")
+            ml_latency = result.latency_ml * 1000 if result.latency_ml else 0
+            st.metric("Latence ML", f"{ml_latency:.2f} ms")
         with metric_col3:
-            if 'latence_llm_ms' in result.metadata:
-                st.metric("Latence LLM", f"{result.metadata['latence_llm_ms']:.2f} ms")
+            if result.latency_llm:
+                st.metric("Latence LLM", f"{result.latency_llm * 1000:.2f} ms")
             else:
                 st.metric("Latence LLM", "N/A (non utilisé)")
-        with metric_col4:
-            st.metric("Source", result.metadata.get('source', 'Unknown'))
 
     # Analyse du cas (si c'est un edge case)
     if "EDGE CASE" in case_name:
@@ -368,7 +367,7 @@ def display_triage_result(result, case_data: Dict, total_time: float, show_metri
 
         **Comportement observé :**
         - Niveau assigné : {obtained_level.value}
-        - Confiance : {result.confiance:.1%}
+        - Confiance : {result.confidence_score:.1%}
         - Le système {"a correctement géré" if is_correct else "a divergé de l'attendu pour"} ce cas complexe.
         """)
 
@@ -386,4 +385,4 @@ def display_triage_result(result, case_data: Dict, total_time: float, show_metri
     # Métadonnées complètes
     if show_metrics:
         with st.expander("🔍 Métadonnées Complètes"):
-            st.json(result.metadata)
+            st.json(result.to_dict())
