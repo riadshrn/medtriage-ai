@@ -5,8 +5,10 @@ Projet Data for Good - M2 SISE
 Cette application propose plusieurs modes :
 1. SIMULATION : Cas prédéfinis pour démontrer le système
 2. INTERACTIF : Chat avec patient simulé pour tester les limites
-3. VALIDATION : Validation infirmière des prédictions
-4. MODÈLES : Gestion et réentraînement des modèles ML
+3. MÉTRIQUES : Dashboard de performance et impact écologique
+4. BASE DE CONNAISSANCES : Exploration de la BDD médicale
+5. VALIDATION : Validation infirmière des prédictions
+6. MODÈLES : Gestion et réentraînement des modèles ML
 """
 
 import streamlit as st
@@ -21,113 +23,257 @@ from src.interface.components.interactive_mode import render_interactive_mode
 from src.interface.components.metrics_dashboard import render_metrics_dashboard
 from src.interface.components.validation_mode import render_validation_mode
 from src.interface.components.models_management import render_models_management
+from src.interface.components.knowledge_base import render_knowledge_base
 
 # Configuration de la page
 st.set_page_config(
-    page_title="RedFlag-AI - Triage Médical",
+    page_title="RedFlag-AI - Triage Médical Intelligent",
     page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Style CSS personnalisé
+# Style CSS personnalisé - Design médical moderne
 st.markdown("""
 <style>
-    .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        text-align: center;
-        color: #1f77b4;
-        margin-bottom: 1rem;
+    /* Variables CSS */
+    :root {
+        --primary-color: #0066cc;
+        --secondary-color: #00a878;
+        --danger-color: #dc3545;
+        --warning-color: #ffc107;
+        --success-color: #28a745;
+        --background-color: #f8f9fa;
     }
+
+    /* Header principal */
+    .main-header {
+        font-size: 2.2rem;
+        font-weight: 700;
+        text-align: center;
+        background: linear-gradient(135deg, #0066cc 0%, #00a878 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+
     .subtitle {
         text-align: center;
-        color: #666;
-        margin-bottom: 2rem;
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
     }
-    .stAlert {
-        margin-top: 1rem;
+
+    /* Sidebar styling */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
     }
-    /* Color coding for triage levels */
+
+    /* Niveaux de triage - Design moderne */
     .triage-rouge {
-        background-color: #ff4444;
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
         color: white;
-        padding: 1rem;
-        border-radius: 0.5rem;
+        padding: 1rem 2rem;
+        border-radius: 12px;
         font-weight: bold;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
     }
+
     .triage-orange {
-        background-color: #ff8800;
+        background: linear-gradient(135deg, #fd7e14 0%, #e8590c 100%);
         color: white;
-        padding: 1rem;
-        border-radius: 0.5rem;
+        padding: 1rem 2rem;
+        border-radius: 12px;
         font-weight: bold;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(253, 126, 20, 0.3);
     }
+
     .triage-jaune {
-        background-color: #ffbb00;
-        color: black;
-        padding: 1rem;
-        border-radius: 0.5rem;
+        background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+        color: #212529;
+        padding: 1rem 2rem;
+        border-radius: 12px;
         font-weight: bold;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
     }
+
     .triage-vert {
-        background-color: #00cc66;
+        background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
         color: white;
-        padding: 1rem;
-        border-radius: 0.5rem;
+        padding: 1rem 2rem;
+        border-radius: 12px;
         font-weight: bold;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
     }
+
     .triage-gris {
-        background-color: #888888;
+        background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);
         color: white;
-        padding: 1rem;
-        border-radius: 0.5rem;
+        padding: 1rem 2rem;
+        border-radius: 12px;
         font-weight: bold;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
     }
+
+    /* Status badges */
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .status-ok {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-warning {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        color: #6c757d;
+        font-size: 0.85rem;
+        padding: 2rem 0;
+        border-top: 1px solid #dee2e6;
+        margin-top: 2rem;
+    }
+
+    /* Amélioration des boutons */
+    .stButton > button {
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
+
 
 def main():
     """Point d'entrée principal de l'application"""
 
-    # Header
-    st.markdown('<div class="main-header">🏥 RedFlag-AI</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="subtitle">Système Intelligent de Triage aux Urgences</div>',
-        unsafe_allow_html=True
-    )
-
-    # Sidebar - Sélection du mode
+    # Sidebar
     with st.sidebar:
-        st.image("https://via.placeholder.com/300x100/1f77b4/ffffff?text=RedFlag-AI", use_container_width=True)
+        # Logo
+        logo_path = Path(__file__).parent / "logo-removebg-preview.png"
+        if logo_path.exists():
+            st.image(str(logo_path), use_container_width=True)
+        else:
+            st.markdown("""
+            <div style="text-align: center; padding: 1rem;">
+                <h1 style="color: #0066cc; margin: 0;">🏥</h1>
+                <h2 style="color: #0066cc; margin: 0;">RedFlag-AI</h2>
+            </div>
+            """, unsafe_allow_html=True)
+
         st.markdown("---")
 
+        # Navigation
+        st.markdown("### 🧭 Navigation")
+
         mode = st.radio(
-            "Mode d'utilisation",
+            "Choisir un mode",
             options=[
-                "Simulation (Cas Prédéfinis)",
-                "Interactif (Chat Patient)",
-                "Métriques",
-                "Validation Infirmière",
-                "Gestion Modèles"
+                "🎬 Simulation",
+                "💬 Interactif",
+                "📊 Métriques & Écologie",
+                "📚 Base de Connaissances",
+                "✅ Validation Infirmière",
+                "⚙️ Gestion Modèles"
             ],
-            index=0
+            index=0,
+            label_visibility="collapsed"
         )
 
         st.markdown("---")
-        st.markdown("### À propos")
+
+        # Informations système
+        st.markdown("### ℹ️ À propos")
+
         st.info("""
-        **RedFlag-AI v2.0** - Système de triage basé sur :
-        - **Grille FRENCH** officielle (SFMU)
-        - **ML** : XGBoost + feedback loop
-        - **RAG** : Base documentaire médicale
-        - **MLflow** : Versioning des modèles
+        **RedFlag-AI v2.0**
+
+        🎯 **Grille FRENCH** (SFMU)
+        🤖 **ML:** XGBoost
+        📖 **RAG:** FAISS + MiniLM
+        📈 **Tracking:** MLflow
         """)
 
         st.markdown("---")
-        st.markdown("### 🎓 Projet M2 SISE")
-        st.markdown("**Data for Good** - 2025")
-        st.markdown("Sujet 1 : Agent de Triage")
+
+        # Métriques écologiques rapides
+        st.markdown("### 🌱 Impact Écologique")
+        with st.expander("Voir les stats", expanded=False):
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Tokens/triage", "~500", help="Estimation moyenne")
+            with col2:
+                st.metric("CO2/triage", "~0.2g", help="Estimation GPU")
+
+            st.caption("*Estimations modèle local*")
+
+        st.markdown("---")
+
+        # Footer sidebar
+        st.markdown("""
+        <div style="text-align: center; font-size: 0.8rem; color: #6c757d;">
+            <strong>🎓 M2 SISE - 2025</strong><br>
+            Projet Data for Good<br>
+            <em>Sujet 1 : Agent de Triage</em>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Header principal
+    st.markdown('<h1 class="main-header">🏥 RedFlag-AI</h1>', unsafe_allow_html=True)
+    st.markdown(
+        '<p class="subtitle">Système Intelligent d\'Aide au Triage des Urgences</p>',
+        unsafe_allow_html=True
+    )
+
+    # Barre d'état rapide
+    status_col1, status_col2, status_col3, status_col4 = st.columns(4)
+
+    with status_col1:
+        st.markdown("""
+        <div class="status-badge status-ok">🟢 ML Model</div>
+        """, unsafe_allow_html=True)
+
+    with status_col2:
+        st.markdown("""
+        <div class="status-badge status-ok">🟢 RAG Engine</div>
+        """, unsafe_allow_html=True)
+
+    with status_col3:
+        st.markdown("""
+        <div class="status-badge status-warning">🟡 API Backend</div>
+        """, unsafe_allow_html=True)
+
+    with status_col4:
+        st.markdown("""
+        <div class="status-badge status-ok">🟢 FRENCH Grid</div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("---")
 
     # Contenu principal selon le mode
     if "Simulation" in mode:
@@ -136,6 +282,8 @@ def main():
         render_interactive_mode()
     elif "Métriques" in mode:
         render_metrics_dashboard()
+    elif "Base de Connaissances" in mode:
+        render_knowledge_base()
     elif "Validation" in mode:
         render_validation_mode()
     elif "Modèles" in mode:
@@ -144,13 +292,16 @@ def main():
         render_simulation_mode()
 
     # Footer
-    st.markdown("---")
-    st.markdown(
-        '<div style="text-align: center; color: #999; font-size: 0.9rem;">'
-        '⚕️ RedFlag-AI - Projet Académique - Ne pas utiliser en production'
-        '</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    <div class="footer">
+        <p>
+            ⚕️ <strong>RedFlag-AI</strong> - Projet Académique<br>
+            <span style="color: #dc3545;">⚠️ Ne pas utiliser en production clinique</span><br>
+            <small>Développé avec ❤️ pour Data for Good</small>
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 if __name__ == "__main__":
     main()

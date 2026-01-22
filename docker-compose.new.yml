@@ -1,7 +1,9 @@
 # RedFlag-AI - Docker Compose (Architecture séparée API + UI)
 # Pour le déploiement sur Hugging Face Spaces ou autre
 
-# docker-compose -f docker-compose.new.yml --profile mlflow up --build
+# Commandes utiles:
+# docker-compose -f docker-compose.new.yml up --build
+# docker-compose -f docker-compose.new.yml down --volumes --remove-orphans
 
 services:
   # ============================================
@@ -46,9 +48,10 @@ services:
     ports:
       - "8501:8501"
     volumes:
-      # Accès aux données et modèles pour le triage local
       - ./data:/app/data
       - ./models:/app/models
+    env_file:
+      - .env
     environment:
       - PYTHONPATH=/app
       - API_URL=http://api:8000

@@ -8,29 +8,82 @@ import sys
 from pathlib import Path
 from typing import List, Dict, Optional
 import time
-import re
+import json
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
 from src.models.patient import Patient
 from src.models.constantes_vitales import ConstantesVitales as Constantes
 from src.agents.triage_agent import TriageAgent
-from src.models.triage_result import GravityLevel
+from src.models.gravity_level import GravityLevel
+from src.llm.patient_simulator import PatientSimulator, RuleBasedPatientSimulator, get_patient_simulator
+
+
+# Questions suggérées par catégorie
+SUGGESTED_QUESTIONS = {
+    "Identité": [
+        "Quel âge avez-vous ?",
+        "Vous êtes un homme ou une femme ?",
+    ],
+    "Symptômes": [
+        "Pouvez-vous me décrire vos symptômes ?",
+        "Où avez-vous mal exactement ?",
+        "Sur une échelle de 1 à 10, comment évaluez-vous la douleur ?",
+        "Qu'est-ce qui s'est passé ?",
+    ],
+    "Temporalité": [
+        "Depuis quand avez-vous ces symptômes ?",
+        "Est-ce que ça a commencé brutalement ?",
+        "Les symptômes s'aggravent-ils ?",
+    ],
+    "Antécédents": [
+        "Avez-vous des antécédents médicaux ?",
+        "Prenez-vous des médicaments ?",
+        "Avez-vous des allergies connues ?",
+    ],
+    "Constantes": [
+        "Je vais prendre vos constantes vitales.",
+    ],
+}
 
 
 def render_interactive_mode():
     """Rendu du mode interactif avec chat patient"""
 
-    st.header("💬 Mode Interactif - Chat avec Patient Simulé")
-    st.markdown("""
-    Dans ce mode, vous jouez le rôle de l'**infirmier(e) de triage**.
-    Un patient LLM-simulé se présente aux urgences. Interrogez-le pour :
-    - Comprendre son motif de consultation
-    - Évaluer ses symptômes
-    - Prendre ses constantes vitales
+    st.header("💬 Mode Interactif - Interrogatoire Patient")
 
-    Ensuite, le système effectuera le triage automatiquement.
-    """)
+    # Configuration Mistral dans la sidebar
+    with st.sidebar:
+        st.markdown("### 🤖 Configuration LLM (Mistral)")
+        use_mistral = st.checkbox("Utiliser Mistral API", value=True,
+                                 help="Active le simulateur LLM pour des réponses plus réalistes")
+
+        if use_mistral:
+            mistral_model = st.selectbox(
+                "Modèle Mistral",
+                options=["mistral-small-latest", "mistral-medium-latest", "mistral-large-latest"],
+                index=0
+            )
+
+            # Vérifier si Mistral est disponible
+            simulator = PatientSimulator(model=mistral_model)
+            if simulator.is_available():
+                st.success("✅ Mistral API connecté")
+            else:
+                st.error("❌ Mistral API non disponible")
+                st.caption("Vérifiez votre clé API")
+                use_mistral = False
+
+        st.session_state.use_mistral = use_mistral
+        if use_mistral:
+            st.session_state.mistral_model = mistral_model
+
+    # Layout principal : Chat | JSON | Prompt LLM
+    if use_mistral:
+        col_chat, col_json, col_prompt = st.columns([2, 1, 1])
+    else:
+        col_chat, col_json = st.columns([2, 1])
+        col_prompt = None
 
     # Initialisation du state
     if 'chat_history' not in st.session_state:
@@ -43,144 +96,336 @@ def render_interactive_mode():
         st.session_state.triage_result = None
     if 'constantes_prises' not in st.session_state:
         st.session_state.constantes_prises = False
+    if 'last_llm_response' not in st.session_state:
+        st.session_state.last_llm_response = None
+    if 'collected_info' not in st.session_state:
+        st.session_state.collected_info = {
+            "age": None,
+            "sexe": None,
+            "motif": None,
+            "symptomes": [],
+            "duree": None,
+            "intensite_douleur": None,
+            "antecedents": [],
+            "constantes": None
+        }
 
-    # Configuration du patient
-    st.markdown("---")
-    st.subheader("🎭 Configuration du Patient Simulé")
+    with col_chat:
+        # Configuration du patient
+        st.markdown("### 🎭 Configuration du Patient")
 
-    col1, col2 = st.columns([2, 1])
+        config_col1, config_col2 = st.columns([3, 1])
 
-    with col1:
-        patient_type = st.selectbox(
-            "Type de patient à simuler",
-            options=[
-                "🎲 Aléatoire (généré par LLM)",
-                "🔥 Urgence Vitale (Rouge)",
-                "⚡ Urgence (Orange)",
-                "⏰ Peu Urgent (Jaune)",
-                "✅ Non Urgent (Vert)",
-                "🧪 Cas Limite (Edge Case)",
-                "🎭 Simulation d'Anxiété",
-                "🤥 Patient Minimisant",
-                "😱 Patient Exagérant"
-            ]
-        )
+        with config_col1:
+            patient_type = st.selectbox(
+                "Type de cas",
+                options=[
+                    "🎲 Aléatoire",
+                    "🔴 Urgence Vitale (Rouge)",
+                    "🟠 Urgence (Orange)",
+                    "🟡 Peu Urgent (Jaune)",
+                    "🟢 Non Urgent (Vert)",
+                    "😰 Patient Anxieux",
+                    "🤫 Patient Minimisant",
+                    "😱 Patient Exagérant"
+                ],
+                key="patient_type_select"
+            )
 
-    with col2:
-        if st.button("🔄 Nouveau Patient", type="primary"):
-            # Reset session
-            st.session_state.chat_history = []
-            st.session_state.patient_data = None
-            st.session_state.patient_persona = None
-            st.session_state.triage_result = None
-            st.session_state.constantes_prises = False
+        with config_col2:
+            if st.button("🔄 Nouveau", type="primary", use_container_width=True):
+                reset_session()
+                st.session_state.patient_persona = generate_patient_persona(patient_type)
+                st.rerun()
 
-            # Générer nouveau patient
+        # Générer le patient initial si nécessaire
+        if st.session_state.patient_persona is None:
             st.session_state.patient_persona = generate_patient_persona(patient_type)
-            st.rerun()
 
-    # Générer le patient initial si nécessaire
-    if st.session_state.patient_persona is None:
-        st.session_state.patient_persona = generate_patient_persona(patient_type)
+        # Zone de chat
+        st.markdown("---")
+        st.markdown("### 💬 Conversation")
 
-    # Afficher le persona (caché du joueur en mode réaliste)
-    with st.expander("👁️ Voir les Infos Patient (Mode Debug - Normalement Caché)"):
-        st.json(st.session_state.patient_persona)
+        # Container de chat avec hauteur fixe
+        chat_container = st.container(height=350)
 
-    # Zone de chat
-    st.markdown("---")
-    st.subheader("💬 Conversation avec le Patient")
+        with chat_container:
+            if not st.session_state.chat_history:
+                # Message initial du patient
+                initial_message = get_initial_patient_message(st.session_state.patient_persona)
+                st.session_state.chat_history.append({
+                    "role": "patient",
+                    "content": initial_message
+                })
 
-    # Afficher l'historique
-    chat_container = st.container(height=400)
-    with chat_container:
-        if not st.session_state.chat_history:
-            # Message initial du patient
-            initial_message = get_initial_patient_message(st.session_state.patient_persona)
-            st.session_state.chat_history.append({
-                "role": "patient",
-                "content": initial_message
-            })
+            for message in st.session_state.chat_history:
+                if message["role"] == "nurse":
+                    st.chat_message("user", avatar="👨‍⚕️").write(message["content"])
+                elif message["role"] == "patient":
+                    st.chat_message("assistant", avatar="🤒").write(message["content"])
+                else:  # system
+                    st.info(message["content"])
 
-        for message in st.session_state.chat_history:
-            if message["role"] == "nurse":
-                st.chat_message("user", avatar="👨‍⚕️").write(message["content"])
+        # Input de l'infirmier
+        nurse_input = st.chat_input("Votre question en tant qu'infirmier(e)...")
+
+        if nurse_input:
+            process_nurse_input(nurse_input)
+
+        # Questions suggérées
+        st.markdown("### 💡 Questions Suggérées")
+
+        # Afficher les questions par catégorie dans des colonnes
+        for category, questions in SUGGESTED_QUESTIONS.items():
+            with st.expander(f"**{category}**", expanded=(category == "Symptômes")):
+                for q in questions:
+                    if st.button(q, key=f"q_{category}_{q[:20]}", use_container_width=True):
+                        process_nurse_input(q)
+
+        # Boutons d'action
+        st.markdown("---")
+        action_col1, action_col2 = st.columns(2)
+
+        with action_col1:
+            if st.button("🩺 Prendre Constantes", use_container_width=True,
+                        disabled=st.session_state.constantes_prises):
+                take_vitals(st.session_state.patient_persona)
+
+        with action_col2:
+            can_triage = st.session_state.constantes_prises
+            if st.button("🚨 TRIAGE FINAL", type="primary", use_container_width=True,
+                        disabled=not can_triage):
+                perform_final_triage()
+
+        if not st.session_state.constantes_prises:
+            st.caption("⚠️ Prenez les constantes avant le triage final")
+
+    # Colonne JSON - Informations collectées en temps réel
+    with col_json:
+        st.markdown("### 📋 Dossier Patient")
+
+        # Afficher le JSON des informations collectées
+        display_patient_json()
+
+        # Infos debug (cachées par défaut)
+        with st.expander("🔧 Debug - Persona complet"):
+            if st.session_state.patient_persona:
+                st.json(st.session_state.patient_persona)
+
+    # Colonne Prompt LLM (si Mistral activé)
+    if col_prompt is not None:
+        with col_prompt:
+            st.markdown("### 🧠 Prompt LLM")
+
+            if st.session_state.last_llm_response:
+                llm_resp = st.session_state.last_llm_response
+
+                # Métriques
+                col_m1, col_m2 = st.columns(2)
+                with col_m1:
+                    st.metric("Tokens", llm_resp.tokens_used)
+                with col_m2:
+                    st.metric("Latence", f"{llm_resp.latency_ms:.0f}ms")
+
+                st.caption(f"**Modèle:** {llm_resp.model}")
+
+                # Prompt envoyé
+                with st.expander("📤 Prompt envoyé", expanded=True):
+                    st.code(llm_resp.prompt_used, language="markdown")
+
+                # Réponse brute
+                with st.expander("📥 Réponse LLM"):
+                    st.info(llm_resp.content)
             else:
-                st.chat_message("assistant", avatar="🤒").write(message["content"])
+                st.info("Posez une question pour voir le prompt envoyé au LLM")
 
-    # Input infirmier
-    col1, col2 = st.columns([4, 1])
-
-    with col1:
-        nurse_input = st.text_input(
-            "Votre question (en tant qu'infirmier(e))",
-            placeholder="Ex: Pouvez-vous me décrire vos symptômes ?",
-            key="nurse_input"
-        )
-
-    with col2:
-        send_button = st.button("📤 Envoyer", type="primary")
-
-    if send_button and nurse_input:
-        # Ajouter message infirmier
-        st.session_state.chat_history.append({
-            "role": "nurse",
-            "content": nurse_input
-        })
-
-        # Générer réponse patient
-        patient_response = generate_patient_response(
-            st.session_state.patient_persona,
-            st.session_state.chat_history,
-            nurse_input
-        )
-
-        st.session_state.chat_history.append({
-            "role": "patient",
-            "content": patient_response
-        })
-
-        st.rerun()
-
-    # Actions rapides
-    st.markdown("#### ⚡ Actions Rapides")
-    action_col1, action_col2, action_col3 = st.columns(3)
-
-    with action_col1:
-        if st.button("🩺 Prendre les Constantes", use_container_width=True):
-            take_vitals(st.session_state.patient_persona)
-
-    with action_col2:
-        if st.button("📋 Résumer le Cas", use_container_width=True):
-            summarize_case()
-
-    with action_col3:
-        disabled = not st.session_state.constantes_prises
-        if st.button("🚨 TRIAGE FINAL", type="primary", use_container_width=True, disabled=disabled):
-            perform_final_triage()
-
-    if not st.session_state.constantes_prises:
-        st.info("ℹ️ Pensez à prendre les constantes vitales avant le triage final")
+                # Exemple de prompt
+                with st.expander("📝 Exemple de prompt"):
+                    st.markdown("""
+                    Le prompt contient:
+                    - **Profil patient** (âge, sexe, symptômes)
+                    - **Personnalité** (anxieux, stoïque, etc.)
+                    - **Historique** des échanges
+                    - **Règles** de comportement
+                    """)
 
     # Afficher résultat si disponible
     if st.session_state.triage_result:
         display_interactive_triage_result()
 
 
+def reset_session():
+    """Réinitialise la session"""
+    st.session_state.chat_history = []
+    st.session_state.patient_data = None
+    st.session_state.patient_persona = None
+    st.session_state.triage_result = None
+    st.session_state.constantes_prises = False
+    st.session_state.last_llm_response = None
+    st.session_state.collected_info = {
+        "age": None,
+        "sexe": None,
+        "motif": None,
+        "symptomes": [],
+        "duree": None,
+        "intensite_douleur": None,
+        "antecedents": [],
+        "constantes": None
+    }
+
+
+def process_nurse_input(nurse_input: str):
+    """Traite l'input de l'infirmier"""
+    # Ajouter message infirmier
+    st.session_state.chat_history.append({
+        "role": "nurse",
+        "content": nurse_input
+    })
+
+    # Générer réponse patient (Mistral ou règles)
+    use_mistral = st.session_state.get('use_mistral', False)
+
+    if use_mistral:
+        # Utiliser le simulateur Mistral
+        model = st.session_state.get('mistral_model', 'mistral-small-latest')
+        simulator = PatientSimulator(model=model)
+
+        if simulator.is_available():
+            llm_response = simulator.generate_response(
+                persona=st.session_state.patient_persona,
+                nurse_question=nurse_input,
+                chat_history=st.session_state.chat_history
+            )
+            patient_response = llm_response.content
+            st.session_state.last_llm_response = llm_response
+        else:
+            # Fallback vers règles si Mistral indisponible
+            patient_response = generate_patient_response(
+                st.session_state.patient_persona,
+                st.session_state.chat_history,
+                nurse_input
+            )
+            st.session_state.last_llm_response = None
+    else:
+        # Mode règles (fallback)
+        patient_response = generate_patient_response(
+            st.session_state.patient_persona,
+            st.session_state.chat_history,
+            nurse_input
+        )
+        st.session_state.last_llm_response = None
+
+    st.session_state.chat_history.append({
+        "role": "patient",
+        "content": patient_response
+    })
+
+    # Mettre à jour les informations collectées
+    update_collected_info(nurse_input, patient_response)
+
+    st.rerun()
+
+
+def display_patient_json():
+    """Affiche le JSON des informations collectées"""
+    info = st.session_state.collected_info
+
+    # Calcul du pourcentage de complétion
+    filled = sum(1 for v in info.values() if v is not None and v != [] and v != {})
+    total = len(info)
+    completion = (filled / total) * 100
+
+    # Progress bar
+    st.progress(completion / 100, text=f"Complétion: {completion:.0f}%")
+
+    # Affichage stylisé du JSON
+    st.markdown("```json")
+
+    json_display = {
+        "patient": {
+            "age": info["age"] or "❓ Non renseigné",
+            "sexe": info["sexe"] or "❓ Non renseigné",
+        },
+        "consultation": {
+            "motif": info["motif"] or "❓ À déterminer",
+            "symptomes": info["symptomes"] if info["symptomes"] else ["❓ À collecter"],
+            "duree": info["duree"] or "❓ Non précisé",
+            "douleur": info["intensite_douleur"] or "❓ Non évalué",
+        },
+        "antecedents": info["antecedents"] if info["antecedents"] else ["❓ À demander"],
+        "constantes": info["constantes"] if info["constantes"] else "❓ Non prises"
+    }
+
+    st.code(json.dumps(json_display, indent=2, ensure_ascii=False), language="json")
+
+    # Indicateurs visuels
+    st.markdown("#### Checklist")
+    checklist = [
+        ("Âge", info["age"] is not None),
+        ("Sexe", info["sexe"] is not None),
+        ("Symptômes", len(info["symptomes"]) > 0),
+        ("Durée", info["duree"] is not None),
+        ("Douleur", info["intensite_douleur"] is not None),
+        ("Constantes", info["constantes"] is not None),
+    ]
+
+    for item, done in checklist:
+        icon = "✅" if done else "⬜"
+        st.markdown(f"{icon} {item}")
+
+
+def update_collected_info(question: str, response: str):
+    """Met à jour les informations collectées basé sur l'échange"""
+    info = st.session_state.collected_info
+    persona = st.session_state.patient_persona
+    q_lower = question.lower()
+    r_lower = response.lower()
+
+    # Détection de l'âge
+    if any(w in q_lower for w in ["âge", "age", "ans"]):
+        info["age"] = persona.get("age")
+
+    # Détection du sexe
+    if any(w in q_lower for w in ["sexe", "homme", "femme"]):
+        info["sexe"] = "Homme" if persona.get("sexe", "M") == "M" else "Femme"
+
+    # Détection des symptômes
+    if any(w in q_lower for w in ["symptôme", "douleur", "mal", "ressent", "problème"]):
+        symptomes = persona.get("symptomes", [])
+        if symptomes and symptomes not in info["symptomes"]:
+            info["symptomes"] = symptomes[:3]  # Max 3 symptômes
+        info["motif"] = persona.get("motif_reel", "Non précisé")
+
+    # Détection de la durée
+    if any(w in q_lower for w in ["depuis", "quand", "combien de temps"]):
+        info["duree"] = "Récent" if "minute" in r_lower or "heure" in r_lower else "Plusieurs heures/jours"
+
+    # Détection de l'intensité
+    if any(w in q_lower for w in ["échelle", "sur 10", "intensité"]):
+        # Extraire le chiffre de la réponse
+        for word in response.split():
+            if word.isdigit():
+                info["intensite_douleur"] = f"{word}/10"
+                break
+
+    # Détection des antécédents
+    if any(w in q_lower for w in ["antécédent", "traitement", "médicament", "allergie"]):
+        info["antecedents"] = ["Aucun antécédent significatif"]
+
+
 def generate_patient_persona(patient_type: str) -> Dict:
     """Génère un persona de patient selon le type sélectionné"""
 
-    # Personas prédéfinis selon le type
     personas = {
-        "🔥 Urgence Vitale (Rouge)": {
+        "🔴 Urgence Vitale (Rouge)": {
             "age": 58,
+            "sexe": "M",
             "motif_reel": "Infarctus du myocarde en cours",
             "symptomes": [
                 "Douleur thoracique intense (écrasement)",
                 "Irradiation bras gauche et mâchoire",
                 "Sudation profuse",
-                "Nausées",
-                "Sensation de mort imminente"
+                "Nausées"
             ],
             "constantes": {
                 "frequence_cardiaque": 125,
@@ -189,19 +434,19 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 85,
                 "pression_diastolique": 50,
                 "temperature": 36.8,
-                "echelle_douleur": 14
+                "echelle_douleur": 9
             },
             "personnalite": "Patient très anxieux, difficulté à parler, douleur visible",
             "expected_level": GravityLevel.ROUGE
         },
-        "⚡ Urgence (Orange)": {
+        "🟠 Urgence (Orange)": {
             "age": 35,
+            "sexe": "M",
             "motif_reel": "Fracture ouverte avant-bras droit",
             "symptomes": [
-                "Douleur intense (9/10)",
+                "Douleur intense au bras",
                 "Déformation visible",
-                "Plaie avec os apparent",
-                "Saignement modéré"
+                "Plaie avec saignement"
             ],
             "constantes": {
                 "frequence_cardiaque": 105,
@@ -210,19 +455,19 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 120,
                 "pression_diastolique": 75,
                 "temperature": 37.1,
-                "echelle_douleur": 7
+                "echelle_douleur": 8
             },
             "personnalite": "Patient coopératif mais douleur importante",
             "expected_level": GravityLevel.JAUNE
         },
-        "⏰ Peu Urgent (Jaune)": {
+        "🟡 Peu Urgent (Jaune)": {
             "age": 28,
+            "sexe": "F",
             "motif_reel": "Gastro-entérite avec déshydratation modérée",
             "symptomes": [
                 "Vomissements depuis 24h",
-                "Diarrhée liquide (10 épisodes)",
-                "Fatigue importante",
-                "Vertiges légers"
+                "Diarrhée",
+                "Fatigue importante"
             ],
             "constantes": {
                 "frequence_cardiaque": 92,
@@ -231,18 +476,18 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 105,
                 "pression_diastolique": 65,
                 "temperature": 37.8,
-                "echelle_douleur": 7
+                "echelle_douleur": 4
             },
-            "personnalite": "Patient fatigué mais conscient et cohérent",
+            "personnalite": "Patient fatigué mais conscient",
             "expected_level": GravityLevel.JAUNE
         },
-        "✅ Non Urgent (Vert)": {
+        "🟢 Non Urgent (Vert)": {
             "age": 22,
+            "sexe": "M",
             "motif_reel": "Entorse cheville mineure",
             "symptomes": [
-                "Douleur cheville gauche (4/10)",
-                "Léger gonflement",
-                "Peut poser le pied partiellement"
+                "Douleur cheville gauche",
+                "Léger gonflement"
             ],
             "constantes": {
                 "frequence_cardiaque": 75,
@@ -251,40 +496,40 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 118,
                 "pression_diastolique": 72,
                 "temperature": 36.7,
-                "echelle_douleur": 7
+                "echelle_douleur": 3
             },
             "personnalite": "Patient calme, pas pressé",
             "expected_level": GravityLevel.VERT
         },
-        "🎭 Simulation d'Anxiété": {
+        "😰 Patient Anxieux": {
             "age": 25,
-            "motif_reel": "Crise de panique (pas d'urgence médicale)",
+            "sexe": "F",
+            "motif_reel": "Crise de panique",
             "symptomes": [
                 "Palpitations",
-                "Impression de ne pas pouvoir respirer",
-                "Sensation de mort imminente",
-                "Tremblements",
-                "Picotements extrémités"
+                "Sensation d'étouffement",
+                "Peur de mourir"
             ],
             "constantes": {
                 "frequence_cardiaque": 118,
                 "frequence_respiratoire": 28,
-                "saturation_oxygene": 99,  # Normal car hyperventilation
+                "saturation_oxygene": 99,
                 "pression_systolique": 140,
                 "pression_diastolique": 90,
                 "temperature": 36.9,
-                "echelle_douleur": 7
+                "echelle_douleur": 2
             },
             "personnalite": "Patient très anxieux, dramatise, hyperventilation",
-            "expected_level": GravityLevel.JAUNE  # Surveillance malgré anxiété
+            "expected_level": GravityLevel.JAUNE
         },
-        "🤥 Patient Minimisant": {
+        "🤫 Patient Minimisant": {
             "age": 70,
+            "sexe": "M",
             "motif_reel": "Douleur thoracique (possible angine)",
             "symptomes": [
-                "Gêne thoracique (patient dit 'petite gêne')",
+                "Gêne thoracique légère",
                 "Essoufflement à l'effort",
-                "Fatigue inhabituelle depuis 2 jours"
+                "Fatigue inhabituelle"
             ],
             "constantes": {
                 "frequence_cardiaque": 95,
@@ -293,19 +538,19 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 150,
                 "pression_diastolique": 95,
                 "temperature": 36.5,
-                "echelle_douleur": 7
+                "echelle_douleur": 3
             },
-            "personnalite": "Patient stoïque, minimise ses symptômes, ne veut pas déranger",
-            "expected_level": GravityLevel.JAUNE  # Malgré minimisation
+            "personnalite": "Patient stoïque, minimise, ne veut pas déranger",
+            "expected_level": GravityLevel.JAUNE
         },
         "😱 Patient Exagérant": {
             "age": 32,
+            "sexe": "F",
             "motif_reel": "Rhume avec maux de tête",
             "symptomes": [
-                "Mal de tête 'atroce'",
+                "Mal de tête",
                 "Nez qui coule",
-                "Gorge irritée",
-                "Fatigue"
+                "Gorge irritée"
             ],
             "constantes": {
                 "frequence_cardiaque": 72,
@@ -314,48 +559,23 @@ def generate_patient_persona(patient_type: str) -> Dict:
                 "pression_systolique": 122,
                 "pression_diastolique": 78,
                 "temperature": 37.3,
-                "echelle_douleur": 7
+                "echelle_douleur": 2
             },
-            "personnalite": "Patient dramatique, vocabulaire catastrophique pour symptômes mineurs",
+            "personnalite": "Patient dramatique, vocabulaire catastrophique",
             "expected_level": GravityLevel.GRIS
         }
     }
 
-    # Sélectionner ou générer aléatoirement
+    # Sélection
     if "Aléatoire" in patient_type:
         import random
         return random.choice(list(personas.values()))
-    elif "Cas Limite" in patient_type:
-        # Générer un cas avec constantes contradictoires
-        return {
-            "age": 45,
-            "motif_reel": "Symptômes atypiques multiples",
-            "symptomes": [
-                "Fatigue importante",
-                "Vertiges",
-                "Douleur abdominale vague",
-                "Palpitations intermittentes"
-            ],
-            "constantes": {
-                "frequence_cardiaque": 50,  # Bradycardie
-                "frequence_respiratoire": 24,  # Tachypnée
-                "saturation_oxygene": 94,
-                "pression_systolique": 165,
-                "pression_diastolique": 105,
-                "temperature": 38.8,
-                "echelle_douleur": 14
-            },
-            "personnalite": "Patient confus, descriptions vagues",
-            "expected_level": GravityLevel.JAUNE
-        }
-    else:
-        # Trouver le persona correspondant
-        for key, persona in personas.items():
-            if key.startswith(patient_type.split()[0]):
-                return persona
 
-    # Fallback
-    return personas["✅ Non Urgent (Vert)"]
+    for key, persona in personas.items():
+        if key.startswith(patient_type.split()[0]):
+            return persona
+
+    return personas["🟢 Non Urgent (Vert)"]
 
 
 def get_initial_patient_message(persona: Dict) -> str:
@@ -363,10 +583,9 @@ def get_initial_patient_message(persona: Dict) -> str:
 
     messages = {
         GravityLevel.ROUGE: "Aidez-moi... j'ai très mal... à la poitrine... je n'arrive plus à respirer...",
-        GravityLevel.JAUNE: "Bonjour... j'ai très mal, je me suis blessé... c'est grave je pense...",
-        GravityLevel.JAUNE: "Bonjour, je ne me sens vraiment pas bien depuis hier...",
-        GravityLevel.VERT: "Bonjour, je me suis fait un peu mal, je voulais juste vérifier que c'est pas grave.",
-        GravityLevel.GRIS: "Bonjour, je sais que c'est pas grand chose mais je préfère être sûr..."
+        GravityLevel.JAUNE: "Bonjour... je ne me sens vraiment pas bien, j'ai besoin d'aide...",
+        GravityLevel.VERT: "Bonjour, je me suis fait mal, je voulais juste vérifier.",
+        GravityLevel.GRIS: "Bonjour, je sais que c'est probablement rien mais..."
     }
 
     return messages.get(
@@ -376,88 +595,114 @@ def get_initial_patient_message(persona: Dict) -> str:
 
 
 def generate_patient_response(persona: Dict, chat_history: List[Dict], nurse_question: str) -> str:
-    """
-    Génère la réponse du patient basée sur sa personnalité et la question
-    Version simplifiée sans LLM réel (simulation basée sur règles)
-    """
+    """Génère la réponse du patient basée sur sa personnalité"""
 
     question_lower = nurse_question.lower()
+    personnalite = persona.get("personnalite", "").lower()
+    symptomes = persona.get("symptomes", [])
+    level = persona.get("expected_level", GravityLevel.VERT)
 
-    # Détection de l'âge
-    if any(word in question_lower for word in ["âge", "age", "quel age", "ans", "vieux", "née", "naissance"]):
-        age = persona.get("age", 45)
-        return f"J'ai {age} ans."
+    # ===== QUESTIONS SPÉCIFIQUES D'ABORD =====
 
-    # Détection de la question sur les symptômes
-    if any(word in question_lower for word in ["symptôme", "ressent", "douleur", "mal", "qu'est-ce qui", "problème", "arrivé", "passé"]):
-        symptomes = persona.get("symptomes", [])
-        personnalite = persona.get("personnalite", "")
+    # 1. Âge
+    if any(word in question_lower for word in ["âge", "age", "quel age", "ans avez"]):
+        return f"J'ai {persona.get('age', 45)} ans."
 
-        # Gérer le cas où il n'y a pas de symptômes
-        if not symptomes:
-            return "Je ne me sens vraiment pas bien, mais c'est difficile à décrire..."
+    # 2. Sexe
+    if any(word in question_lower for word in ["homme ou", "femme", "monsieur", "madame", "genre"]):
+        return "Je suis un homme." if persona.get("sexe", "M") == "M" else "Je suis une femme."
 
-        if "anxieux" in personnalite.lower() or "dramatique" in personnalite.lower():
-            return f"Oh mon Dieu ! C'est terrible ! {symptomes[0]} ! Et aussi {symptomes[1] if len(symptomes) > 1 else 'plein d autres choses'} ! Je vais mourir ?!"
-        elif "minimise" in personnalite.lower() or "stoïque" in personnalite.lower():
-            return f"Oh, ce n'est rien de grave... juste {symptomes[0].lower()}... je ne voulais pas vous déranger mais ma famille a insisté..."
-        elif "douleur visible" in personnalite.lower() or "intense" in personnalite.lower():
-            return f"*grimace de douleur* {symptomes[0]}... et {symptomes[1] if len(symptomes) > 1 else 'ça empire'}... s'il vous plaît aidez-moi..."
-        else:
-            return f"J'ai {symptomes[0].lower()}, et aussi {symptomes[1].lower() if len(symptomes) > 1 else 'quelques autres symptômes'}."
+    # 3. Intensité douleur / Échelle (AVANT symptômes car contient "douleur")
+    if any(word in question_lower for word in ["échelle", "sur 10", "1 à 10", "évaluez", "intensité", "note"]):
+        pain_levels = {
+            GravityLevel.ROUGE: "10 sur 10 ! C'est insupportable ! *grimace*",
+            GravityLevel.JAUNE: "7 ou 8 sur 10, c'est vraiment douloureux...",
+            GravityLevel.VERT: "4 sur 10, c'est supportable.",
+            GravityLevel.GRIS: "2 sur 10, c'est plus gênant que douloureux."
+        }
+        return pain_levels.get(level, "Environ 5 sur 10...")
 
-    elif any(word in question_lower for word in ["depuis quand", "combien de temps", "début"]):
+    # 4. Localisation (AVANT symptômes car contient "où" et "mal")
+    if any(word in question_lower for word in ["où avez", "où est", "localis", "quel endroit", "exactement"]):
+        if symptomes:
+            # Extraire la partie avant la parenthèse
+            loc = symptomes[0].split("(")[0].strip().lower()
+            if "thoracique" in loc or "poitrine" in loc:
+                return "Là... *montre la poitrine* ... au milieu, ça serre très fort..."
+            elif "bras" in loc:
+                return "Dans le bras, ça irradie jusqu'à la main..."
+            else:
+                return f"C'est au niveau de... {loc}..."
+        return "C'est difficile à localiser précisément..."
+
+    # 5. Durée / Temporalité
+    if any(word in question_lower for word in ["depuis quand", "depuis combien", "commencé", "début", "brutalement", "soudain"]):
         durations = {
-            GravityLevel.ROUGE: "Depuis environ 30 minutes... c'est arrivé brutalement...",
-            GravityLevel.JAUNE: "Il y a environ 2 heures, après ma chute...",
-            GravityLevel.JAUNE: "Depuis hier soir, ça a commencé progressivement...",
-            GravityLevel.VERT: "Depuis ce matin, en faisant du sport...",
-            GravityLevel.GRIS: "Depuis quelques jours, mais ça ne s'améliore pas vraiment..."
+            GravityLevel.ROUGE: "Il y a environ 30 minutes... c'est arrivé d'un coup !",
+            GravityLevel.JAUNE: "Ça a commencé il y a quelques heures...",
+            GravityLevel.VERT: "Depuis ce matin, après le sport.",
+            GravityLevel.GRIS: "Ça dure depuis plusieurs jours..."
         }
-        return durations.get(persona.get("expected_level", GravityLevel.VERT), "Depuis quelques heures...")
+        return durations.get(level, "Depuis quelques heures...")
 
-    elif any(word in question_lower for word in ["antécédent", "traitement", "médicament", "allergie"]):
-        return "Non, pas d'antécédents particuliers... enfin, je prends juste des vitamines habituellement."
-
-    elif any(word in question_lower for word in ["échelle", "sur 10", "intensité"]):
-        levels = {
-            GravityLevel.ROUGE: "10 sur 10 ! C'est insupportable !",
-            GravityLevel.JAUNE: "8 ou 9 sur 10, vraiment très douloureux...",
-            GravityLevel.JAUNE: "Je dirais 5 ou 6 sur 10...",
-            GravityLevel.VERT: "Peut-être 3 ou 4 sur 10, supportable...",
-            GravityLevel.GRIS: "2 sur 10, c'est plus gênant que douloureux..."
-        }
-        return levels.get(persona.get("expected_level", GravityLevel.VERT), "Environ 5 sur 10...")
-
-    elif any(word in question_lower for word in ["constante", "tension", "température", "pouls", "mesure"]):
-        return "Oui bien sûr, allez-y, vous pouvez prendre mes constantes."
-
-    # Questions sur le sexe/genre
-    elif any(word in question_lower for word in ["sexe", "homme", "femme", "monsieur", "madame", "genre"]):
-        sexe = persona.get("sexe", "M")
-        return "Je suis un homme." if sexe == "M" else "Je suis une femme."
-
-    # Questions de réconfort/rassurance
-    elif any(word in question_lower for word in ["mourir", "grave", "inquiet", "peur", "rassur", "calme"]):
-        personnalite = persona.get("personnalite", "")
-        if "anxieux" in personnalite.lower():
-            return "Vous êtes sûr ? J'ai vraiment très peur... mon cœur bat trop vite..."
+    # 6. Aggravation
+    if any(word in question_lower for word in ["aggrav", "empire", "pire", "augment"]):
+        if level == GravityLevel.ROUGE:
+            return "Oui ! Ça empire de minute en minute !"
+        elif level == GravityLevel.JAUNE:
+            return "Oui, ça s'aggrave progressivement..."
         else:
-            return "D'accord... merci de me rassurer..."
+            return "Non, c'est stable."
 
-    # Questions sur la localisation de la douleur
-    elif any(word in question_lower for word in ["où", "localis", "endroit", "côté", "zone"]):
-        symptomes = persona.get("symptomes", [])
-        if symptomes:
-            return f"C'est surtout au niveau... {symptomes[0].lower().split('(')[0]}..."
-        return "C'est difficile à dire exactement où..."
+    # 7. Antécédents / Médicaments / Allergies
+    if any(word in question_lower for word in ["antécédent", "médicament", "allergie", "traitement", "prenez"]):
+        return "Non, pas d'antécédents particuliers. Je prends juste des vitamines de temps en temps."
 
-    else:
-        # Réponse générique mais plus naturelle
-        symptomes = persona.get("symptomes", [])
-        if symptomes:
-            return f"Je ne sais pas trop comment répondre... mais vraiment, {symptomes[0].lower()}..."
-        return "Je ne sais pas trop... je me sens juste mal..."
+    # 8. Constantes
+    if any(word in question_lower for word in ["constante", "tension", "température", "pouls", "mesurer"]):
+        return "Oui, allez-y, vous pouvez me mesurer."
+
+    # ===== QUESTIONS GÉNÉRALES SUR LES SYMPTÔMES =====
+
+    # 9. Description générale des symptômes (question ouverte)
+    if any(word in question_lower for word in ["symptôme", "décri", "qu'est-ce qui", "que ressentez", "problème"]):
+        if not symptomes:
+            return "Je ne me sens vraiment pas bien, mais c'est difficile à expliquer..."
+
+        if "anxieux" in personnalite or "dramatique" in personnalite:
+            details = symptomes[0]
+            if len(symptomes) > 1:
+                details += f", et aussi {symptomes[1].lower()}"
+            return f"Oh mon Dieu ! C'est terrible ! {details} ! *très agité*"
+        elif "minimise" in personnalite or "stoïque" in personnalite:
+            return f"Oh, ce n'est probablement rien... juste {symptomes[0].lower()}... je ne voulais pas déranger."
+        else:
+            response = f"J'ai {symptomes[0].lower()}"
+            if len(symptomes) > 1:
+                response += f", et aussi {symptomes[1].lower()}"
+            return response + "."
+
+    # 10. Ce qui s'est passé
+    if any(word in question_lower for word in ["passé", "arrivé", "racont"]):
+        if level == GravityLevel.ROUGE:
+            return "J'étais en train de travailler et d'un coup... cette douleur horrible !"
+        elif level == GravityLevel.JAUNE:
+            return "Je suis tombé / J'ai commencé à me sentir mal progressivement..."
+        else:
+            return "Rien de particulier, ça a commencé doucement..."
+
+    # 11. Réconfort
+    if any(word in question_lower for word in ["mourir", "grave", "inquiet", "rassur", "calme", "va aller"]):
+        if "anxieux" in personnalite:
+            return "Vous êtes sûr ? J'ai vraiment très peur... mon cœur bat trop vite..."
+        return "D'accord... merci de me rassurer..."
+
+    # ===== RÉPONSE PAR DÉFAUT =====
+    if symptomes:
+        if "anxieux" in personnalite:
+            return f"Je ne sais pas... mais j'ai vraiment mal... {symptomes[0].lower()}..."
+        return f"Euh... je ne suis pas sûr de comprendre la question. Mais vraiment, {symptomes[0].lower()}..."
+    return "Je ne sais pas trop... je me sens juste mal..."
 
 
 def take_vitals(persona: Dict):
@@ -475,15 +720,17 @@ def take_vitals(persona: Dict):
         "content": "D'accord, allez-y."
     })
 
-    # Créer un message avec les résultats
+    # Message avec les résultats
     vitals_message = f"""
-**Constantes Mesurées :**
-- Fréquence Cardiaque : {constantes.get('frequence_cardiaque', 'N/A')} bpm
-- Fréquence Respiratoire : {constantes.get('frequence_respiratoire', 'N/A')} /min
-- Saturation O2 : {constantes.get('saturation_oxygene', 'N/A')}%
-- Tension : {constantes.get('tension_systolique', 'N/A')}/{constantes.get('tension_diastolique', 'N/A')} mmHg
-- Température : {constantes.get('temperature', 'N/A')}°C
-- Score de Glasgow : {constantes.get('glasgow', 'N/A')}/15
+**📊 Constantes Mesurées :**
+| Paramètre | Valeur |
+|-----------|--------|
+| FC | {constantes.get('frequence_cardiaque', 'N/A')} bpm |
+| FR | {constantes.get('frequence_respiratoire', 'N/A')} /min |
+| SpO2 | {constantes.get('saturation_oxygene', 'N/A')}% |
+| TA | {constantes.get('pression_systolique', 'N/A')}/{constantes.get('pression_diastolique', 'N/A')} mmHg |
+| Temp | {constantes.get('temperature', 'N/A')}°C |
+| Douleur | {constantes.get('echelle_douleur', 'N/A')}/10 |
 """
 
     st.session_state.chat_history.append({
@@ -492,41 +739,13 @@ def take_vitals(persona: Dict):
     })
 
     st.session_state.constantes_prises = True
+    st.session_state.collected_info["constantes"] = constantes
     st.session_state.patient_data = {
         "age": persona.get("age"),
         "sexe": persona.get("sexe", "M"),
         "motif": persona.get("motif_reel"),
         "constantes": constantes
     }
-
-    st.rerun()
-
-
-def summarize_case():
-    """Résume le cas du patient"""
-
-    if not st.session_state.chat_history:
-        st.warning("Aucune conversation à résumer")
-        return
-
-    # Extraire les informations clés
-    symptomes_mentionnes = []
-    for msg in st.session_state.chat_history:
-        if msg["role"] == "patient":
-            symptomes_mentionnes.append(msg["content"])
-
-    summary = f"""
-**Résumé du Cas :**
-- Patient de {st.session_state.patient_persona.get('age', 'N/A')} ans
-- Motif : {st.session_state.patient_persona.get('motif_reel', 'Non précisé')}
-- Symptômes rapportés : {', '.join(st.session_state.patient_persona.get('symptomes', [])[:3])}
-- Constantes prises : {'Oui' if st.session_state.constantes_prises else 'Non'}
-"""
-
-    st.session_state.chat_history.append({
-        "role": "system",
-        "content": summary
-    })
 
     st.rerun()
 
@@ -538,31 +757,33 @@ def perform_final_triage():
         st.error("Veuillez prendre les constantes vitales avant le triage")
         return
 
-    with st.spinner("🧠 Analyse du cas et triage en cours..."):
-        # Créer le patient
-        patient = Patient(
-            age=st.session_state.patient_data["age"],
-            sexe=st.session_state.patient_data["sexe"],
-            motif_consultation=st.session_state.patient_data["motif"],
-            constantes=Constantes(**st.session_state.patient_data["constantes"])
-        )
+    with st.spinner("🧠 Analyse et triage en cours..."):
+        try:
+            patient = Patient(
+                age=st.session_state.patient_data["age"],
+                sexe=st.session_state.patient_data["sexe"],
+                motif_consultation=st.session_state.patient_data["motif"],
+                constantes=Constantes(**st.session_state.patient_data["constantes"])
+            )
 
-        # Triage
-        agent = TriageAgent(
-            ml_model_path="models/trained/triage_model.json",
-            ml_preprocessor_path="models/trained/preprocessor.pkl",
-            vector_store_path="data/vector_store/medical_kb.pkl",
-            use_rag=True
-        )
-        result = agent.triage(patient)
+            agent = TriageAgent(
+                ml_model_path="models/trained/triage_model.json",
+                ml_preprocessor_path="models/trained/preprocessor.pkl",
+                vector_store_path="data/vector_store/medical_kb.pkl",
+                use_rag=True
+            )
+            result = agent.triage(patient)
+            st.session_state.triage_result = result
 
-        st.session_state.triage_result = result
+        except Exception as e:
+            st.error(f"Erreur lors du triage: {e}")
+            return
 
     st.rerun()
 
 
 def display_interactive_triage_result():
-    """Affiche le résultat du triage en mode interactif"""
+    """Affiche le résultat du triage"""
 
     result = st.session_state.triage_result
     persona = st.session_state.patient_persona
@@ -570,74 +791,72 @@ def display_interactive_triage_result():
     st.markdown("---")
     st.header("🎯 Résultat du Triage")
 
-    # Niveau obtenu vs attendu
+    expected = persona.get("expected_level", GravityLevel.VERT)
+    obtained = result.gravity_level
+    is_correct = expected == obtained
+
+    # Affichage comparatif
     col1, col2, col3 = st.columns(3)
 
-    level_color = {
-        GravityLevel.ROUGE: "rouge",
-        GravityLevel.JAUNE: "orange",
-        GravityLevel.JAUNE: "jaune",
-        GravityLevel.VERT: "vert",
-        GravityLevel.GRIS: "gris"
+    level_colors = {
+        GravityLevel.ROUGE: ("🔴", "#ff4444"),
+        GravityLevel.JAUNE: ("🟡", "#ffbb00"),
+        GravityLevel.VERT: ("🟢", "#00cc66"),
+        GravityLevel.GRIS: ("⚪", "#888888")
     }
 
     with col1:
-        st.markdown("#### Niveau Détecté")
-        color = level_color.get(result.gravity_level, "gris")
-        st.markdown(
-            f'<div class="triage-{color}">{result.gravity_level.value.upper()}</div>',
-            unsafe_allow_html=True
-        )
+        emoji, color = level_colors.get(obtained, ("❓", "#666"))
+        st.markdown(f"### Niveau Détecté")
+        st.markdown(f"<h2 style='color:{color}'>{emoji} {obtained.value}</h2>", unsafe_allow_html=True)
 
     with col2:
-        st.markdown("#### Niveau Réel")
-        expected = persona.get("expected_level", GravityLevel.VERT)
-        color = level_color.get(expected, "gris")
-        st.markdown(
-            f'<div class="triage-{color}">{expected.value.upper()}</div>',
-            unsafe_allow_html=True
-        )
+        emoji, color = level_colors.get(expected, ("❓", "#666"))
+        st.markdown(f"### Niveau Réel")
+        st.markdown(f"<h2 style='color:{color}'>{emoji} {expected.value}</h2>", unsafe_allow_html=True)
 
     with col3:
-        st.markdown("#### Évaluation")
-        is_correct = result.gravity_level == expected
+        st.markdown("### Évaluation")
         if is_correct:
-            st.success("✅ Correct", icon="✅")
+            st.success("✅ Correct !")
         else:
-            st.error("❌ Erreur", icon="❌")
+            st.error("❌ Divergence")
 
     # Justification
     st.markdown("### 💡 Justification")
     st.info(result.justification)
 
-    st.metric("Confiance", f"{result.confidence_score:.1%}")
+    # Métriques
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Confiance", f"{result.confidence_score:.1%}")
+    with col2:
+        if result.latency_ml:
+            st.metric("Latence ML", f"{result.latency_ml * 1000:.0f} ms")
+    with col3:
+        if result.latency_llm:
+            st.metric("Latence LLM", f"{result.latency_llm * 1000:.0f} ms")
 
-    # Feedback pédagogique
-    st.markdown("### 📚 Analyse Pédagogique")
-
+    # Analyse pédagogique
+    st.markdown("### 📚 Analyse")
     if is_correct:
         st.success(f"""
-        ✅ **Excellent diagnostic !**
+        **Excellent !** Le système a correctement identifié le niveau **{obtained.value}**.
 
-        Le système a correctement identifié le niveau de gravité comme **{result.gravity_level.value}**.
-
-        **Points clés du cas :**
-        - {persona.get('personnalite', 'N/A')}
-        - Le système n'a pas été trompé par la présentation du patient
+        **Points clés:** {persona.get('personnalite', 'N/A')}
         """)
     else:
         st.warning(f"""
-        ⚠️ **Divergence détectée**
+        **Divergence détectée**
 
-        - **Triage système** : {result.gravity_level.value}
-        - **Réalité clinique** : {expected.value}
+        - Système: **{obtained.value}**
+        - Réalité: **{expected.value}**
 
-        **Raisons possibles :**
-        {persona.get('personnalite', 'N/A')}
+        **Personnalité du patient:** {persona.get('personnalite', 'N/A')}
 
-        Ce cas illustre l'importance du jugement clinique humain en complément de l'IA.
+        Ce cas illustre l'importance du jugement clinique humain.
         """)
 
-    # Métadonnées
+    # Détails techniques
     with st.expander("🔍 Détails Techniques"):
         st.json(result.to_dict())
