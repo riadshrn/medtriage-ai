@@ -4,18 +4,14 @@ Ce mode permet de tester le système dans des conditions contrôlées
 """
 
 import streamlit as st
-import sys
-from pathlib import Path
-from typing import Dict, Any
 import time
-
-sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
-
-from src.models.patient import Patient
-from src.models.constantes_vitales import ConstantesVitales as Constantes
-from src.agents.triage_agent import TriageAgent
-from src.models.triage_result import GravityLevel
-
+import requests
+import os
+import json
+from typing import Dict, Any
+# On garde uniquement les modèles de données ("Data Classes") qui sont légers
+from src.models.triage_result import GravityLevel, TriageResult
+# On supprime TriageAgent, Patient, ConstantesVitales qui ne servent plus ici
 
 # Cas prédéfinis couvrant tous les niveaux de gravité
 PREDEFINED_CASES = {
@@ -254,38 +250,73 @@ def render_simulation_mode():
 
 
 def perform_triage(case_data: Dict[str, Any], use_rag: bool, show_metrics: bool, case_name: str):
-    """Effectue le triage et affiche les résultats"""
+    """
+    Effectue le triage en appelant l'API Backend.
+    Plus aucun calcul ML n'est fait ici (Client Léger).
+    """
+    
+    # 1. Configuration de l'endpoint API
+    # Dans Docker, l'hôte est "redflag-api" (nom du service), port 8000
+    # Si on est en local hors docker, c'est localhost
+    api_host = os.getenv("API_HOST", "redflag-api") 
+    api_url = f"http://{api_host}:8000/triage/triage"  # Vérifier si le préfixe est /triage dans main.py
 
-    with st.spinner("⏳ Analyse en cours..."):
-        # Créer le patient
-        patient = Patient(
-            age=case_data['age'],
-            sexe=case_data['sexe'],
-            motif_consultation=case_data['motif'],
-            constantes=Constantes(**case_data['constantes'])
-        )
-
-        # Initialiser l'agent
+    with st.spinner("📡 Communication avec le cerveau central (API)..."):
         try:
-            agent = TriageAgent(
-                ml_model_path="models/trained/triage_model.json",
-                ml_preprocessor_path="models/trained/preprocessor.pkl",
-                vector_store_path="data/vector_store/medical_kb.pkl" if use_rag else None,
-                use_rag=use_rag
-            )
+            # 2. Préparation de la requête (Mapping des données)
+            # L'API attend un schéma "PatientInput"
+            payload = {
+                "age": case_data['age'],
+                "sexe": case_data['sexe'],
+                "motif_consultation": case_data['motif'], # Attention: 'motif' vs 'motif_consultation'
+                "constantes": case_data['constantes']
+            }
+            
+            # Paramètre query string pour RAG
+            params = {"use_rag": str(use_rag).lower()}
 
-            # Effectuer le triage
+            # 3. Appel HTTP
             start_time = time.time()
-            result = agent.triage(patient)
+            response = requests.post(api_url, json=payload, params=params, timeout=30)
             end_time = time.time()
 
-            # Afficher les résultats
-            display_triage_result(result, case_data, end_time - start_time, show_metrics, case_name)
+            # 4. Traitement de la réponse
+            if response.status_code == 200:
+                api_json = response.json()
+                
+                # 5. Reconstruction de l'objet TriageResult pour l'affichage
+                # On convertit le JSON reçu en objet Python que l'interface sait afficher
+                result = TriageResult(
+                    gravity_level=GravityLevel(api_json["french_triage_level"]), # Ou "predicted_level" selon ton enum
+                    confidence_score=api_json["confidence_score"],
+                    justification=api_json["justification"],
+                    # Champs optionnels
+                    ml_score=api_json.get("ml_score", 0.0),
+                    latency_ml=0.0, # L'API devrait renvoyer ces métriques idéalement
+                    latency_llm=0.0
+                )
+                
+                # Si l'API renvoie le temps de traitement dans le JSON, on peut l'utiliser
+                if "processing_time_ms" in api_json:
+                    result.latency_ml = api_json["processing_time_ms"] / 1000
 
+                # Affichage standard
+                from src.interface.components.simulation_mode import display_triage_result
+                display_triage_result(result, case_data, end_time - start_time, show_metrics, case_name)
+
+            else:
+                st.error(f"❌ Erreur API ({response.status_code})")
+                st.code(response.text, language="json")
+
+        except requests.exceptions.ConnectionError:
+            st.error(f"❌ Impossible de contacter l'API à l'adresse : {api_url}")
+            st.info("💡 Vérifiez que le conteneur 'redflag-api' est bien démarré.")
         except Exception as e:
-            st.error(f"❌ Erreur lors du triage : {str(e)}")
-            st.exception(e)
-
+            st.error(f"❌ Erreur technique : {str(e)}")
+            # Pour le debug, afficher le payload envoyé
+            with st.expander("Détails techniques"):
+                st.write("URL:", api_url)
+                st.json(payload)
 
 def display_triage_result(result, case_data: Dict, total_time: float, show_metrics: bool, case_name: str):
     """Affiche les résultats du triage de manière visuelle"""

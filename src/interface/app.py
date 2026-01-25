@@ -67,8 +67,12 @@ st.markdown("""
 
     /* Sidebar styling */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
-    }
+       background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+       color: #212529;  /* <--- AJOUTEZ CETTE LIGNE (Gris très foncé) */
+   }
+    [data-testid="stSidebar"] * {
+       color: #212529 !important;
+   }
 
     /* Niveaux de triage - Design moderne */
     .triage-rouge {

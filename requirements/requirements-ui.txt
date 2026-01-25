@@ -1,0 +1,5 @@
+streamlit
+requests
+pandas
+# python-dotenv (si besoin de charger des .env)
+# plotly (si vous faites des graphiques)

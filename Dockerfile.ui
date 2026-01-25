@@ -29,15 +29,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copie des fichiers de dépendances
-COPY requirements.txt .
+# 1. Récupération de uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Installation des dépendances Python (full requirements pour triage local)
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+COPY requirements/requirements-ui.txt .
 
-# Pré-téléchargement du modèle d'embeddings
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+# 2. Installation Intelligente avec Cache Mount
+# --mount=type=cache : Crée un volume persistant pour le cache uv
+# target=/root/.cache/uv : L'emplacement par défaut du cache uv dans le conteneur
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install \
+    --system \
+    --compile-bytecode \
+    -r requirements-ui.txt
 
 # Copie du code source de l'interface et des dépendances
 COPY src/interface/ ./src/interface/

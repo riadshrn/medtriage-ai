@@ -12,12 +12,10 @@ import json
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
+# --- IMPORTS OK (Modèles de données légers) ---
 from src.models.patient import Patient
 from src.models.constantes_vitales import ConstantesVitales as Constantes
-from src.agents.triage_agent import TriageAgent
 from src.models.gravity_level import GravityLevel
-from src.llm.patient_simulator import PatientSimulator, RuleBasedPatientSimulator, get_patient_simulator
-
 
 # Questions suggérées par catégorie
 SUGGESTED_QUESTIONS = {
@@ -284,37 +282,46 @@ def process_nurse_input(nurse_input: str):
 
     # Générer réponse patient (Mistral ou règles)
     use_mistral = st.session_state.get('use_mistral', False)
+    patient_response = None
 
+    # 1. Tentative avec Mistral (si activé)
     if use_mistral:
-        # Utiliser le simulateur Mistral
-        model = st.session_state.get('mistral_model', 'mistral-small-latest')
-        simulator = PatientSimulator(model=model)
+        try:
+            # --- LAZY IMPORT CRITIQUE ---
+            from src.llm.patient_simulator import PatientSimulator
+            
+            model = st.session_state.get('mistral_model', 'mistral-small-latest')
+            simulator = PatientSimulator(model=model)
 
-        if simulator.is_available():
-            llm_response = simulator.generate_response(
-                persona=st.session_state.patient_persona,
-                nurse_question=nurse_input,
-                chat_history=st.session_state.chat_history
-            )
-            patient_response = llm_response.content
-            st.session_state.last_llm_response = llm_response
-        else:
-            # Fallback vers règles si Mistral indisponible
-            patient_response = generate_patient_response(
-                st.session_state.patient_persona,
-                st.session_state.chat_history,
-                nurse_input
-            )
-            st.session_state.last_llm_response = None
-    else:
-        # Mode règles (fallback)
+            if simulator.is_available():
+                llm_response = simulator.generate_response(
+                    persona=st.session_state.patient_persona,
+                    nurse_question=nurse_input,
+                    chat_history=st.session_state.chat_history
+                )
+                patient_response = llm_response.content
+                st.session_state.last_llm_response = llm_response
+            
+        except ImportError:
+            # Cas où les dépendances lourdes sont absentes (Container UI)
+            pass
+        except Exception as e:
+            # Cas d'erreur inattendue avec le simulateur
+            print(f"Erreur Simulateur: {e}")
+            pass
+
+    # 2. Fallback universel (Règles)
+    # S'exécute si : Mistral désactivé OU Import échoué OU API indisponible
+    if patient_response is None:
         patient_response = generate_patient_response(
             st.session_state.patient_persona,
             st.session_state.chat_history,
             nurse_input
         )
+        # On nettoie la dernière réponse LLM car on est repassé en règles
         st.session_state.last_llm_response = None
 
+    # 3. Finalisation
     st.session_state.chat_history.append({
         "role": "patient",
         "content": patient_response
@@ -759,6 +766,8 @@ def perform_final_triage():
 
     with st.spinner("🧠 Analyse et triage en cours..."):
         try:
+            from src.agents.triage_agent import TriageAgent
+
             patient = Patient(
                 age=st.session_state.patient_data["age"],
                 sexe=st.session_state.patient_data["sexe"],
