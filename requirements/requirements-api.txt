@@ -5,3 +5,7 @@ numpy
 pandas
 xgboost
 scikit-learn
+python-multipart
+litellm
+ecologits[litellm]
+rapidfuzz

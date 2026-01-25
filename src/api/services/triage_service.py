@@ -1,9 +1,10 @@
 import sys
 from pathlib import Path
-from typing import Optional
 import time
 import pandas as pd
 import numpy as np
+import json
+from datetime import datetime
 
 # Imports internes
 from src.api.ml.classifier import TriageClassifier
@@ -17,28 +18,33 @@ class TriageService:
         
         self.french_engine = FrenchTriageEngine()
         self._classifier = None 
-        
-        # --- FIX 1 : On définit la version ici ---
         self.model_version = "v2.0.0-hybrid"
 
     def _load_ml_model(self):
-        """Lazy loading via le wrapper legacy"""
         if self._classifier is None:
             try:
                 self._classifier = TriageClassifier.load(
                     model_path=self.ml_model_path,
                     preprocessor_path=self.ml_preprocessor_path
                 )
-                print(f"✅ Modèle ML chargé via TriageClassifier")
             except Exception as e:
                 print(f"⚠️ Erreur chargement ML : {e}")
 
+    def _save_to_history(self, result: dict):
+        """Sauvegarde simple"""
+        try:
+            with open("data/history.json", "a") as f:
+                f.write(json.dumps({
+                    "timestamp": datetime.now().isoformat(),
+                    **result
+                }) + "\n")
+        except Exception:
+            pass
+
     def predict(self, patient: PatientInput) -> dict:
-        """
-        Pipeline: 1. FRENCH -> 2. ML (si dispo) -> 3. Fusion
-        """
-        # 1. ÉVALUATION FRENCH
-        # On map le schéma Pydantic vers la dataclass du moteur
+        start_time = time.time() # <--- START CHRONO
+
+        # 1. FRENCH TRIAGE
         constantes_legacy = ConstantesVitales(
             frequence_cardiaque=patient.constantes.frequence_cardiaque,
             frequence_respiratoire=patient.constantes.frequence_respiratoire,
@@ -58,17 +64,14 @@ class TriageService:
             antecedents=patient.antecedents
         )
 
-        # 2. PRÉDICTION ML
+        # 2. ML PREDICTION
         ml_score = 0.5
         ml_prediction = None
         
         try:
             self._load_ml_model()
             if self._classifier:
-                # --- FIX 2 : Accès sécurisé à la glycémie ---
-                # On utilise getattr pour éviter le crash si le champ manque
-                glycemie_val = getattr(patient.constantes, 'glycemie', None)
-                
+                # --- CORRECTION COLONNES ICI (On retire glycemie) ---
                 features = {
                     'age': patient.age,
                     'sexe': patient.sexe,
@@ -79,55 +82,49 @@ class TriageService:
                     'frequence_respiratoire': patient.constantes.frequence_respiratoire,
                     'temperature': patient.constantes.temperature,
                     'saturation_oxygene': patient.constantes.saturation_oxygene,
-                    'echelle_douleur': patient.constantes.echelle_douleur,
-                    'glycemie': glycemie_val  # Passé de manière sûre
+                    'echelle_douleur': patient.constantes.echelle_douleur
+                    # PAS DE GLYCEMIE !
                 }
                 
                 df = pd.DataFrame([features])
                 y_pred, y_proba, _ = self._classifier.predict(df)
-                
                 ml_prediction = y_pred[0]
                 ml_score = float(np.max(y_proba[0]))
 
         except Exception as e:
-            print(f"Erreur ML: {e}") 
-            # On continue même si le ML plante (Graceful degradation)
+            print(f"Erreur ML: {e}")
 
         # 3. CONSOLIDATION
-        confidence = self._calculate_confidence(french_result, ml_score, ml_prediction)
-        justif = self._build_justification(french_result, ml_prediction)
+        confidence = 0.75
+        if ml_prediction and ml_prediction == french_result["gravity_level"]:
+            confidence += 0.15
+        if len(french_result["red_flags"]) > 0:
+            confidence = 0.95
 
-        return {
+        justif = f"Niveau {french_result['french_triage_level']}."
+        if french_result['red_flags']: justif += f" Alertes: {french_result['red_flags']}."
+        
+        # --- CALCUL FINAL DU TEMPS ---
+        duration_ms = (time.time() - start_time) * 1000
+
+        final_response = {
             "gravity_level": french_result["gravity_level"],
             "french_triage_level": french_result["french_triage_level"],
-            "confidence_score": confidence,
+            "confidence_score": min(confidence, 0.99),
             "justification": justif,
             "red_flags": french_result["red_flags"],
             "recommendations": french_result["recommendations"],
             "orientation": french_result["orientation"],
             "delai_prise_en_charge": french_result["delai_prise_en_charge"],
-            "model_version": self.model_version, # Maintenant ça existe !
-            "ml_score": ml_score
+            "model_version": self.model_version,
+            "ml_score": ml_score,
+            "processing_time_ms": duration_ms # <--- C'EST LUI QUI MANQUAIT
         }
+        
+        self._save_to_history(final_response)
+        return final_response
 
-    def _calculate_confidence(self, french_res, ml_score, ml_pred):
-        conf = 0.75
-        if ml_pred and ml_pred == french_res["gravity_level"]:
-            conf += 0.15
-        if len(french_res["red_flags"]) > 0:
-            conf = 0.95
-        return min(conf, 0.99)
-
-    def _build_justification(self, french_res, ml_pred):
-        text = f"Niveau {french_res['french_triage_level']} déterminé par protocole."
-        if french_res['red_flags']:
-            text += f" Alertes: {', '.join(french_res['red_flags'])}."
-        if ml_pred:
-            accord = "confirme" if ml_pred == french_res['gravity_level'] else f"suggère {ml_pred}"
-            text += f" (IA {accord})"
-        return text
-
-# Instance unique
+# Instance
 _service = TriageService()
 def get_triage_service():
     return _service

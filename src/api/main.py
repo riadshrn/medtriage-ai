@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 # 1. On importe le routeur qu'on vient de créer
-from src.api.routes import triage # <--- NOUVEAU
+from src.api.routes import triage, conversation # <--- NOUVEAU
 
 app = FastAPI(
     title="RedFlag API",
@@ -10,7 +10,8 @@ app = FastAPI(
 
 # 2. On l'inclut dans l'application
 # prefix="/triage" signifie que toutes les routes commenceront par /triage
-app.include_router(triage.router, prefix="/triage", tags=["Triage"]) # <--- NOUVEAU
+app.include_router(triage.router, prefix="/triage", tags=["Triage"])
+app.include_router(conversation.router, prefix="/conversation", tags=["Conversation"]) # <--- AJOUT
 
 @app.get("/")
 def read_root():

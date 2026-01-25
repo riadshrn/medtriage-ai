@@ -8,6 +8,7 @@ WORKDIR /app
 ENV UV_SYSTEM_PYTHON=1
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_CACHE_DIR=/root/.cache/uv/ 
+ENV UV_LINK_MODE=copy
 
 # Installation des dépendances
 COPY requirements/requirements-api.txt .
@@ -16,9 +17,6 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 # Copie du code source complet (API + ML + Data + Scripts)
 COPY src/ ./src/
-
-# Copie des données brutes (Le CSV que vous avez fourni)
-COPY data/ ./data/
 
 EXPOSE 8000
 

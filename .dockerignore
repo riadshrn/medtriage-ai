@@ -1,0 +1,15 @@
+# .dockerignore
+.git
+.gitignore
+.env
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+# Ignore les dossiers lourds qu'on monte en volume de toute façon
+data/
+models/
+# Ignore les fichiers de log ou de monitoring locaux
+*.log

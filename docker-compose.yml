@@ -10,8 +10,12 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      # LE LIEN VITAL : Ton code local remplace celui du conteneur en temps réel
       - ./src:/app/src
+      - ./models:/app/models
+      - ./data:/app/data
+    # CORRECTION ICI : On ajoute le .env proprement pour l'API
+    env_file:
+      - .env
     networks:
       - redflag-network
 
@@ -26,10 +30,11 @@ services:
     ports:
       - "8501:8501"
     volumes:
-      # Idem pour l'UI
       - ./src:/app/src
+    # CORRECTION ICI : On nettoie les commentaires
+    env_file:
+      - .env
     environment:
-      # L'UI saura toujours où est l'API grâce au nom du service Docker
       - API_URL=http://api:8000
     depends_on:
       - api
