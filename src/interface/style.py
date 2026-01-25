@@ -7,8 +7,8 @@ def apply_style():
         /* Import Google Font */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-        /* Appliquer la police partout */
-        html, body, [class*="st-"] {
+        /* Appliquer la police sur le texte uniquement, pas sur les icônes */
+        html, body, p, h1, h2, h3, h4, h5, h6, span, div, label, button, input, textarea {
             font-family: 'Roboto', sans-serif;
         }
 

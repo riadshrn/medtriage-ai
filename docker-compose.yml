@@ -1,115 +1,41 @@
-# RedFlag-AI - Docker Compose
-# Lance l'application complète avec toutes ses dépendances
-
-version: '3.8'
-
 services:
   # ============================================
-  # Service principal - Interface Streamlit
+  # SERVICE API (Backend - Cerveau)
   # ============================================
-  app:
+  api:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: redflag-app
+      dockerfile: Dockerfile.api
+    container_name: redflag-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # LE LIEN VITAL : Ton code local remplace celui du conteneur en temps réel
+      - ./src:/app/src
+    networks:
+      - redflag-network
+
+  # ============================================
+  # SERVICE UI (Frontend - Visage)
+  # ============================================
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+    container_name: redflag-ui
     ports:
       - "8501:8501"
     volumes:
-      # Persistance des données
-      - ./data:/app/data
-      - ./models:/app/models
-      # Code source (pour développement)
-      - ./src:/app/src:ro
-      - ./docs:/app/docs:ro
+      # Idem pour l'UI
+      - ./src:/app/src
     environment:
-      - PYTHONPATH=/app
-      - STREAMLIT_SERVER_PORT=8501
-      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
-      - STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
+      # L'UI saura toujours où est l'API grâce au nom du service Docker
+      - API_URL=http://api:8000
     depends_on:
-      init:
-        condition: service_completed_successfully
+      - api
+    networks:
+      - redflag-network
 
-  # ============================================
-  # Service d'initialisation (setup unique)
-  # ============================================
-  init:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: redflag-init
-    volumes:
-      - ./data:/app/data
-      - ./models:/app/models
-      - ./docs:/app/docs:ro
-      - ./scripts:/app/scripts:ro
-    environment:
-      - PYTHONPATH=/app
-    command: >
-      bash -c "
-        echo '============================================' &&
-        echo 'RedFlag-AI - Initialisation' &&
-        echo '============================================' &&
-
-        # Vérification/génération du dataset
-        if [ ! -f /app/data/raw/patients_synthetic.csv ]; then
-          echo '[1/3] Generation du dataset...' &&
-          python scripts/generate_dataset.py --n_samples 1000 --output data/raw/patients_synthetic.csv
-        else
-          echo '[1/3] Dataset existe deja.'
-        fi &&
-
-        # Vérification/entraînement du modèle ML
-        if [ ! -f /app/models/trained/triage_model.json ]; then
-          echo '[2/3] Entrainement du modele ML...' &&
-          python scripts/train_model.py --data data/raw/patients_synthetic.csv --output models/trained
-        else
-          echo '[2/3] Modele ML existe deja.'
-        fi &&
-
-        # Vérification/construction du vector store
-        if [ ! -f /app/data/vector_store/medical_kb.faiss ]; then
-          echo '[3/3] Construction de la base de connaissances...' &&
-          python scripts/build_knowledge_base.py --input docs/medical_knowledge.md --output data/vector_store/medical_kb
-        else
-          echo '[3/3] Base de connaissances existe deja.'
-        fi &&
-
-        echo '============================================' &&
-        echo 'Initialisation terminee!' &&
-        echo '============================================'
-      "
-
-  # ============================================
-  # Service CLI (pour tests manuels)
-  # ============================================
-  cli:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: redflag-cli
-    volumes:
-      - ./data:/app/data
-      - ./models:/app/models
-      - ./src:/app/src:ro
-      - ./scripts:/app/scripts:ro
-    environment:
-      - PYTHONPATH=/app
-    entrypoint: ["python"]
-    command: ["scripts/run_triage.py", "--patient-id", "random", "--no-rag", "--verbose"]
-    profiles:
-      - cli
-
-# ============================================
-# Volumes persistants
-# ============================================
-volumes:
-  data:
-  models:
+networks:
+  redflag-network:
+    driver: bridge

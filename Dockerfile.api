@@ -1,48 +1,31 @@
-# RedFlag-AI - API Backend (FastAPI)
-# Dockerfile pour le déploiement de l'API REST
-
+# Image de base légère
 FROM python:3.11-slim
 
-LABEL maintainer="RedFlag-AI Team"
-LABEL description="API REST pour le triage des urgences"
-LABEL version="2.0.0"
+# 1. Récupération de l'exécutable 'uv' (Le secret de la vitesse)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Variables d'environnement
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
-
-# Répertoire de travail
 WORKDIR /app
 
-# Installation des dépendances système
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+# 2. Configuration de uv
+# - UV_SYSTEM_PYTHON=1 : Installe directement dans l'environnement global (pas de venv inutile dans Docker)
+# - UV_COMPILE_BYTECODE=1 : Compile le python (.pyc) à l'installation pour un démarrage plus rapide
+ENV UV_SYSTEM_PYTHON=1
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_CACHE_DIR=/root/.cache/uv/ 
 
-# Copie des fichiers de dépendances
-COPY requirements.txt .
+# 3. Copie des dépendances API uniquement
+COPY requirements/requirements-api.txt .
 
-# Installation des dépendances Python
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+# 4. Installation avec Cache
+# C'est ici que la magie opère : Docker garde les paquets en cache sur ton disque
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install -r requirements-api.txt
 
-# Pré-téléchargement du modèle d'embeddings
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
-
-# Copie du code source
+# 5. Copie du code (Pour l'image de prod, mais en dev le volume écrasera ça)
 COPY src/ ./src/
 
-# Création des répertoires de données
-RUN mkdir -p data/raw data/vector_store models/trained
-
-# Exposition du port API
+# Port API
 EXPOSE 8000
 
-# Healthcheck
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
-
-# Commande par défaut
-CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Lancement avec reload pour le développement
+CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
