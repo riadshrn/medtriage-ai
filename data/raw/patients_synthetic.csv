@@ -1,0 +1,1001 @@
+id,age,sexe,motif_consultation,frequence_cardiaque,pression_systolique,pression_diastolique,frequence_respiratoire,temperature,saturation_oxygene,echelle_douleur,glycemie,antecedents,traitements_en_cours,gravity_level
+8de7f9b3-1e4a-457f-9371-09fdeea79335,16,Autre,Fièvre modérée,67,128,83,17,37.6,94,2,0.9,Hypertension artérielle,"Bêta-bloquant, Diurétique, Corticoïde inhalé",VERT
+e00a4ba7-0987-45cf-9d90-27231b5839e4,56,M,Douleur abdominale intense,98,170,94,25,36.0,91,6,0.8,"Coronaropathie, Insuffisance cardiaque",Antiagrégant plaquettaire,JAUNE
+2f6421cc-8c28-4810-a57b-05a8b7d5061a,39,M,Nausées,69,131,77,19,37.2,94,4,,Diabète type 2,"Statine, Bêta-bloquant",VERT
+321eb80c-fbd9-48b0-a2dc-7e6fabec9619,38,M,Fièvre modérée,71,129,90,17,37.2,94,3,,,,VERT
+05afd282-8722-41dc-b0f9-833c519d016d,32,Autre,Douleur dorsale,77,117,71,17,37.3,94,4,,,,VERT
+ae810c1a-2fb6-41a8-b721-d8adcb5073a1,66,Autre,Fièvre élevée avec frissons,86,102,67,28,39.4,93,7,,"AVC antérieur, Coronaropathie, Diabète type 2",Antiagrégant plaquettaire,JAUNE
+774cdd48-53e6-4dff-893f-688b576a238f,21,M,Renouvellement d'ordonnance,80,129,72,15,37.3,100,1,1.4,Insuffisance rénale,Antidiabétique oral,GRIS
+422b42fb-4e4a-4379-b69c-2e6172f26280,49,F,Douleur dorsale,70,140,78,15,37.7,94,3,,,,VERT
+40226144-c85e-46ef-8aeb-e1ed3c36bfb5,68,Autre,Nausées,79,129,80,17,38.3,94,5,1.4,"BPCO, Hypertension artérielle",Antidiabétique oral,VERT
+6371af76-0111-4ed5-8cff-e2e59b1c8412,49,M,Rhume léger,64,118,83,15,37.2,98,0,,"BPCO, Insuffisance cardiaque, Insuffisance rénale","Diurétique, Bêta-bloquant, Statine",GRIS
+10c0e961-89d1-4b38-b26e-278506a5b675,30,M,Entorse légère,70,110,72,14,36.7,95,2,1.3,Diabète type 2,"Bêta-bloquant, Anticoagulant, Diurétique",VERT
+5f5be76e-80e5-41fb-899a-8144403bf7c8,49,M,Douleur dorsale,89,116,73,21,38.0,97,2,,"Cancer en rémission, Hypertension artérielle","Antidiabétique oral, Antihypertenseur, Bêta-bloquant",VERT
+9f0ba62f-a202-48ab-a106-782e7442eb2b,36,M,Difficulté respiratoire modérée,86,101,74,28,38.7,93,5,1.3,BPCO,Corticoïde inhalé,JAUNE
+86015530-b0ad-4934-b6c2-f6961c5dd728,28,F,Entorse légère,65,119,83,20,37.9,97,5,0.9,Insuffisance rénale,Diurétique,VERT
+934b7387-7216-4fc3-99a0-c702f0730eae,55,F,Rhume léger,76,115,72,15,36.6,97,2,1.3,"BPCO, Hypertension artérielle, Insuffisance cardiaque",Corticoïde inhalé,GRIS
+064e2cc2-7122-4897-8502-9e231f444a48,51,Autre,Fièvre modérée,89,118,82,18,38.2,95,3,,,,VERT
+9f4c6242-6336-4a48-be23-258acf3d39c1,63,M,Entorse légère,74,114,81,15,37.7,96,2,,Cancer en rémission,"Statine, Antiagrégant plaquettaire, Diurétique",VERT
+5e807453-e0f3-481f-8bab-4d26001bed76,57,Autre,Fièvre modérée,89,138,73,15,36.6,94,3,1.1,Insuffisance cardiaque,"Antiagrégant plaquettaire, Anticoagulant, Antihypertenseur",VERT
+43700594-ecec-47e5-a879-23f64b946945,45,F,Consultation de suivi,60,115,84,16,37.3,99,2,,Diabète type 2,"Anticoagulant, Statine, Antihypertenseur",GRIS
+654f8864-2103-42c5-8487-bb14cba4cbc4,67,Autre,Difficulté respiratoire modérée,93,166,100,23,38.9,90,6,,"AVC antérieur, Asthme, Diabète type 2",Anticoagulant,JAUNE
+4a0e467e-78f6-4bcb-b88e-7a280206707d,31,M,Déshydratation sévère,109,101,72,26,36.4,91,5,,,,JAUNE
+804c87e5-1007-4258-b82a-b365af6a33f3,59,F,Fièvre élevée avec frissons,106,101,68,24,39.2,93,7,,"Coronaropathie, Hypertension artérielle, Cancer en rémission","Anticoagulant, Statine",JAUNE
+dd050adb-e711-447b-af5b-52955eb894be,0,Autre,Hémorragie importante,152,88,46,40,41.0,73,9,1.1,BPCO,"Corticoïde inhalé, Antihypertenseur",ROUGE
+81debd2b-d3fa-4470-9278-bd53af90541b,51,Autre,Fièvre élevée avec frissons,101,170,96,22,36.3,92,7,,,,JAUNE
+be583cf3-f47e-4416-acff-bb9b7cca6589,39,Autre,Douleur dorsale,88,119,79,16,36.8,94,3,,Coronaropathie,"Antiagrégant plaquettaire, Bêta-bloquant",VERT
+da80d089-929a-45d3-b22c-a57e3d9ccb1d,47,F,Douleur dorsale,65,112,77,15,38.2,96,4,0.8,,,VERT
+adb444d0-c1e5-4b51-bb68-d179b2fefb02,45,Autre,Entorse légère,74,125,82,20,37.1,97,3,1.2,AVC antérieur,Anticoagulant,VERT
+e05c0a50-660a-4ab1-9898-7ab02f211eca,74,Autre,Douleur abdominale intense,81,176,98,24,36.1,91,7,,"Insuffisance rénale, AVC antérieur, Cancer en rémission","Antiagrégant plaquettaire, Antidiabétique oral, Diurétique",JAUNE
+06ba9699-02c0-4b08-9480-2bf95583619b,58,F,Difficulté respiratoire modérée,106,101,69,25,36.5,91,6,1.1,,,JAUNE
+25a39957-4bec-4270-8d40-514169532c27,59,M,Douleur dorsale,66,123,71,15,36.8,97,3,,"Hypertension artérielle, AVC antérieur, BPCO",Diurétique,VERT
+700bad0b-fc2d-4573-bfc3-d18b15038c9c,39,F,Nausées,83,110,82,17,36.8,97,4,,Asthme,"Anticoagulant, Statine",VERT
+acc03ef5-c7a2-4bf9-b012-565551e396fd,40,Autre,Nausées,81,115,71,14,37.9,97,4,0.8,"Insuffisance cardiaque, AVC antérieur","Antidiabétique oral, Bêta-bloquant",VERT
+6fa0b109-a9a8-418f-85a4-c6a158e51773,52,M,Certificat médical,67,110,77,14,37.3,97,0,,Asthme,"Antidiabétique oral, Statine",GRIS
+80e89397-ac7e-4f01-8261-c1c7e02cdfb9,59,Autre,Fièvre élevée avec frissons,104,165,94,26,39.1,90,5,,"AVC antérieur, Insuffisance rénale, Coronaropathie",Antidiabétique oral,JAUNE
+11394337-fe52-488f-8415-f720d86406b3,68,Autre,Douleur abdominale modérée,63,135,88,18,37.1,94,2,1.0,"Coronaropathie, Hypertension artérielle, AVC antérieur","Antiagrégant plaquettaire, Antihypertenseur",VERT
+35e10d52-4ee0-4a2e-88cf-dc70c1814cf2,38,Autre,Mal de tête persistant,82,129,87,16,37.2,96,5,,Insuffisance cardiaque,"Bêta-bloquant, Corticoïde inhalé",VERT
+c92a5f2d-1133-451b-b321-4cefe10b26e7,47,F,Difficulté respiratoire modérée,104,105,65,28,39.2,92,8,0.9,"Insuffisance cardiaque, Hypertension artérielle, Insuffisance rénale",Antidiabétique oral,JAUNE
+42f9cdae-9471-4819-8d6d-0ea36beb52df,41,F,Nausées,84,124,70,17,37.1,97,2,1.0,,,VERT
+6db0d845-249c-4b87-a1c7-ad7a9fbd132a,38,F,Nausées,76,121,84,19,37.2,96,4,0.9,Coronaropathie,Anticoagulant,VERT
+b390d072-f285-4df1-b701-4523cbf21a40,48,F,Rhume léger,76,116,79,18,36.8,97,0,0.9,Insuffisance cardiaque,Antihypertenseur,GRIS
+38987460-25fb-4059-ad24-b4fde5661ed4,59,M,Douleur dorsale,87,125,85,21,37.5,96,5,1.4,,,VERT
+59b74acd-d288-4b87-8574-02543feffe82,37,M,Douleur abdominale intense,95,109,69,22,39.2,91,5,,,,JAUNE
+a4780c2a-9773-430f-b878-150451e34eab,68,Autre,Traumatisme crânien léger,87,109,61,27,38.9,93,5,,,,JAUNE
+0606a61d-7078-49be-a6d5-6b8c447e36be,57,M,Douleur abdominale modérée,67,124,89,16,36.7,97,5,0.9,"Cancer en rémission, Diabète type 2, Coronaropathie",Statine,VERT
+6962c8e8-992d-4ad1-9878-5781c910c66e,70,Autre,Déshydratation sévère,105,164,91,24,39.0,91,5,1.2,"Cancer en rémission, Diabète type 2","Statine, Diurétique",JAUNE
+1647b22e-b8a0-420b-b697-9f5a0149d072,32,Autre,Nausées,75,133,80,21,37.5,97,4,0.9,Hypertension artérielle,"Statine, Antiagrégant plaquettaire, Antihypertenseur",VERT
+cd196b69-4e41-4681-9901-127285f521da,41,F,Traumatisme crânien léger,100,175,91,28,36.2,93,8,1.2,"AVC antérieur, Cancer en rémission","Corticoïde inhalé, Antiagrégant plaquettaire",JAUNE
+6baa7c78-af29-4fcb-8c49-f36a8e8ea8f4,32,F,Douleur thoracique atypique,90,160,100,25,39.5,93,8,,,,JAUNE
+e51a12aa-b363-4961-9051-deba64115135,63,F,Douleur dorsale,74,124,85,14,38.0,96,2,1.1,"Asthme, Insuffisance cardiaque, Cancer en rémission",Corticoïde inhalé,VERT
+6a438fca-ac64-482e-9225-66a5c9e1d723,25,F,Consultation de suivi,80,126,78,15,37.0,99,1,,BPCO,"Anticoagulant, Bêta-bloquant",GRIS
+bf7abb1f-bdb7-4743-9871-dc53ce8380dc,56,Autre,Renouvellement d'ordonnance,62,120,78,16,37.3,100,0,0.9,"Cancer en rémission, Asthme, BPCO","Antiagrégant plaquettaire, Anticoagulant, Corticoïde inhalé",GRIS
+ea58ca15-2c69-43e3-8d17-be0f54f831f9,49,F,Mal de tête persistant,89,128,82,19,37.5,95,3,,"Cancer en rémission, AVC antérieur","Anticoagulant, Bêta-bloquant",VERT
+9836a12f-5351-490d-8365-9c084db1f5ed,4,F,Choc,136,206,127,42,35.9,70,10,,,,ROUGE
+39cb49f5-a391-4614-abea-1fb412c41984,46,F,Traumatisme crânien léger,102,180,97,27,36.9,93,5,,,,JAUNE
+cdcdcd27-1f20-4f6c-b7f3-e8f6b30399c6,33,M,Douleur dorsale,62,124,75,20,37.3,94,4,,,,VERT
+7e4d3917-f76f-46b0-a140-5505d8b3b6a5,48,F,Fièvre élevée avec frissons,93,101,72,23,38.9,91,6,,Cancer en rémission,"Statine, Bêta-bloquant, Anticoagulant",JAUNE
+f28864eb-9cc6-4dbf-aec8-595affa36c25,66,F,Fièvre modérée,81,130,83,16,38.4,96,4,,"Cancer en rémission, Diabète type 2",Corticoïde inhalé,VERT
+be7ea17c-670b-4cb9-b015-76b703ed92f2,51,F,Douleur dorsale,69,110,88,14,37.2,96,2,,"BPCO, Coronaropathie",Bêta-bloquant,VERT
+24e18cdb-7f4f-4201-87c1-b2f0dddf52b3,58,Autre,Douleur dorsale,81,119,84,16,37.4,94,2,,Insuffisance cardiaque,"Corticoïde inhalé, Antidiabétique oral",VERT
+75789f7b-7bd6-4a19-aabd-e1d11c69206d,65,Autre,Fièvre modérée,76,140,79,18,36.8,97,4,,Asthme,Corticoïde inhalé,VERT
+c4ac5d06-c32c-4991-87ec-c80c8ed7eeff,83,M,Choc,125,196,118,26,35.1,81,9,,BPCO,"Antihypertenseur, Statine",ROUGE
+4896c0a8-d074-4202-bb07-e1c7e86e774f,65,F,Traumatisme crânien léger,87,163,92,22,36.5,92,5,,"Diabète type 2, Insuffisance rénale",Anticoagulant,JAUNE
+9739844e-b33a-41e7-b825-8da94e6eed62,38,Autre,Douleur dorsale,82,130,73,20,37.2,97,5,,Insuffisance cardiaque,Diurétique,VERT
+1d923a13-8d45-4f93-97db-99b02ed62141,43,M,Fièvre modérée,63,111,82,19,37.5,96,4,0.8,"Diabète type 2, BPCO","Antihypertenseur, Antiagrégant plaquettaire, Anticoagulant",VERT
+b13c97f8-9e0a-45d1-8027-80c809b04276,23,Autre,Douleur abdominale modérée,62,120,74,17,37.3,95,2,1.4,Insuffisance rénale,"Anticoagulant, Antihypertenseur",VERT
+a7dcf7d1-57ee-4501-abd1-0205802be31b,16,M,Entorse légère,71,111,74,17,36.5,96,5,,Cancer en rémission,"Diurétique, Statine",VERT
+4bc46466-d8db-482f-ab53-c544740da489,43,Autre,Douleur abdominale modérée,90,124,90,14,37.4,96,2,1.0,"Diabète type 2, Cancer en rémission, Coronaropathie","Antidiabétique oral, Antihypertenseur",VERT
+0b668ed3-186e-46ab-8d72-add7dee3209b,24,M,Douleur abdominale modérée,68,124,86,19,38.1,96,5,1.2,Insuffisance rénale,"Bêta-bloquant, Antiagrégant plaquettaire, Corticoïde inhalé",VERT
+4b6f24a5-e49b-4775-82f3-f2c8c8b1ffe7,56,F,Douleur abdominale intense,92,171,92,27,36.3,92,8,0.8,,,JAUNE
+3a843428-8028-42ff-a9d7-9d515cabf6cd,38,Autre,Douleur thoracique atypique,98,161,94,26,36.4,93,7,0.8,BPCO,Diurétique,JAUNE
+76bb6b85-b46e-4564-b3b9-c304db097d31,53,M,Fièvre élevée avec frissons,98,168,90,24,36.8,90,6,1.3,Asthme,"Corticoïde inhalé, Antihypertenseur, Antidiabétique oral",JAUNE
+923617d4-4fa2-42ae-ad5b-f7008e72e286,31,M,Déshydratation sévère,96,105,62,24,39.0,91,5,0.7,,,JAUNE
+2574d4d7-ec1b-4e45-b76f-f5b6acff4a25,42,F,Nausées,74,121,83,20,38.3,94,2,1.2,"Insuffisance cardiaque, Hypertension artérielle, Diabète type 2","Antihypertenseur, Antiagrégant plaquettaire",VERT
+de2998c2-65be-4dcf-9edf-3441b9c52aba,28,M,Fièvre modérée,69,115,74,19,38.0,97,5,,,,VERT
+7c87112d-45ad-4039-bd80-cf8b608cd1ff,57,F,Entorse légère,72,137,80,14,37.0,94,5,,"Insuffisance cardiaque, Diabète type 2","Antihypertenseur, Anticoagulant",VERT
+3d34196e-ff23-4172-ac6e-e80993cc7929,57,F,Certificat médical,62,123,82,17,37.3,98,2,1.3,Coronaropathie,Antidiabétique oral,GRIS
+9512964e-55ba-4d32-b7cd-ed782edd0483,22,Autre,Nausées,66,117,73,19,38.5,95,3,0.8,,,VERT
+9a0b29de-4571-49d8-8bed-9c0639de65aa,34,M,Déshydratation sévère,95,178,100,28,36.8,93,7,,Asthme,"Antidiabétique oral, Bêta-bloquant",JAUNE
+50676f40-d193-4219-9771-42206dcdd9c1,34,F,Nausées,61,111,71,19,36.8,97,4,,,,VERT
+8fbd0b1c-ac80-4597-b2b6-575f30cb286e,35,Autre,Traumatisme crânien léger,96,178,100,27,39.1,90,6,0.8,,,JAUNE
+2fdd7e60-ea43-4d05-be65-90d822f6978e,39,Autre,Consultation de suivi,76,124,75,15,36.5,100,1,0.9,Coronaropathie,"Antihypertenseur, Corticoïde inhalé, Diurétique",GRIS
+504ed267-b5ea-43bd-956c-1354b1f54bd2,19,F,Entorse légère,77,120,72,20,38.2,95,3,,AVC antérieur,Antidiabétique oral,VERT
+169652ac-f955-47cb-a35e-b168f91496ee,39,Autre,Fièvre modérée,86,130,83,16,37.3,94,4,0.9,Coronaropathie,"Bêta-bloquant, Antidiabétique oral",VERT
+73a76f34-037c-48cc-946b-7d18afde09a6,2,M,AVC suspecté,179,219,104,43,40.8,71,10,0.5,Asthme,"Antiagrégant plaquettaire, Antihypertenseur, Bêta-bloquant",ROUGE
+71d7572c-7ff4-46f1-af2e-7a621e1191fa,61,M,Mal de tête persistant,79,127,77,18,37.3,95,4,,Coronaropathie,"Antiagrégant plaquettaire, Bêta-bloquant, Anticoagulant",VERT
+400fce59-7bc8-48eb-97fa-86dc3e9e0166,62,Autre,Douleur abdominale intense,110,161,100,23,36.8,91,8,,Insuffisance rénale,Statine,JAUNE
+dedd72b7-1865-495e-af78-6b2787f9ec9d,28,F,Petite plaie superficielle,76,117,84,15,37.3,97,1,,AVC antérieur,"Diurétique, Antidiabétique oral, Bêta-bloquant",GRIS
+2db49f29-6efc-4ada-9987-dca73066ef1d,61,F,Douleur thoracique intense,145,85,44,36,39.7,71,10,,Hypertension artérielle,"Bêta-bloquant, Corticoïde inhalé",ROUGE
+f2c7a9ef-3350-4850-81f2-4f6dbbcb1f0c,56,Autre,Petite plaie superficielle,63,111,77,16,36.7,97,1,,Diabète type 2,"Antihypertenseur, Diurétique",GRIS
+021df2f6-5fa0-4f60-b234-4b32511c7200,30,Autre,Douleur abdominale modérée,69,115,72,20,37.9,97,4,1.1,Insuffisance rénale,"Antihypertenseur, Bêta-bloquant, Corticoïde inhalé",VERT
+3bb6fa25-70d2-44eb-9c76-b022420d7ec4,42,F,Certificat médical,60,117,73,16,37.3,99,2,,Coronaropathie,"Diurétique, Corticoïde inhalé, Antiagrégant plaquettaire",GRIS
+735e1f59-507c-4f24-9b50-402b0ddc6780,47,Autre,Petite plaie superficielle,80,124,71,15,37.3,97,1,1.3,"Insuffisance cardiaque, AVC antérieur","Antiagrégant plaquettaire, Anticoagulant, Antihypertenseur",GRIS
+679b5201-39fe-4e01-8184-ae2b08758f6e,42,F,Fièvre élevée avec frissons,107,173,96,21,36.3,90,8,,Cancer en rémission,"Antiagrégant plaquettaire, Anticoagulant, Statine",JAUNE
+427512d2-9fae-43c6-940f-60d73c685c2e,20,Autre,Mal de tête persistant,62,120,73,20,37.3,96,2,0.9,AVC antérieur,Antiagrégant plaquettaire,VERT
+af34a8d9-076f-4cda-ae87-eb6a685bd580,17,Autre,Fièvre modérée,79,112,90,20,38.5,94,5,1.3,Hypertension artérielle,Antiagrégant plaquettaire,VERT
+a031af43-d5d5-4ee1-92d6-660a80e3f8b5,22,M,Certificat médical,71,129,74,17,37.4,97,2,,Cancer en rémission,Anticoagulant,GRIS
+2dfc4827-444e-41c0-a264-c5b6dddca538,40,F,Douleur dorsale,68,125,86,17,36.5,95,5,,,,VERT
+0fde39cd-de6c-4289-8aab-ca1e9460b385,75,F,Difficulté respiratoire modérée,99,101,74,25,37.0,91,6,,Coronaropathie,"Diurétique, Antiagrégant plaquettaire, Antihypertenseur",JAUNE
+642c0f95-f35d-48bf-86cf-74466f346092,33,F,Douleur abdominale modérée,82,116,74,16,37.0,94,3,,,,VERT
+35251d60-c4b2-4724-8ff5-b2c1af7960c6,38,F,Nausées,64,126,83,15,37.9,97,5,,,,VERT
+fd4143c9-0401-4476-b8a2-43748b709984,88,F,Traumatisme grave,133,191,124,31,35.8,87,8,,Diabète type 2,"Anticoagulant, Antiagrégant plaquettaire, Antidiabétique oral",ROUGE
+1bb220e1-a57e-463f-b9d4-d6e51dd2a9ba,32,F,Rhume léger,69,114,79,14,36.8,99,2,,Asthme,"Anticoagulant, Antidiabétique oral, Diurétique",GRIS
+638d2191-855d-4675-b061-69eba0327df4,53,F,Nausées,61,130,76,14,38.4,96,5,,,,VERT
+76ca1963-bc15-43e1-b698-267eb1cf8a1d,64,F,Déshydratation sévère,110,101,61,25,39.3,93,6,,Coronaropathie,"Anticoagulant, Antiagrégant plaquettaire, Diurétique",JAUNE
+888d2064-4bb3-43e8-b12b-ec96251eef60,70,F,Mal de tête persistant,64,124,73,19,36.6,95,4,,,,VERT
+da81b119-8889-4ebd-b542-cd816493acbd,42,Autre,Petite plaie superficielle,67,116,75,15,37.3,99,1,,"Cancer en rémission, Hypertension artérielle",Corticoïde inhalé,GRIS
+ff14394c-ec89-4eb9-bc9c-3fd3251414bd,30,M,Nausées,71,119,87,14,38.0,97,2,,Insuffisance cardiaque,"Diurétique, Corticoïde inhalé, Bêta-bloquant",VERT
+c2d16f97-315b-42b2-8975-4335ac825711,40,M,Nausées,77,126,84,17,37.8,97,4,,"Diabète type 2, Asthme, Hypertension artérielle","Diurétique, Corticoïde inhalé",VERT
+3d6fbe3f-7718-488e-a658-62e6583f8869,83,M,Détresse respiratoire sévère,138,80,55,34,39.6,71,10,,"Asthme, Coronaropathie, Insuffisance cardiaque","Anticoagulant, Bêta-bloquant",ROUGE
+21d15044-78f9-4df7-a19f-a06de50c40b3,79,Autre,Perte de conscience,132,70,51,34,40.6,79,9,,"Insuffisance cardiaque, Hypertension artérielle, Insuffisance rénale","Statine, Diurétique",ROUGE
+4d180f6c-4620-4d8a-b0bb-77443c606171,79,Autre,Traumatisme crânien léger,87,110,67,21,38.7,93,5,,Hypertension artérielle,"Diurétique, Bêta-bloquant",JAUNE
+06298fa1-60b5-45d1-a4bd-0313cad03484,31,F,Rhume léger,79,114,76,17,37.4,97,2,1.2,Coronaropathie,Antiagrégant plaquettaire,GRIS
+a0334a6b-3a26-4be1-8672-b054ca351678,51,Autre,Fièvre élevée avec frissons,101,104,67,25,36.2,91,7,,"Cancer en rémission, Coronaropathie, BPCO","Statine, Anticoagulant",JAUNE
+3f95b961-b8e2-4323-bc82-b50004d641e0,52,F,Petite plaie superficielle,71,112,81,15,36.8,99,1,,BPCO,"Statine, Antiagrégant plaquettaire, Diurétique",GRIS
+4479466f-dc80-472e-aa20-2adb4510429c,21,Autre,Douleur dorsale,78,130,77,17,38.2,95,2,0.9,Asthme,Anticoagulant,VERT
+ec4e408b-1b1c-427c-8e84-98000db4c7d9,45,F,Douleur dorsale,66,130,88,18,38.1,94,3,,Asthme,"Anticoagulant, Antihypertenseur",VERT
+3eba100a-b4cf-42ec-b6a8-bdc903907eb4,91,M,Traumatisme grave,118,201,109,26,35.6,73,9,,"Asthme, Cancer en rémission","Bêta-bloquant, Corticoïde inhalé",ROUGE
+19b2d9f3-2702-4745-b599-51a098f7d762,28,Autre,Petite plaie superficielle,80,120,79,16,37.2,97,2,,,,GRIS
+c69b373c-d883-4525-a7de-4674a0e92aef,55,F,Mal de tête persistant,76,114,85,19,38.2,95,4,,,,VERT
+676598b6-ad46-42bc-ba6b-32d68d2f0455,43,F,Fièvre modérée,69,111,73,14,37.9,95,5,1.0,"Insuffisance cardiaque, Diabète type 2, Coronaropathie","Diurétique, Statine",VERT
+900665d5-7bc1-4c4f-85d0-652ccf6da9a4,23,F,Douleur abdominale modérée,74,134,87,19,37.0,97,3,,Diabète type 2,"Antiagrégant plaquettaire, Statine, Diurétique",VERT
+dcad0209-306d-48a8-af7a-02450f0a05bb,51,M,Entorse légère,86,137,86,17,36.6,96,5,0.8,Insuffisance rénale,"Antihypertenseur, Bêta-bloquant",VERT
+b3c026d0-4db8-44a8-ace1-98cea213bd90,44,F,Rhume léger,61,110,82,18,37.0,99,1,,"Diabète type 2, Hypertension artérielle, BPCO","Antidiabétique oral, Statine",GRIS
+d76bcea7-d38c-45f8-8753-5470f8f8a02f,64,F,Douleur thoracique intense,118,82,54,32,35.1,83,9,1.2,"Coronaropathie, Diabète type 2, Cancer en rémission","Corticoïde inhalé, Statine, Antidiabétique oral",ROUGE
+5d97831e-1d55-45d4-a6ca-e30cdc2d846c,44,M,Douleur thoracique atypique,89,167,97,28,36.5,93,7,3.8,AVC antérieur,"Antihypertenseur, Antidiabétique oral, Corticoïde inhalé",JAUNE
+edf8c405-0460-43ef-b42e-64c19a875a76,56,M,Petite plaie superficielle,79,122,84,14,36.7,97,0,,Asthme,"Statine, Antidiabétique oral, Diurétique",GRIS
+644f7996-3879-4a21-a304-7e90db448fbc,51,Autre,Douleur dorsale,86,123,79,19,38.4,95,4,1.4,AVC antérieur,"Antiagrégant plaquettaire, Antihypertenseur, Anticoagulant",VERT
+c0522db7-61f9-4261-8fc8-48b61fd9923d,72,F,Traumatisme crânien léger,90,175,93,27,38.8,91,6,1.3,"AVC antérieur, Insuffisance rénale, Insuffisance cardiaque","Anticoagulant, Bêta-bloquant, Antidiabétique oral",JAUNE
+95ecf0fd-5d0a-46ae-b30e-9d93590cf60c,36,Autre,Entorse légère,89,111,78,21,36.6,95,5,,Diabète type 2,Bêta-bloquant,VERT
+98727960-2392-441f-9204-edfa7bef68a9,70,F,Fièvre modérée,90,133,85,14,37.7,94,3,,"BPCO, Coronaropathie","Corticoïde inhalé, Bêta-bloquant",VERT
+7d306bbc-ead2-4524-b63b-6342412b4728,37,F,Fièvre modérée,71,134,80,21,37.3,97,3,1.0,BPCO,"Anticoagulant, Antihypertenseur, Antiagrégant plaquettaire",VERT
+ebbfdba6-faee-41c2-bacc-59ba79fa25b5,52,Autre,Douleur dorsale,73,128,77,18,37.8,97,5,,"Insuffisance cardiaque, Cancer en rémission","Antiagrégant plaquettaire, Bêta-bloquant, Antidiabétique oral",VERT
+e30433bd-ebe8-4dc7-bc98-0c0482ad8d9a,52,M,Difficulté respiratoire modérée,103,162,100,28,39.4,90,5,,"BPCO, Diabète type 2, Coronaropathie",Antihypertenseur,JAUNE
+b4e60009-a3c8-4109-a342-728bc1795ff9,44,F,Entorse légère,79,110,70,21,36.5,97,4,,,,VERT
+3705f705-db71-4dfd-9010-5efe95c60312,59,Autre,Mal de tête persistant,85,117,76,16,37.6,95,4,,,,VERT
+7bb98f66-f178-4363-855a-86dbc29773d2,38,F,Mal de tête persistant,78,130,90,17,36.7,94,2,1.0,Hypertension artérielle,"Antihypertenseur, Diurétique, Antidiabétique oral",VERT
+659b62fc-b996-4b25-a813-1b4333bf0ff3,45,Autre,Certificat médical,78,117,76,14,37.4,97,2,,Diabète type 2,"Statine, Antiagrégant plaquettaire, Corticoïde inhalé",GRIS
+84b12260-5d4f-44ba-b2d6-dc897506828c,26,F,Entorse légère,90,139,72,17,37.3,97,4,0.9,AVC antérieur,"Diurétique, Bêta-bloquant, Antiagrégant plaquettaire",VERT
+b6225951-4a23-47f4-83a6-6ed9ddcb3e2f,23,Autre,Certificat médical,61,120,82,14,36.9,97,1,0.9,Cancer en rémission,Diurétique,GRIS
+5dcddfbd-85ff-4e3e-953f-0b80047a2855,39,F,Douleur abdominale modérée,81,132,72,20,38.1,95,2,1.0,Asthme,"Corticoïde inhalé, Anticoagulant, Antiagrégant plaquettaire",VERT
+9431740f-9216-4b83-a979-82a18608bbf8,18,F,Petite plaie superficielle,71,115,83,16,36.6,97,1,,Diabète type 2,Antidiabétique oral,GRIS
+476e4de4-fa55-4f35-bf89-9d39371ba81f,20,Autre,Nausées,85,122,72,19,36.5,97,3,,,,VERT
+2ee2eb05-4af9-416d-a21d-16adff371066,23,F,Fièvre modérée,68,123,79,21,37.7,96,5,,BPCO,"Antiagrégant plaquettaire, Statine, Corticoïde inhalé",VERT
+50c289e4-9eed-46d4-ae56-d953a2c9fbb6,24,M,Certificat médical,60,120,84,17,36.8,100,1,,Asthme,"Diurétique, Statine",GRIS
+2b239e1e-cfc6-41e0-9ed6-036b5e67a205,42,F,Fièvre élevée avec frissons,85,167,95,27,36.3,93,8,1.0,Insuffisance rénale,Antihypertenseur,JAUNE
+0baa62e0-9d38-47ad-add5-c6d8e73257f1,73,F,Choc,118,188,120,27,40.7,83,9,1.2,Cancer en rémission,"Antiagrégant plaquettaire, Statine, Bêta-bloquant",ROUGE
+42d6fdbd-6baa-4a49-a6a3-5a7ee5be1cc2,70,Autre,Mal de tête persistant,77,113,77,14,36.9,94,4,1.1,"AVC antérieur, Coronaropathie, Insuffisance rénale","Antidiabétique oral, Antihypertenseur",VERT
+5088e17c-e071-4100-b7bf-ba3214bac1c4,32,Autre,Rhume léger,77,124,81,18,37.2,98,1,,Insuffisance rénale,Diurétique,GRIS
+e2dc5015-eb4d-41b6-9faf-c1cd3bbe6f72,78,F,Douleur thoracique intense,107,202,115,28,40.0,76,8,,"Diabète type 2, Insuffisance cardiaque",Antidiabétique oral,ROUGE
+f68fb79c-8ce6-487d-8688-ca5c25c9b90f,39,Autre,Consultation de suivi,65,120,83,15,37.0,98,1,1.0,,,GRIS
+d5319dd2-3286-4df0-87e4-9bf09114ae5b,42,F,Entorse légère,83,132,76,17,36.9,94,3,1.2,"Diabète type 2, Asthme, Cancer en rémission","Bêta-bloquant, Antiagrégant plaquettaire",VERT
+47583ab1-83c4-4632-9209-d8ff97be0f08,60,F,Rhume léger,80,128,73,16,37.1,100,1,1.0,,,GRIS
+8208c5e8-6d20-4349-8c62-9312ef05dfae,66,F,Nausées,78,119,73,15,36.8,95,3,0.8,"Asthme, AVC antérieur, BPCO",Antiagrégant plaquettaire,VERT
+bc2eff8d-af8d-497f-a655-027e2c996036,59,Autre,Douleur abdominale modérée,77,136,84,16,36.6,96,2,,"Asthme, BPCO","Antiagrégant plaquettaire, Bêta-bloquant",VERT
+2a915fc7-c392-4d30-a5c2-655ed2b518bd,41,Autre,Mal de tête persistant,75,119,71,16,37.5,95,4,0.9,"Cancer en rémission, Diabète type 2, Insuffisance cardiaque",Statine,VERT
+84ad2ba3-f196-407b-a19d-1b6a37bf163e,53,Autre,Douleur thoracique atypique,104,180,93,28,39.5,90,7,,,,JAUNE
+9cb76b61-ad17-454a-868e-b6aebdcbe40d,70,M,Mal de tête persistant,87,137,89,15,36.7,96,5,0.8,,,VERT
+b00149dc-cb64-4229-b8e0-6f486da0dc51,18,Autre,Fièvre modérée,77,119,88,18,36.7,96,4,,Diabète type 2,Corticoïde inhalé,VERT
+1652fe97-eec0-428c-95dd-a1b876cce1b0,47,Autre,Difficulté respiratoire modérée,102,172,97,23,39.2,91,6,,,,JAUNE
+1d51daf3-faee-480b-adc0-51e4fa1be230,43,M,Douleur dorsale,85,124,85,15,37.2,96,4,,"Diabète type 2, Cancer en rémission, Coronaropathie","Diurétique, Corticoïde inhalé, Antihypertenseur",VERT
+f67cf590-8deb-4168-81d4-02abcac5ecdf,55,M,Douleur abdominale intense,106,109,64,24,38.8,92,8,,Hypertension artérielle,Antiagrégant plaquettaire,JAUNE
+c00b517f-c0d9-4765-85df-5a1d7710adf4,28,F,Petite plaie superficielle,60,130,79,17,36.7,98,0,,Diabète type 2,"Diurétique, Anticoagulant, Antihypertenseur",GRIS
+d886cde5-1e4e-4231-81a6-b253bbd82046,56,M,Entorse légère,72,130,72,18,37.3,97,2,1.0,,,VERT
+e26f61de-e442-45b9-8763-4e2f842a6210,58,F,Entorse légère,60,132,74,19,37.5,97,5,1.0,Diabète type 2,"Diurétique, Anticoagulant",VERT
+7da65b60-0ef9-4065-8a91-11be3c8c1a52,26,Autre,Renouvellement d'ordonnance,62,124,81,18,37.1,98,2,1.2,Cancer en rémission,Antidiabétique oral,GRIS
+547a2061-d36a-417c-8aba-639ecd04e57c,38,M,Traumatisme crânien léger,103,110,62,27,38.9,91,6,,Insuffisance cardiaque,"Antihypertenseur, Corticoïde inhalé, Diurétique",JAUNE
+40f04ce0-94f9-4d99-8364-b81f6e188177,43,Autre,Traumatisme crânien léger,96,167,97,24,36.3,90,8,1.1,Coronaropathie,"Anticoagulant, Bêta-bloquant",JAUNE
+27a322bf-a333-48bc-8a58-2d7921866690,66,F,Fièvre élevée avec frissons,97,101,60,23,37.0,90,7,1.4,"Insuffisance rénale, AVC antérieur","Corticoïde inhalé, Antihypertenseur",JAUNE
+5f0946c3-1081-4da0-b4da-57378a6a5a54,49,Autre,Douleur abdominale modérée,68,135,74,15,38.0,95,4,1.1,"Diabète type 2, Insuffisance cardiaque, Coronaropathie","Bêta-bloquant, Antihypertenseur",VERT
+873d020e-b304-4a11-a80e-05e77ee188df,42,M,Mal de tête persistant,79,113,70,14,38.2,95,3,,,,VERT
+44c5fded-ecc8-4fba-a358-a807305aeef3,76,M,Perte de conscience,108,83,48,30,39.7,70,10,1.1,,,ROUGE
+59b4c108-c969-418e-933f-5ede1010619d,38,M,Mal de tête persistant,87,138,88,16,37.8,94,2,1.1,,,VERT
+4237eec8-870e-4415-bbab-eb5ec16af065,45,M,Douleur abdominale intense,91,180,96,27,36.2,90,6,1.2,,,JAUNE
+9104b988-8350-41c0-9e0b-cdfbcd82954a,41,M,Rhume léger,61,122,72,15,36.7,97,1,,"Coronaropathie, Diabète type 2","Antiagrégant plaquettaire, Antihypertenseur, Anticoagulant",GRIS
+cf9dc4d4-d165-452a-a183-cda9380c4e7c,51,F,Douleur dorsale,79,134,76,17,37.1,97,3,1.4,,,VERT
+5a17c242-18f9-4ea8-a88e-5ae1a683bcd0,55,Autre,Entorse légère,90,113,76,19,38.2,96,3,,Insuffisance cardiaque,Antihypertenseur,VERT
+954197b9-d514-4e8d-b119-64e69e5068d9,63,F,Déshydratation sévère,108,180,96,26,39.2,90,5,,,,JAUNE
+4a715cfe-cf9d-46ec-828f-ef6f3fab5f4d,23,M,Fièvre modérée,68,120,84,19,36.9,96,4,1.4,,,VERT
+ae9ea181-7b47-4ccc-9dc4-ce7f30023237,36,M,Douleur thoracique atypique,85,166,97,28,38.9,92,7,,Diabète type 2,Statine,JAUNE
+ffef96c2-1c12-49d2-84d8-7ea3a7b66f7a,74,Autre,Douleur thoracique atypique,86,100,69,26,39.2,92,7,,,,JAUNE
+542182fd-e61f-4df7-a7f7-c7ba372e058d,95,Autre,AVC suspecté,115,71,47,27,40.7,74,8,1.2,Insuffisance cardiaque,Antihypertenseur,ROUGE
+c21f4a68-44c9-40a4-b0eb-aeef382f71f9,5,F,Choc,138,84,41,36,40.7,80,8,,AVC antérieur,"Antihypertenseur, Bêta-bloquant",ROUGE
+a20632c6-0adc-4f47-b216-0333623a7915,26,F,Douleur abdominale modérée,89,111,89,16,37.9,95,3,,Insuffisance rénale,"Antihypertenseur, Antiagrégant plaquettaire",VERT
+df6a0e24-3fdd-4cf8-89cb-9f8e407d487b,23,F,Douleur abdominale modérée,80,122,81,17,37.3,94,5,,Insuffisance rénale,"Corticoïde inhalé, Anticoagulant",VERT
+c361a514-4b96-4465-ab85-879f392c60e7,38,Autre,Renouvellement d'ordonnance,60,126,81,16,36.6,100,2,,Diabète type 2,Bêta-bloquant,GRIS
+d7000d05-78bb-40fb-950a-dc0e98c12881,67,Autre,Entorse légère,84,121,75,17,37.5,97,3,0.9,"Hypertension artérielle, Coronaropathie","Anticoagulant, Statine, Antidiabétique oral",VERT
+0d46b012-e926-448e-9aac-f0773a5c042e,61,Autre,Fièvre élevée avec frissons,85,107,60,28,38.6,91,7,,,,JAUNE
+c9c517cf-0e24-4b90-b33a-8f40c52f5410,29,F,Consultation de suivi,60,113,81,15,37.1,98,0,1.4,Diabète type 2,"Statine, Anticoagulant",GRIS
+520660e4-8c37-4de5-867a-17149523712b,28,Autre,Petite plaie superficielle,80,127,81,17,37.1,98,0,,AVC antérieur,"Statine, Antidiabétique oral",GRIS
+5438a0dd-654f-4028-81d1-a603cb0f2539,18,Autre,Rhume léger,72,129,77,18,36.5,99,2,,Asthme,"Antidiabétique oral, Antiagrégant plaquettaire",GRIS
+f7ad0cad-9666-45f8-928e-3358483366fe,35,M,Douleur dorsale,88,124,70,15,37.2,96,4,1.2,Diabète type 2,"Antihypertenseur, Antiagrégant plaquettaire, Bêta-bloquant",VERT
+81988a44-a599-485b-9aa6-e7101f6d9fb1,41,M,Mal de tête persistant,75,135,88,20,37.9,97,3,0.8,"Hypertension artérielle, Coronaropathie","Antidiabétique oral, Antihypertenseur",VERT
+73d944cf-cf8a-4e09-98c0-ecaad597370d,39,M,Douleur dorsale,62,132,70,15,38.5,97,5,,,,VERT
+cfd34680-c308-4e29-b79b-5d64a6cf8877,40,M,Douleur thoracique atypique,90,169,93,24,36.4,92,5,1.3,,,JAUNE
+bc21b103-f1b8-4ee4-ad9b-a96bc6071bf4,42,M,Fièvre modérée,86,130,79,21,37.5,95,2,,,,VERT
+a8eb39b1-9921-46ea-a34d-76ac2c13f34e,60,F,Déshydratation sévère,88,171,92,22,36.4,92,8,0.9,"Hypertension artérielle, Asthme, AVC antérieur","Antidiabétique oral, Antihypertenseur, Diurétique",JAUNE
+e6bcd2dd-7475-4925-b469-ac8f328d570d,49,F,Nausées,67,140,87,14,37.3,97,5,,,,VERT
+99df62f2-9349-4fa5-a3eb-2f6cdadcf5c9,40,Autre,Entorse légère,76,140,75,16,38.3,95,3,,,,VERT
+70eabd26-a139-4a55-a464-91a66948175b,58,F,Douleur abdominale modérée,86,112,82,16,36.8,94,5,,"Cancer en rémission, Hypertension artérielle, AVC antérieur","Corticoïde inhalé, Antihypertenseur, Bêta-bloquant",VERT
+d6ca402a-1265-4c21-99a3-837349a572c2,54,Autre,Rhume léger,63,119,81,14,37.1,97,1,1.2,"Hypertension artérielle, Asthme","Corticoïde inhalé, Antidiabétique oral",GRIS
+2386cafb-45e3-4d8e-b38a-72d5040b2900,58,Autre,Mal de tête persistant,61,111,85,20,36.8,95,4,,,,VERT
+66a13061-9cf6-4804-bccd-c14f4c70ca62,49,F,Fièvre élevée avec frissons,106,107,70,28,36.7,91,7,,BPCO,"Bêta-bloquant, Corticoïde inhalé",JAUNE
+6856ce8b-5153-468b-ab44-8ca7cc6d40b7,46,Autre,Fièvre modérée,86,132,86,14,36.7,96,5,1.3,Asthme,Bêta-bloquant,VERT
+99a1d984-ba77-4838-8709-151ef097aff5,45,M,Douleur abdominale intense,81,180,91,26,36.3,93,5,1.0,"Insuffisance rénale, Coronaropathie","Anticoagulant, Corticoïde inhalé",JAUNE
+e424cccb-7fe5-4143-b7df-993af3d2c411,77,Autre,Douleur thoracique atypique,89,180,93,21,38.7,91,6,0.7,"Hypertension artérielle, Cancer en rémission, Diabète type 2","Anticoagulant, Statine, Antihypertenseur",JAUNE
+c969fb3f-2db2-4551-b398-2eb8805c99fc,53,F,Douleur dorsale,90,124,78,18,36.9,96,3,,"AVC antérieur, Diabète type 2, Hypertension artérielle","Diurétique, Statine, Antiagrégant plaquettaire",VERT
+b0ed4815-e991-47bc-8994-5a9991d28158,33,F,Douleur dorsale,63,137,78,21,38.5,96,4,,Insuffisance cardiaque,Anticoagulant,VERT
+029e1cf8-d968-4617-aeec-0c5bef36813c,30,M,Nausées,72,119,78,19,37.2,97,5,,BPCO,"Bêta-bloquant, Diurétique",VERT
+fa90e4a4-5362-4370-b405-2483ff6787da,65,F,Douleur dorsale,71,119,73,18,37.3,95,5,0.9,Coronaropathie,"Antidiabétique oral, Antiagrégant plaquettaire, Anticoagulant",VERT
+c2fb2b99-a2e9-42af-a32c-8bd7827f9c09,70,F,Mal de tête persistant,85,137,73,19,38.1,97,5,1.1,"Diabète type 2, Cancer en rémission, Insuffisance rénale","Antidiabétique oral, Corticoïde inhalé, Diurétique",VERT
+cfa2b8dc-d7ea-4094-8e8b-9eb37bff811b,34,F,Entorse légère,87,128,84,16,37.7,97,3,1.2,Cancer en rémission,"Anticoagulant, Antiagrégant plaquettaire",VERT
+09097683-c3ca-4fd7-a1f0-84a27d323c37,15,F,Fièvre modérée,66,114,89,16,36.7,94,5,,Cancer en rémission,"Antihypertenseur, Antiagrégant plaquettaire",VERT
+ea7a1eb1-b793-466b-806b-7cdfce0c8bb4,61,F,Entorse légère,88,131,70,19,37.0,94,3,1.3,AVC antérieur,"Statine, Antidiabétique oral, Antihypertenseur",VERT
+3b74e76c-3475-4b81-884d-c4ba030c87ab,49,F,Douleur abdominale intense,103,107,71,26,39.2,91,6,1.3,,,JAUNE
+ca720d9c-3d6b-417d-b046-a95d4e49fb70,23,M,Douleur dorsale,60,122,90,16,38.2,94,4,,Hypertension artérielle,"Antidiabétique oral, Diurétique, Antihypertenseur",VERT
+988458f4-4429-4f14-b465-ad3d79cd5b2c,25,F,Petite plaie superficielle,72,114,76,14,37.0,100,2,,,,GRIS
+4e41c30f-d933-4a46-aca6-b2ad1659003a,21,Autre,Nausées,68,119,73,16,37.4,94,2,,Insuffisance cardiaque,"Bêta-bloquant, Anticoagulant, Diurétique",VERT
+d64818a3-65d5-4334-9344-ef0a3fb70616,25,M,Nausées,75,110,70,17,37.0,95,2,,Cancer en rémission,Antidiabétique oral,VERT
+354855f6-696c-4f33-98be-2045af087a12,34,Autre,Déshydratation sévère,83,100,63,25,36.5,92,6,,Coronaropathie,"Diurétique, Bêta-bloquant, Antiagrégant plaquettaire",JAUNE
+55c76531-b2b2-44fe-8966-8e557953c399,20,M,Renouvellement d'ordonnance,80,129,78,15,36.8,100,2,1.3,,,GRIS
+098b6df5-8985-48ab-978e-05a5df330d69,44,F,Mal de tête persistant,82,113,74,21,37.1,95,2,,AVC antérieur,"Antiagrégant plaquettaire, Corticoïde inhalé, Statine",VERT
+aabd25b2-1c5f-4010-ac36-7d50c850669b,26,Autre,Mal de tête persistant,84,125,85,19,37.4,95,2,,Diabète type 2,"Diurétique, Antihypertenseur",VERT
+7de102fe-2567-4a3d-8ebe-c2ce654181c9,73,Autre,Déshydratation sévère,98,179,91,24,36.7,92,8,,,,JAUNE
+526e5070-55c5-4fab-97b1-b10e8bc2f860,58,Autre,Mal de tête persistant,64,137,85,14,38.4,97,3,1.0,,,VERT
+758f241b-81b3-4d90-bb8c-e6e47db17990,1,Autre,Traumatisme grave,154,208,102,41,39.6,84,9,,,,ROUGE
+3b0bc88e-6196-4ae8-8ecd-df667f382651,56,M,Entorse légère,72,135,89,20,38.0,94,4,,"Cancer en rémission, Coronaropathie, Asthme",Bêta-bloquant,VERT
+c4f8639e-578f-46ff-8bac-deb314e8ca54,51,Autre,Traumatisme crânien léger,99,110,67,28,36.4,93,5,1.4,,,JAUNE
+8b7c137e-e490-4f4c-915b-bf4cad3d6cab,59,M,Entorse légère,88,113,78,16,37.3,97,3,1.4,"BPCO, Coronaropathie",Corticoïde inhalé,VERT
+c7588e18-6966-440c-af99-d566d3e24fad,58,Autre,Rhume léger,63,125,70,17,37.0,98,2,,"Cancer en rémission, Asthme","Anticoagulant, Diurétique, Antidiabétique oral",GRIS
+1e26adad-fc6b-452a-9474-8dd5a1924511,60,Autre,Rhume léger,70,129,77,18,37.4,100,1,0.9,,,GRIS
+dfa29339-8da4-4468-9dae-695d3b61cce8,38,F,Traumatisme crânien léger,102,177,100,25,36.5,92,6,0.9,Asthme,"Anticoagulant, Statine, Corticoïde inhalé",JAUNE
+3ad821ee-a516-465c-8418-02471af8c52b,35,Autre,Entorse légère,84,131,87,19,37.1,97,4,,Hypertension artérielle,"Antidiabétique oral, Antihypertenseur, Bêta-bloquant",VERT
+28d48b64-7cae-46a4-be56-c1a0a5173372,60,M,Renouvellement d'ordonnance,68,114,71,15,37.5,99,2,,,,GRIS
+15c64406-274c-49d6-bf40-8904c32df5ed,37,F,Entorse légère,79,126,79,17,37.1,95,2,,Coronaropathie,"Antihypertenseur, Antiagrégant plaquettaire, Diurétique",VERT
+4ecfe3f6-1b00-4e98-b013-d73e6434d2a5,54,F,Douleur abdominale modérée,89,134,76,19,37.0,95,4,,Asthme,Antidiabétique oral,VERT
+3e3d3190-4cdd-4e53-a204-2422f7b8c816,42,F,Nausées,68,120,84,16,38.3,94,3,1.4,"Insuffisance cardiaque, Cancer en rémission, AVC antérieur","Diurétique, Antihypertenseur, Antiagrégant plaquettaire",VERT
+6774c3a2-c8ac-466d-bcb4-7bcbd69aef16,29,M,Nausées,62,121,77,16,37.0,94,3,,Insuffisance cardiaque,Antiagrégant plaquettaire,VERT
+40d5a446-b3e6-447c-84b4-291b7c27120c,60,M,Traumatisme grave,122,71,50,33,35.6,89,9,,"Insuffisance cardiaque, Insuffisance rénale",Diurétique,ROUGE
+9f72c33a-d03b-4171-bc62-41ba33ac72d2,47,F,Mal de tête persistant,61,140,73,18,36.7,94,3,,"Hypertension artérielle, Diabète type 2, Cancer en rémission","Bêta-bloquant, Corticoïde inhalé, Diurétique",VERT
+478e715f-ffd7-4d11-8acd-0bae8be8d589,21,M,Nausées,86,110,84,20,37.4,95,4,0.8,,,VERT
+46ee2e56-d206-4b85-9e59-e48d39b20b95,19,Autre,Douleur abdominale modérée,89,123,80,18,37.0,97,2,0.8,,,VERT
+0bd5f5e3-143f-43d6-bf54-352f3d3c149f,34,Autre,Traumatisme crânien léger,81,169,99,22,39.0,92,5,1.0,Hypertension artérielle,"Anticoagulant, Statine",JAUNE
+19472575-1557-4e50-986f-3e79d98e89ad,62,F,Nausées,69,140,70,16,38.4,96,3,0.7,"Insuffisance rénale, Diabète type 2, Asthme",Diurétique,VERT
+27fa076e-2b3a-49f0-adee-eea98245fe08,56,Autre,Douleur abdominale modérée,65,113,75,16,38.3,95,2,,"Cancer en rémission, Diabète type 2, Asthme","Antidiabétique oral, Anticoagulant, Antihypertenseur",VERT
+6b928a11-6c8d-4add-b4d1-56608050a6a7,55,F,Certificat médical,71,113,79,15,37.2,98,2,0.8,"Insuffisance cardiaque, Asthme","Diurétique, Corticoïde inhalé, Anticoagulant",GRIS
+5092fc6d-03eb-4f04-af93-bf1a18add44d,2,M,Choc,144,201,128,45,40.8,74,9,,Insuffisance cardiaque,"Antidiabétique oral, Antiagrégant plaquettaire",ROUGE
+1b22e111-a143-4e9f-b8df-0efc0212d462,20,F,Douleur abdominale modérée,88,133,72,17,38.4,94,2,,AVC antérieur,"Bêta-bloquant, Antihypertenseur, Statine",VERT
+8639777f-8ebf-4feb-8d4a-67479b358bc2,49,F,Douleur dorsale,84,114,84,16,37.7,96,2,1.1,"Asthme, Insuffisance rénale, BPCO",Anticoagulant,VERT
+f5771039-e905-46bb-b996-3a8e2e8eaaf0,51,Autre,Douleur abdominale modérée,83,117,72,21,36.5,97,4,0.7,,,VERT
+c3e19404-0d2e-44aa-ba96-3fcf2e679bde,53,F,Douleur abdominale intense,109,108,68,28,36.0,92,7,,"AVC antérieur, Coronaropathie","Antidiabétique oral, Statine, Anticoagulant",JAUNE
+7728e168-a4f0-44fb-8d20-fff6bbf82121,29,Autre,Mal de tête persistant,71,126,74,19,37.0,94,5,0.8,BPCO,Anticoagulant,VERT
+517f2a74-7321-42b4-97f5-c675fb3b56f3,56,Autre,Consultation de suivi,67,125,85,17,37.3,97,1,0.8,BPCO,Anticoagulant,GRIS
+85da9e41-3f18-40fc-8260-9cb8827a9a7b,25,M,Douleur dorsale,76,118,75,14,36.6,95,5,,Hypertension artérielle,"Statine, Antihypertenseur, Antidiabétique oral",VERT
+4b0cf8b8-3ce5-4158-aab1-a5d4a28c1fdc,45,F,Douleur abdominale modérée,67,129,86,20,37.3,95,4,1.2,"Diabète type 2, BPCO, Cancer en rémission","Anticoagulant, Antihypertenseur",VERT
+a0a89c36-a257-4d3b-9111-e3cb4633b90e,51,Autre,Petite plaie superficielle,64,129,71,18,36.6,100,2,,,,GRIS
+0ca0b9bd-f68d-4f69-b2ee-ae8eb7f6a2ea,23,Autre,Nausées,86,126,83,14,37.3,97,4,,AVC antérieur,Antiagrégant plaquettaire,VERT
+5994664c-6d53-4b82-92cb-7c06ba59ecbf,54,F,Traumatisme crânien léger,105,162,94,22,38.8,91,8,3.6,,,JAUNE
+293ab867-d290-4340-9fe5-58b090e73b6d,48,M,Mal de tête persistant,80,113,74,17,36.8,96,5,,,,VERT
+c2f0053f-a141-429d-9e90-2e9397558cd7,57,Autre,Fièvre élevée avec frissons,99,177,97,25,36.4,91,6,0.9,"AVC antérieur, Asthme","Antidiabétique oral, Diurétique, Antiagrégant plaquettaire",JAUNE
+8c6622e4-3753-4861-99e7-9365522ec09a,59,M,Entorse légère,66,115,82,20,37.3,94,2,,"AVC antérieur, Diabète type 2",Statine,VERT
+10dc42d6-0e33-4312-be20-d65e02d94aad,20,Autre,Entorse légère,83,132,89,20,36.9,96,2,,Cancer en rémission,"Antihypertenseur, Antidiabétique oral",VERT
+cb5b191e-3ad6-4578-91a0-2356c33994df,63,F,Difficulté respiratoire modérée,81,100,65,24,36.7,92,5,,"AVC antérieur, Insuffisance rénale","Bêta-bloquant, Statine, Antihypertenseur",JAUNE
+1b419f4d-abf8-40fe-b396-5e7653fcbd8e,34,M,Traumatisme crânien léger,89,166,97,26,39.3,91,8,,,,JAUNE
+a2c2981d-8d6c-45d3-bb21-6dcc53024343,21,Autre,Entorse légère,76,138,87,18,37.6,96,4,,Cancer en rémission,Diurétique,VERT
+79a2210e-10be-45a8-bd04-6f09e357c8a3,89,Autre,Choc,101,194,125,33,35.1,77,9,,"Hypertension artérielle, Insuffisance cardiaque, Diabète type 2","Antidiabétique oral, Bêta-bloquant",ROUGE
+dab587b7-99a2-41eb-935d-653bd181a925,67,F,Entorse légère,77,115,76,16,36.9,96,5,,,,VERT
+5a084f54-ac75-4077-a0d2-b6dd804f90d0,31,M,Douleur abdominale modérée,66,113,72,17,36.9,94,5,,Insuffisance rénale,Antiagrégant plaquettaire,VERT
+bbb293b0-50f5-4904-80cb-3eb71d25a396,35,F,Nausées,87,122,77,18,37.5,96,3,1.3,Insuffisance rénale,Diurétique,VERT
+dbb19160-d3b0-49cc-8c96-2f7e07f66011,58,M,Mal de tête persistant,63,122,88,21,37.5,95,2,1.1,,,VERT
+8f72682f-084a-4309-b894-f859f4a2cc14,30,F,Mal de tête persistant,90,123,81,19,38.0,95,4,,,,VERT
+d00c3c17-3189-418a-9b3f-d37c0779a7f9,26,Autre,Renouvellement d'ordonnance,63,122,76,16,37.3,100,0,,Cancer en rémission,Anticoagulant,GRIS
+3e0f0e46-6735-418f-ba0d-dd2d65d44cc7,23,Autre,Nausées,77,122,73,19,36.8,94,3,1.3,Diabète type 2,"Diurétique, Anticoagulant",VERT
+6dc85509-7e1c-417b-8607-aecb4306d572,50,Autre,Fièvre modérée,71,128,88,14,36.9,95,3,,,,VERT
+b3dd3beb-45cb-4d59-9735-760c3c893c81,47,F,Douleur dorsale,74,137,75,15,37.8,95,4,,"Diabète type 2, Insuffisance rénale",Diurétique,VERT
+7367ba00-52e1-43c0-b5b4-c02eb5d2932b,35,Autre,Fièvre modérée,82,134,81,18,36.9,97,5,,,,VERT
+54c665f1-2e29-4a00-97fa-8fc7dfb66f99,33,Autre,Certificat médical,62,113,72,15,36.7,97,1,,,,GRIS
+6c00fd12-75cf-4094-8e31-f393f9f86ed8,63,M,Entorse légère,68,119,77,16,38.4,97,3,,Asthme,"Anticoagulant, Antihypertenseur, Corticoïde inhalé",VERT
+6f8aa88a-0cd9-4aa2-aa09-0819e40399b5,70,F,Mal de tête persistant,74,128,89,18,36.6,95,5,,"AVC antérieur, Insuffisance cardiaque, Asthme","Bêta-bloquant, Corticoïde inhalé",VERT
+e83f5f2e-ad66-4bd9-8818-0d47c77aa081,37,F,Petite plaie superficielle,68,126,74,15,36.8,97,1,1.1,Cancer en rémission,"Statine, Antihypertenseur",GRIS
+a76d7920-7c84-499d-9447-bdfb7472a95f,48,Autre,Difficulté respiratoire modérée,105,102,72,21,38.7,93,8,3.4,"Insuffisance cardiaque, Insuffisance rénale, Coronaropathie","Statine, Bêta-bloquant, Antidiabétique oral",JAUNE
+a66f9cc4-ebf3-4a04-9edd-db61319126bb,41,M,Fièvre élevée avec frissons,83,100,64,28,36.3,93,5,,,,JAUNE
+7aef729f-7494-4c51-bd8f-0b67709ee139,1,Autre,Hémorragie importante,176,83,49,35,35.2,85,9,,Hypertension artérielle,"Antidiabétique oral, Corticoïde inhalé",ROUGE
+3bb4705c-4c9d-4a6c-8ac9-c81cdfb75f56,39,M,Fièvre élevée avec frissons,104,168,96,27,39.0,91,5,0.9,Cancer en rémission,Antihypertenseur,JAUNE
+4cad3204-dc38-4f39-ac0b-67259bbc22d9,24,Autre,Renouvellement d'ordonnance,75,120,75,17,37.2,99,2,,Insuffisance rénale,"Antidiabétique oral, Anticoagulant, Bêta-bloquant",GRIS
+406f83d5-5e15-4bdb-bda9-c4da0df20e5f,27,F,Entorse légère,87,120,70,17,36.7,97,3,,AVC antérieur,Antihypertenseur,VERT
+0e08cf77-7a67-42ca-b3cb-5d45bce9e2c4,90,Autre,AVC suspecté,109,89,50,31,39.9,85,10,0.8,Asthme,"Bêta-bloquant, Anticoagulant",ROUGE
+53ca38f0-f5c1-476e-9347-17fc638e100b,82,F,Traumatisme grave,112,71,55,26,40.0,74,10,,,,ROUGE
+116268b7-27ba-4cc3-9e4e-8ee01e5d7dac,27,Autre,Douleur abdominale modérée,77,112,86,19,38.0,95,3,,Insuffisance rénale,"Antiagrégant plaquettaire, Antihypertenseur",VERT
+c8b8ac30-b820-484e-a54e-d79a7bbc7476,62,F,Déshydratation sévère,85,101,72,21,36.4,91,6,,"Asthme, Insuffisance cardiaque, Insuffisance rénale","Diurétique, Antihypertenseur",JAUNE
+f069cf8d-e151-4833-9ed3-eddc3d1408ea,60,M,Consultation de suivi,64,113,85,15,37.4,98,0,1.1,"Cancer en rémission, Insuffisance cardiaque, Hypertension artérielle","Bêta-bloquant, Statine",GRIS
+8dfd146e-5992-4ab8-9a84-a8879155295f,30,M,Déshydratation sévère,95,173,95,22,39.1,92,5,,,,JAUNE
+71cf0ab5-bebf-43b3-a493-6f698ac6f764,22,F,Consultation de suivi,66,127,82,18,36.6,98,0,1.2,Asthme,"Corticoïde inhalé, Diurétique, Antihypertenseur",GRIS
+90ee9d01-cd23-4e66-b819-e60f56bbedb7,66,F,Déshydratation sévère,94,176,95,27,36.2,91,6,,"Coronaropathie, Insuffisance rénale","Corticoïde inhalé, Antiagrégant plaquettaire",JAUNE
+5981f1c5-66f5-4eac-9109-c36643e3136b,67,Autre,Fièvre modérée,79,121,84,17,36.7,96,5,,,,VERT
+a1407caa-cd7a-4b1a-a91d-b3dba9f77f07,36,Autre,Consultation de suivi,76,110,79,15,37.5,99,0,0.9,Insuffisance cardiaque,"Anticoagulant, Antihypertenseur, Corticoïde inhalé",GRIS
+12c5a918-210b-4419-a185-9c19540bf7c6,24,M,Fièvre modérée,71,128,82,17,38.3,94,3,,Cancer en rémission,Antiagrégant plaquettaire,VERT
+9134484a-86e9-4d8d-a17f-5df28f65e282,74,Autre,Traumatisme crânien léger,106,100,70,22,38.8,93,7,,BPCO,"Antihypertenseur, Diurétique, Corticoïde inhalé",JAUNE
+9d515f6b-a8d0-401f-afac-19224baa3554,34,Autre,Entorse légère,70,111,82,16,38.2,95,5,,Diabète type 2,Corticoïde inhalé,VERT
+65700951-e4bb-460a-9f2b-89e4e0e67d3a,40,M,Douleur abdominale modérée,70,118,72,15,37.2,97,5,,Asthme,"Bêta-bloquant, Antiagrégant plaquettaire",VERT
+498373d6-72b7-43b3-bbe7-a9580ea057ba,51,M,Nausées,79,120,88,17,37.8,97,2,1.0,Coronaropathie,"Antihypertenseur, Corticoïde inhalé",VERT
+58a1e696-1cc4-4865-a1ff-990c15db9c66,37,Autre,Mal de tête persistant,79,116,81,16,37.4,95,3,,Diabète type 2,"Antihypertenseur, Antidiabétique oral, Statine",VERT
+09b88b67-0a31-47ed-bf8c-97fa9602b055,48,M,Fièvre élevée avec frissons,102,108,66,22,39.0,92,6,,"Cancer en rémission, Asthme, Coronaropathie","Antihypertenseur, Bêta-bloquant, Statine",JAUNE
+8a8f7153-028c-4f7c-b069-8792f3e2d5ec,63,M,Fièvre élevée avec frissons,85,110,60,21,39.3,92,5,1.3,Hypertension artérielle,"Corticoïde inhalé, Antidiabétique oral",JAUNE
+65654f43-fc25-479e-8615-9bc67f5c9c8b,66,F,Hémorragie importante,138,181,101,34,35.2,84,8,,"AVC antérieur, Asthme",Diurétique,ROUGE
+aeb82d35-c6a6-4089-a315-27e9adb3ff3c,37,Autre,Fièvre modérée,67,138,70,18,37.1,97,4,0.9,Asthme,Corticoïde inhalé,VERT
+1ce34065-b7a8-4e84-a4c8-f9c746c78c0a,58,Autre,Douleur dorsale,81,119,89,17,37.1,97,4,,,,VERT
+d97de13d-fab6-42df-9196-b3166038a82f,52,Autre,Douleur dorsale,85,123,74,17,36.8,95,3,1.1,Asthme,"Anticoagulant, Diurétique",VERT
+29cc28a6-2f33-4d35-8fa9-de092e13f2a5,38,F,Petite plaie superficielle,69,114,76,17,37.2,99,0,0.7,Insuffisance cardiaque,"Bêta-bloquant, Statine, Antidiabétique oral",GRIS
+ce0e0c34-dc52-4457-ab48-419b13915beb,16,F,Entorse légère,82,132,90,21,38.3,97,4,1.0,Asthme,Bêta-bloquant,VERT
+705a9ed5-86f4-4825-b91e-b1d8dfad76fd,18,F,Petite plaie superficielle,67,115,84,15,37.3,97,2,,Cancer en rémission,Corticoïde inhalé,GRIS
+3406da98-8ca7-4a4a-bcfe-67d09e47444b,17,Autre,Douleur dorsale,86,126,73,20,36.9,94,5,,BPCO,"Corticoïde inhalé, Diurétique, Antihypertenseur",VERT
+55e30b56-2e8c-4fdb-8fdb-f682ce86e3a3,48,Autre,Entorse légère,66,124,75,18,37.4,96,5,1.3,Cancer en rémission,"Antiagrégant plaquettaire, Antihypertenseur, Diurétique",VERT
+8ec287d0-0d18-43f8-9436-2abc724406af,26,Autre,Douleur dorsale,77,115,84,16,37.8,94,3,,,,VERT
+1fe6bab2-4ca8-475c-a99e-41aae2c2eea4,56,Autre,Douleur abdominale modérée,82,112,86,15,38.2,96,5,,"Asthme, AVC antérieur, Insuffisance cardiaque","Antihypertenseur, Corticoïde inhalé",VERT
+44b3b0ae-eb58-476d-a473-e1190c7be596,39,Autre,Renouvellement d'ordonnance,65,123,79,15,36.7,97,1,,Insuffisance cardiaque,"Anticoagulant, Antihypertenseur, Antidiabétique oral",GRIS
+e479db1b-fe39-4916-88cd-7146806a2ff3,2,M,Hémorragie importante,161,88,55,42,39.5,85,9,,,,ROUGE
+4f39d822-e29d-42d7-8a82-956ccd7272ec,30,Autre,Fièvre modérée,79,111,74,17,37.6,96,2,,Insuffisance cardiaque,"Antidiabétique oral, Antihypertenseur",VERT
+89f8fe90-2f72-43ff-b115-0a695ce20632,29,M,Certificat médical,79,124,81,18,37.1,98,0,0.9,AVC antérieur,Corticoïde inhalé,GRIS
+77340f92-2bd7-454b-ad26-d9edc193d226,34,F,Douleur abdominale intense,84,166,99,22,36.3,93,5,1.1,Cancer en rémission,"Statine, Bêta-bloquant, Antiagrégant plaquettaire",JAUNE
+ca059718-3202-43b5-8dee-33d00feef202,46,Autre,Traumatisme crânien léger,99,180,97,26,36.6,93,8,,Insuffisance cardiaque,Antihypertenseur,JAUNE
+ffb85459-dd1e-4c5a-a2ac-24a08d5f5555,47,Autre,Consultation de suivi,66,111,80,18,37.5,100,1,,BPCO,"Statine, Anticoagulant, Antihypertenseur",GRIS
+c1c6f2d5-c11f-4b94-b4e3-2acd5ba1b9c1,47,Autre,Fièvre modérée,84,133,88,14,37.8,97,2,,,,VERT
+92346434-3310-4359-9065-9ec7c1283590,73,F,Douleur abdominale intense,105,177,95,21,36.5,93,8,,"Hypertension artérielle, Insuffisance cardiaque, Cancer en rémission","Diurétique, Statine, Corticoïde inhalé",JAUNE
+55789e31-2dcf-413d-9968-f2ecc3c14f98,54,Autre,Certificat médical,71,110,80,14,37.5,99,1,,"AVC antérieur, Asthme, Insuffisance cardiaque",Statine,GRIS
+0bc37b50-60d1-4e8c-b43b-6c367fb7317a,50,Autre,Douleur thoracique atypique,88,169,93,27,39.4,92,7,0.7,,,JAUNE
+a67d6ab2-5c04-4276-8030-55978be56439,50,M,Petite plaie superficielle,76,126,79,15,36.7,100,1,1.3,"Asthme, BPCO, Coronaropathie",Antiagrégant plaquettaire,GRIS
+b07200e1-8ea3-4e0f-9a07-0e0dfa886cbc,70,Autre,Entorse légère,60,120,84,18,37.2,94,2,1.2,Insuffisance cardiaque,"Bêta-bloquant, Anticoagulant, Antidiabétique oral",VERT
+3fb3818b-7afa-4cab-a86a-3c89045db974,35,Autre,Certificat médical,74,118,73,14,36.8,98,0,,Diabète type 2,Diurétique,GRIS
+c8b45f91-501c-4582-bb5b-2ea6e34b1187,32,M,Douleur dorsale,85,129,80,18,36.7,96,5,0.7,Hypertension artérielle,Corticoïde inhalé,VERT
+2e917775-87bd-4bf2-9495-c77d36aec67f,45,F,Renouvellement d'ordonnance,79,129,81,18,37.1,100,1,0.8,"Diabète type 2, Cancer en rémission, Insuffisance cardiaque",Antidiabétique oral,GRIS
+78239dec-36d2-40d2-bd7e-c6db07e934ec,74,F,Douleur thoracique atypique,94,167,92,25,36.7,93,7,,"Coronaropathie, Insuffisance rénale, BPCO","Antihypertenseur, Antiagrégant plaquettaire",JAUNE
+8c72690d-7645-4525-96af-c9501ecc6fe2,37,F,Mal de tête persistant,87,126,73,16,37.8,95,5,,Coronaropathie,"Antidiabétique oral, Corticoïde inhalé, Anticoagulant",VERT
+f0ed435d-2ed9-4013-9575-22b602c6de14,40,Autre,Mal de tête persistant,67,112,80,17,37.5,97,3,,"Coronaropathie, BPCO",Antidiabétique oral,VERT
+68561e9d-4280-4060-84dc-21a770f6db4d,75,Autre,Douleur abdominale intense,83,106,62,28,38.6,93,5,,"Coronaropathie, Cancer en rémission","Antihypertenseur, Antiagrégant plaquettaire, Antidiabétique oral",JAUNE
+e7c5fa08-82d2-4dda-b85e-40a4dd5a8db4,67,Autre,Douleur thoracique atypique,104,109,74,23,36.5,92,6,0.9,"Insuffisance cardiaque, AVC antérieur, Coronaropathie","Antidiabétique oral, Statine",JAUNE
+07c94ff3-5e95-4cf1-9fe4-18be40573af5,50,F,Renouvellement d'ordonnance,69,110,81,14,36.9,97,0,,AVC antérieur,"Corticoïde inhalé, Diurétique, Anticoagulant",GRIS
+7cd616c5-497e-4e14-b6b5-c105b532e919,55,F,Douleur abdominale intense,97,171,96,24,36.5,91,6,0.8,,,JAUNE
+a7bfc850-3bbf-4c3e-b519-2cc8903f8c9a,24,Autre,Mal de tête persistant,81,130,83,20,36.6,95,5,,AVC antérieur,"Anticoagulant, Bêta-bloquant, Statine",VERT
+97fb7ae4-0d1b-4c8f-8ef4-1df84673d7f6,67,F,Mal de tête persistant,71,137,77,17,38.1,97,4,,"Hypertension artérielle, Insuffisance rénale","Antiagrégant plaquettaire, Diurétique, Anticoagulant",VERT
+6811bbca-e91f-40f9-9a02-79ec12ac7955,48,Autre,Consultation de suivi,64,124,72,18,37.5,99,2,,,,GRIS
+2fa7a7eb-66a9-4ea6-a556-ea227f83e9b1,62,Autre,Douleur dorsale,62,125,84,18,37.4,94,5,,"Insuffisance cardiaque, Insuffisance rénale",Antihypertenseur,VERT
+f8a8a63c-9137-4147-bb41-a9396e5243ae,53,Autre,Fièvre modérée,83,128,71,18,38.0,95,4,,"Cancer en rémission, Diabète type 2",Antidiabétique oral,VERT
+80db7a78-b297-4731-aef1-90a945d3b426,47,F,Difficulté respiratoire modérée,99,178,92,25,38.8,90,8,3.7,,,JAUNE
+1618e2b9-2306-4a92-84e0-6b9ed07174f3,51,M,Certificat médical,62,125,83,15,37.1,98,1,1.0,Coronaropathie,Statine,GRIS
+0969a949-342d-4809-b339-c76655fcd1e8,37,M,Difficulté respiratoire modérée,94,106,75,27,39.0,91,7,0.7,Cancer en rémission,"Diurétique, Statine",JAUNE
+c8acbb98-f40c-4bb5-bc3f-bccc4c15373b,17,M,Nausées,80,120,78,19,36.9,96,4,,,,VERT
+90519a3b-dff3-47f8-8454-54223fc9afd1,44,Autre,Douleur dorsale,67,120,87,17,37.2,95,2,,AVC antérieur,Antidiabétique oral,VERT
+66e30143-e8a0-45d5-8349-05f1e7ede55b,37,M,Douleur dorsale,69,111,89,18,37.5,94,3,,Diabète type 2,Anticoagulant,VERT
+16ea60e4-1093-4bca-8712-ba4b3609c74b,63,Autre,Nausées,85,119,84,16,37.2,96,2,,"AVC antérieur, Coronaropathie","Anticoagulant, Corticoïde inhalé",VERT
+bc8bd3c1-f75b-49c1-b366-48c0cf6b3df9,21,F,Petite plaie superficielle,70,115,84,14,36.8,99,0,,AVC antérieur,Antiagrégant plaquettaire,GRIS
+1f5a4ff6-425c-4e5a-83fe-32194cc2c7c8,52,F,Renouvellement d'ordonnance,79,113,71,14,37.4,99,0,1.2,Cancer en rémission,Antihypertenseur,GRIS
+ca087926-5189-4d0d-9e2b-6c5c4f8a64b3,72,F,Fièvre élevée avec frissons,84,172,91,26,36.6,93,6,1.3,"Insuffisance rénale, Coronaropathie, Asthme","Statine, Bêta-bloquant, Antihypertenseur",JAUNE
+a662d2b7-ba82-42df-9f19-6643cf482057,56,M,Fièvre modérée,77,130,76,19,38.0,96,3,,"BPCO, Insuffisance cardiaque, Coronaropathie","Antidiabétique oral, Diurétique",VERT
+d0081295-176c-4282-93c3-192cc4691475,46,M,Douleur dorsale,74,125,82,17,37.7,95,2,,"Insuffisance rénale, Cancer en rémission",Antihypertenseur,VERT
+1ca8b003-e880-4bd9-9ece-0186046eb868,36,Autre,Entorse légère,72,140,87,15,38.2,97,3,,,,VERT
+346014a8-3f77-4a13-852f-4cb2cd32430e,27,F,Consultation de suivi,75,110,75,18,36.5,98,2,0.9,Cancer en rémission,"Anticoagulant, Corticoïde inhalé, Statine",GRIS
+6e953b6d-93be-4c4b-91d5-1c073000c4d9,24,M,Petite plaie superficielle,79,123,80,18,36.7,98,2,,Insuffisance rénale,Diurétique,GRIS
+70aea730-d173-4617-8930-5070a3912033,80,M,Douleur thoracique atypique,98,165,95,23,38.6,91,6,,Asthme,Corticoïde inhalé,JAUNE
+75503676-901a-4935-8396-18ec22700290,31,F,Douleur thoracique atypique,80,175,92,21,38.6,92,6,1.0,,,JAUNE
+f355df79-5864-4cc4-b20e-fb105b58cdea,20,Autre,Renouvellement d'ordonnance,75,121,83,18,37.5,99,0,,,,GRIS
+188b1820-4a4e-421e-a402-bce170664646,83,Autre,AVC suspecté,114,73,44,33,40.5,78,10,,"Asthme, Insuffisance rénale","Antihypertenseur, Antiagrégant plaquettaire, Diurétique",ROUGE
+1ba84418-a2e2-4db2-834c-1b02628f1163,28,F,Fièvre modérée,70,115,70,21,38.2,95,5,,,,VERT
+6cf1301d-f71b-4026-8ba9-b4db76878b08,43,Autre,Nausées,70,117,73,20,38.2,96,4,0.9,AVC antérieur,Antidiabétique oral,VERT
+bd70c442-3fee-4ec0-91d6-162364cc9b66,46,M,Mal de tête persistant,64,121,74,17,37.0,97,5,,"BPCO, Coronaropathie",Antihypertenseur,VERT
+b4150ee8-9c2e-4e82-8fa7-08a97db80843,18,F,Douleur abdominale modérée,63,117,79,21,36.7,96,3,,Asthme,"Bêta-bloquant, Antihypertenseur, Antiagrégant plaquettaire",VERT
+d6bb25af-565b-4b4e-8d7d-eb8d3e209731,61,M,Traumatisme crânien léger,95,106,67,28,39.2,91,6,,"Hypertension artérielle, Insuffisance rénale","Antihypertenseur, Bêta-bloquant",JAUNE
+cc750127-dff1-433a-9485-9693ff269db3,45,Autre,Entorse légère,74,132,83,21,38.1,94,3,0.9,Hypertension artérielle,"Statine, Antidiabétique oral",VERT
+af041453-9c63-44e4-be3a-4e4fb3119b34,66,Autre,Traumatisme crânien léger,80,105,74,28,38.6,93,5,,,,JAUNE
+6e48906c-ed1c-43f3-9953-1cecfe80002a,51,Autre,Douleur thoracique atypique,89,162,99,27,36.7,91,7,,,,JAUNE
+e1789771-3c77-44f9-9726-eafbbcf4c69d,73,F,Douleur thoracique atypique,83,110,62,27,39.1,92,6,1.1,"BPCO, Insuffisance rénale, Asthme","Statine, Antiagrégant plaquettaire",JAUNE
+070cac9d-23b4-4bab-b672-48de8e496990,32,M,Entorse légère,71,125,87,19,37.0,94,4,,Diabète type 2,Antiagrégant plaquettaire,VERT
+f775677c-e47e-4dba-910a-8cd04aa0b8b9,43,M,Certificat médical,62,114,85,14,36.7,97,0,,"Hypertension artérielle, Insuffisance cardiaque, BPCO","Anticoagulant, Bêta-bloquant, Antiagrégant plaquettaire",GRIS
+88280a98-c703-40d5-9d5d-979dec1895eb,62,Autre,Entorse légère,69,136,86,17,38.4,95,4,,"Coronaropathie, Cancer en rémission, Insuffisance cardiaque","Antiagrégant plaquettaire, Bêta-bloquant, Anticoagulant",VERT
+0e4718d3-4d79-467e-940f-c34f19ffea4c,65,F,Douleur abdominale modérée,85,134,71,18,37.9,96,3,1.0,,,VERT
+d6911c57-0635-462e-adf9-2c3532d2938d,75,Autre,Fièvre élevée avec frissons,85,101,61,23,36.7,91,7,,"Asthme, BPCO","Antihypertenseur, Diurétique, Anticoagulant",JAUNE
+85c36427-78ce-4f93-b222-4699cdb30a3b,3,Autre,Détresse respiratoire sévère,164,209,129,39,35.0,85,9,1.1,Insuffisance cardiaque,"Statine, Corticoïde inhalé",ROUGE
+e3eccc99-eec0-495f-a102-d62e397d3209,69,Autre,Traumatisme grave,128,87,43,31,40.6,71,9,0.9,"Hypertension artérielle, BPCO","Bêta-bloquant, Corticoïde inhalé, Anticoagulant",ROUGE
+f09d2d4a-2ae9-4981-8d4d-fab62046feaa,23,Autre,Petite plaie superficielle,62,120,71,18,36.9,100,2,0.8,Coronaropathie,"Diurétique, Antihypertenseur",GRIS
+6aaf12af-a116-4249-8be4-8096966e9cc4,37,F,Mal de tête persistant,87,135,84,15,38.4,97,4,1.2,AVC antérieur,Antidiabétique oral,VERT
+8d24f34f-540d-44a9-83a4-285754caa1d8,37,F,Rhume léger,70,112,70,14,37.4,100,1,,,,GRIS
+03b1597f-2fd0-40f6-94be-15285047f602,47,Autre,Rhume léger,64,119,85,15,36.7,100,0,,"Insuffisance cardiaque, Cancer en rémission, Insuffisance rénale","Antiagrégant plaquettaire, Antidiabétique oral, Antihypertenseur",GRIS
+c235079b-a576-4511-a9e4-e20fa4a879d9,39,F,Fièvre élevée avec frissons,110,175,100,28,39.2,92,6,1.0,Coronaropathie,"Antiagrégant plaquettaire, Statine, Bêta-bloquant",JAUNE
+96371de3-4fdc-4b95-9c74-7f7cd3eb2c83,70,Autre,Douleur abdominale intense,102,165,99,22,39.2,90,5,1.2,Insuffisance cardiaque,"Corticoïde inhalé, Diurétique",JAUNE
+5e95b1cf-737a-436a-b9e3-be741538f018,52,M,Fièvre élevée avec frissons,89,179,92,22,39.3,91,7,,"Insuffisance cardiaque, Insuffisance rénale, Coronaropathie","Diurétique, Antihypertenseur, Statine",JAUNE
+b4ada1df-d7e5-4321-832c-ede5a1f85a54,67,M,Entorse légère,64,139,75,18,38.0,96,2,1.1,"Insuffisance rénale, Diabète type 2, BPCO","Antidiabétique oral, Antihypertenseur",VERT
+f23755e7-8681-4396-9081-9a3357277ef1,31,F,Fièvre élevée avec frissons,89,104,60,26,38.9,92,5,0.8,,,JAUNE
+9a8931fc-9147-44a8-8d67-0934365b9a89,26,M,Petite plaie superficielle,63,123,71,14,36.5,100,0,1.3,Hypertension artérielle,"Antidiabétique oral, Anticoagulant",GRIS
+34fd0250-6e73-4481-836b-3e4714fa9df4,37,Autre,Consultation de suivi,63,128,76,14,37.4,98,0,,,,GRIS
+54f774db-6091-4aa8-afa9-012ce3fc19ce,35,Autre,Certificat médical,71,126,72,15,37.4,98,0,,Insuffisance rénale,Bêta-bloquant,GRIS
+cc00b8b5-1181-46a1-8252-aec88f5d1e06,4,M,Traumatisme grave,136,88,45,38,40.8,85,9,,,,ROUGE
+5a247447-b05f-4d99-b007-e031ccc1d1cc,54,F,Difficulté respiratoire modérée,96,101,64,24,39.3,92,8,,"Hypertension artérielle, Diabète type 2, Asthme","Antidiabétique oral, Bêta-bloquant",JAUNE
+4c1816e6-3fb2-452e-a3dc-9095e63a06da,53,Autre,Fièvre modérée,81,116,72,21,37.9,97,5,,Cancer en rémission,"Antidiabétique oral, Bêta-bloquant, Corticoïde inhalé",VERT
+3f7a7065-4dd6-4d46-ba02-82a0f94ad519,58,M,Entorse légère,64,133,75,20,37.1,94,2,0.8,,,VERT
+d91796b2-299f-4199-b4ef-bd9d8292b0fd,55,M,Difficulté respiratoire modérée,106,180,96,27,36.3,92,7,,"Cancer en rémission, Insuffisance cardiaque",Antiagrégant plaquettaire,JAUNE
+873153cf-6f06-450e-806d-e534ad1769f2,34,F,Petite plaie superficielle,67,112,85,15,36.5,97,2,0.8,Coronaropathie,Statine,GRIS
+f71ce00a-9ed6-4833-bda4-a568a2689abf,21,M,Douleur dorsale,84,125,86,21,36.7,97,4,,Insuffisance rénale,"Antihypertenseur, Corticoïde inhalé, Antiagrégant plaquettaire",VERT
+d745b303-2250-4deb-900a-6ade50033c30,67,F,Hémorragie importante,120,199,128,32,39.6,75,10,0.9,Cancer en rémission,"Antiagrégant plaquettaire, Bêta-bloquant, Statine",ROUGE
+c001687b-6600-4cb5-8159-1ebc1b45cdf8,62,M,Douleur abdominale intense,88,169,95,28,38.9,92,5,3.8,"Hypertension artérielle, Coronaropathie, BPCO",Corticoïde inhalé,JAUNE
+e1efe40c-3da9-4f42-a917-75f1b8b9af26,37,F,Fièvre modérée,61,139,72,17,38.1,94,4,0.8,Hypertension artérielle,"Corticoïde inhalé, Statine",VERT
+7a4f5ca0-acf4-4541-9a5a-c11bdededc86,41,F,Entorse légère,82,128,82,21,37.5,97,4,,BPCO,"Antiagrégant plaquettaire, Statine",VERT
+14d06f83-9c73-4e28-b2e8-746850c5c1f9,72,F,Difficulté respiratoire modérée,99,162,98,25,38.9,93,6,4.0,Diabète type 2,"Antidiabétique oral, Statine, Anticoagulant",JAUNE
+a8ed393e-3084-4cf1-b97f-7733a5e5c137,51,Autre,Mal de tête persistant,73,126,79,17,37.6,96,5,,"AVC antérieur, Insuffisance cardiaque","Antiagrégant plaquettaire, Diurétique, Statine",VERT
+75e161f1-56d4-4085-b598-67dfa31e9efd,19,Autre,Rhume léger,65,118,83,18,37.0,100,2,,,,GRIS
+24a94efa-f01e-45b5-85cc-a9762cee388b,44,M,Douleur abdominale modérée,64,130,76,18,36.9,94,5,0.9,,,VERT
+a32e6600-87ab-4990-a5f0-1e70e4f1f732,30,F,Douleur abdominale modérée,63,124,85,16,37.7,96,5,,BPCO,Statine,VERT
+45e408fe-140b-45bc-9c5c-c6f88a2c1ceb,34,F,Rhume léger,65,110,71,14,37.5,100,0,0.9,,,GRIS
+9b5e8eb5-5e2d-424e-b5af-41806cb2b069,65,F,Choc,146,213,121,28,35.6,86,10,,"Cancer en rémission, Diabète type 2",Antidiabétique oral,ROUGE
+4620e556-83da-459e-b1bf-b1ace1900469,50,F,Traumatisme crânien léger,103,101,65,27,36.7,93,6,,"Hypertension artérielle, Cancer en rémission","Diurétique, Antiagrégant plaquettaire, Antihypertenseur",JAUNE
+07b61229-269a-4893-860c-fd0de1404cf7,42,F,Douleur dorsale,67,125,81,18,37.4,96,4,1.4,"Hypertension artérielle, BPCO, Asthme","Corticoïde inhalé, Anticoagulant, Diurétique",VERT
+bbd22f8b-42ec-4df6-b2a6-9a1451fd53c2,67,Autre,Choc,115,196,109,33,40.9,82,8,,"BPCO, Asthme","Diurétique, Corticoïde inhalé",ROUGE
+c87d644c-473a-4b09-8093-028fae28cfa1,56,M,Fièvre élevée avec frissons,107,170,96,22,36.9,93,5,,"Diabète type 2, Coronaropathie, BPCO","Diurétique, Bêta-bloquant, Antiagrégant plaquettaire",JAUNE
+0ebbcc47-7ed6-4025-bade-15dbba05159c,21,Autre,Renouvellement d'ordonnance,80,110,82,17,37.3,98,0,,Diabète type 2,Anticoagulant,GRIS
+a72e9d5d-a93c-478e-8e50-b551fcf8d15f,60,Autre,Douleur abdominale modérée,87,137,74,20,36.8,97,4,1.1,"BPCO, Diabète type 2","Diurétique, Antidiabétique oral",VERT
+210e9e90-4f84-42c4-9cc3-1940be505fe2,39,Autre,Douleur abdominale modérée,60,139,72,14,37.1,95,5,1.2,,,VERT
+442e460f-718b-4cdf-8fa9-4acd4416661c,42,Autre,Fièvre modérée,64,110,86,15,36.7,94,5,,"Cancer en rémission, Diabète type 2, Insuffisance rénale","Bêta-bloquant, Antidiabétique oral, Anticoagulant",VERT
+5ccacfb9-90d4-404f-8a7f-4400d0289ed7,46,F,Douleur abdominale modérée,73,133,76,17,37.5,96,5,1.3,,,VERT
+ba0956c6-ac02-4a62-9d66-64b1a36d5147,3,M,Perte de conscience,167,80,52,45,39.6,85,10,1.0,Diabète type 2,Antihypertenseur,ROUGE
+cd984c0f-9c9d-48c4-97ed-b31cbb182a5f,33,F,Certificat médical,79,110,78,18,37.2,97,2,,AVC antérieur,"Diurétique, Antidiabétique oral, Statine",GRIS
+52cd0b76-5c3b-4054-9fec-d90dc184ec75,29,F,Renouvellement d'ordonnance,76,114,72,17,37.4,100,1,,Insuffisance cardiaque,Diurétique,GRIS
+bcb0a8d7-208e-4ab6-8824-b2a1179d1d73,26,F,Certificat médical,71,129,78,17,36.8,99,2,1.3,Cancer en rémission,Antiagrégant plaquettaire,GRIS
+7fed662c-cda7-4fc5-9d90-de9a33b0a9ab,27,M,Renouvellement d'ordonnance,65,124,83,14,37.0,98,0,,Hypertension artérielle,"Diurétique, Antiagrégant plaquettaire",GRIS
+e777f550-6cc7-4d64-82a6-f31b13f72b94,44,F,Entorse légère,87,115,75,16,37.6,96,4,,Hypertension artérielle,"Anticoagulant, Bêta-bloquant, Antihypertenseur",VERT
+65723e64-7e09-4a38-bc44-30979fe57b6b,46,Autre,Entorse légère,88,122,81,19,38.2,94,2,,,,VERT
+aef31d75-c66f-46dd-ad72-67cbd0ed06e7,60,F,Petite plaie superficielle,80,120,71,16,37.1,97,2,,"Asthme, BPCO, AVC antérieur",Statine,GRIS
+c2110ea6-5e75-4250-923c-edecf33e87fb,18,Autre,Entorse légère,77,140,82,20,37.8,95,2,0.8,AVC antérieur,"Anticoagulant, Antihypertenseur",VERT
+2df5927e-7044-4187-a362-994f1dab80db,66,F,Douleur dorsale,85,131,73,18,37.1,96,4,,"Cancer en rémission, Insuffisance cardiaque","Corticoïde inhalé, Antihypertenseur, Bêta-bloquant",VERT
+efd185cc-bad3-437f-a4ed-b14bb139a824,69,M,Douleur abdominale intense,100,180,100,27,39.0,93,6,,"Insuffisance rénale, Diabète type 2, Asthme","Corticoïde inhalé, Antihypertenseur",JAUNE
+452cfc72-7fde-4d90-9320-505b3768bb77,60,F,Difficulté respiratoire modérée,84,177,91,25,36.5,92,5,,"Diabète type 2, Cancer en rémission","Statine, Anticoagulant, Corticoïde inhalé",JAUNE
+b4bfac0d-b06a-4fc0-9f2b-6f1bbd2838b4,64,Autre,Entorse légère,63,111,72,21,37.7,97,5,,,,VERT
+f4a6a1e0-c91c-4433-b344-bf104e04a983,44,Autre,Mal de tête persistant,79,116,75,18,38.4,95,2,,"Diabète type 2, AVC antérieur, Insuffisance cardiaque",Antihypertenseur,VERT
+4430d805-9076-4691-847f-42f0ae35f7a4,15,M,Douleur dorsale,75,119,89,21,37.4,97,4,,AVC antérieur,"Antidiabétique oral, Antiagrégant plaquettaire",VERT
+feced069-f1c5-4c50-9f66-360517577d3b,30,M,Consultation de suivi,66,130,77,14,36.7,98,1,,Insuffisance rénale,Antidiabétique oral,GRIS
+21b6fa3c-65d7-4542-94ba-73020199054b,44,M,Mal de tête persistant,73,140,85,14,38.4,97,5,1.0,,,VERT
+e3f726d4-3645-40fc-a029-8bad8c6c358e,68,F,Entorse légère,70,123,85,14,38.3,97,4,1.0,"Cancer en rémission, BPCO, Coronaropathie",Antihypertenseur,VERT
+a2ce317d-3203-4670-9ad3-0cbc2780f8b1,35,Autre,Entorse légère,68,124,83,20,36.6,96,2,1.2,Cancer en rémission,Bêta-bloquant,VERT
+d8221a0f-50d9-4509-8972-ed1542654f07,58,F,Nausées,87,140,83,21,37.8,97,4,,BPCO,"Antidiabétique oral, Diurétique",VERT
+e38179ff-9646-4164-9252-fbb04ba41f68,26,M,Douleur abdominale modérée,79,119,77,21,37.9,97,3,,Coronaropathie,"Diurétique, Antiagrégant plaquettaire",VERT
+6565befb-3c20-4168-a7f6-0318b82621c3,50,M,Consultation de suivi,70,113,77,17,36.6,98,1,0.9,Insuffisance rénale,"Anticoagulant, Corticoïde inhalé",GRIS
+6d9eb342-465d-4b13-bc30-d0de69b5467e,47,Autre,Douleur dorsale,63,140,73,14,36.9,97,2,,Insuffisance rénale,Antidiabétique oral,VERT
+55500b0d-9ae8-4b9e-8327-f99cdbcc688d,25,M,Certificat médical,65,113,74,16,37.2,100,2,1.3,,,GRIS
+a7b8bd2d-f600-4500-80c2-ed86c415fb0c,41,M,Douleur abdominale modérée,86,118,81,21,38.0,94,5,1.2,,,VERT
+ebeeeecb-25f5-40ed-861c-0af37964bf87,56,M,Difficulté respiratoire modérée,105,176,100,27,38.9,93,7,,Insuffisance rénale,Antidiabétique oral,JAUNE
+26aaa080-4f41-4c29-ac8e-581ff8e4253d,40,M,Mal de tête persistant,61,138,88,20,37.2,95,2,,"Insuffisance rénale, Insuffisance cardiaque, BPCO","Statine, Diurétique",VERT
+9640b616-5755-4b65-b0d0-10ec4b48a335,52,M,Fièvre élevée avec frissons,108,179,99,23,36.4,91,8,,"AVC antérieur, BPCO, Asthme",Antihypertenseur,JAUNE
+2cc7db85-edd7-458d-a117-753c02504ab8,39,Autre,Douleur dorsale,83,112,86,16,37.0,95,4,,Asthme,Antihypertenseur,VERT
+3688fa8c-13d8-41cc-a7b7-a13c117538f6,64,Autre,Fièvre élevée avec frissons,87,171,94,25,37.0,90,7,1.4,"Hypertension artérielle, Cancer en rémission, Asthme",Bêta-bloquant,JAUNE
+aeedf73b-27d1-4a34-b325-c7bc1e9d65b2,33,Autre,Douleur dorsale,78,113,80,16,37.0,95,3,,Diabète type 2,Corticoïde inhalé,VERT
+80786512-3568-4a05-aca4-04b00225cd75,35,M,Douleur thoracique atypique,93,172,99,23,38.9,92,8,,AVC antérieur,"Antiagrégant plaquettaire, Diurétique",JAUNE
+bc75f43d-11e7-40b7-a10d-96bfb7dad75b,69,Autre,Détresse respiratoire sévère,131,76,54,33,35.7,86,9,0.5,AVC antérieur,Antidiabétique oral,ROUGE
+d60ec2c3-cfbe-474a-ad02-1af7345e2fc0,33,M,Nausées,64,119,85,15,38.5,96,2,,,,VERT
+2e93f8de-f2ff-4053-a159-316a4b1300c1,18,F,Fièvre modérée,66,127,81,16,37.0,94,2,,Insuffisance cardiaque,"Antiagrégant plaquettaire, Anticoagulant, Bêta-bloquant",VERT
+8e3df785-1c51-443c-b90d-17208f2b1063,61,Autre,Douleur abdominale modérée,84,131,84,16,37.0,97,3,,"AVC antérieur, Insuffisance rénale, Diabète type 2","Diurétique, Statine",VERT
+4b2d7396-852b-45e0-ab61-990de4597fd7,60,F,Certificat médical,80,128,79,14,37.4,97,2,,BPCO,"Antihypertenseur, Statine, Corticoïde inhalé",GRIS
+92f03070-63a8-4da3-9045-9c931d3ffc79,48,Autre,Consultation de suivi,63,118,76,18,36.7,97,0,,"Cancer en rémission, Diabète type 2, AVC antérieur","Diurétique, Bêta-bloquant, Statine",GRIS
+f9d3ef80-b0d1-4912-8cc7-6757523030cc,19,F,Petite plaie superficielle,65,122,78,17,36.5,99,0,0.8,,,GRIS
+f660b339-96b5-417b-aaff-e6c3f5aa39f7,34,M,Renouvellement d'ordonnance,69,129,80,17,37.2,97,0,0.7,Coronaropathie,Corticoïde inhalé,GRIS
+631229e0-f11f-4eb4-b2e9-bdb19971469d,46,F,Douleur thoracique atypique,81,176,96,24,39.1,91,5,1.1,,,JAUNE
+ebde6a98-974c-4a7e-8e53-6f98f6c0c42a,58,M,Consultation de suivi,68,117,74,18,37.5,97,1,,"Insuffisance rénale, BPCO, AVC antérieur",Diurétique,GRIS
+eb1c187d-a7f4-4370-917e-a9432d87e93b,25,M,Nausées,90,110,84,20,37.1,94,4,,,,VERT
+b33145c3-7f75-4694-8173-6be9e0a372b3,48,F,Rhume léger,68,128,79,17,37.5,98,0,1.1,,,GRIS
+b0c101e2-9f0f-4b88-a9d7-8a51066245ff,25,M,Rhume léger,68,120,78,17,36.7,99,2,,,,GRIS
+aebec2ed-d10e-45f6-ab73-224860a5cbc1,89,Autre,Perte de conscience,101,70,45,28,39.5,85,9,,"AVC antérieur, Diabète type 2","Antidiabétique oral, Statine, Antihypertenseur",ROUGE
+645682e8-74e2-4b5a-a468-52dc6d7ee3c1,72,F,Déshydratation sévère,83,100,63,26,36.4,92,8,2.5,"Coronaropathie, BPCO",Statine,JAUNE
+73ff52a0-d12d-4e32-b288-eaa2dd4d0181,44,M,Douleur abdominale intense,110,110,72,26,39.0,91,5,,"Asthme, BPCO","Anticoagulant, Antihypertenseur, Statine",JAUNE
+6655d947-cc7b-45f7-b045-936a9cb8efe8,22,M,Certificat médical,78,116,70,15,37.4,99,2,,Insuffisance rénale,"Antihypertenseur, Bêta-bloquant",GRIS
+99125500-d51d-4f55-94bd-59aceebff010,56,M,Fièvre modérée,73,125,81,20,38.2,97,2,,,,VERT
+90e82008-578b-4e5b-bb0d-00221be513f5,41,Autre,Mal de tête persistant,70,133,77,14,37.8,94,5,,Asthme,"Statine, Antihypertenseur",VERT
+97ed1acc-1d8c-486c-a128-c834f6a9800f,21,M,Mal de tête persistant,73,136,78,14,37.1,96,3,0.9,Hypertension artérielle,"Bêta-bloquant, Antihypertenseur",VERT
+7ae03373-8f52-435c-b9fc-a7767ff85b1f,69,F,Douleur thoracique atypique,100,172,95,28,38.6,90,5,,,,JAUNE
+048a6b61-06d2-4080-8c94-8b0e63a7374f,33,F,Traumatisme crânien léger,100,106,72,27,39.2,90,5,,Hypertension artérielle,"Corticoïde inhalé, Bêta-bloquant",JAUNE
+212326c9-61dd-4ca2-90f2-6be75a5d991e,69,Autre,Douleur thoracique atypique,90,100,62,21,38.8,91,6,,,,JAUNE
+498c3f67-0374-44b6-8fd7-9438db6a722f,37,F,Mal de tête persistant,83,111,74,21,37.6,94,4,,Coronaropathie,"Anticoagulant, Antidiabétique oral",VERT
+710e2810-ff4b-4c9c-850b-c1a36805b3ad,53,F,Fièvre modérée,71,111,77,14,37.2,95,2,,,,VERT
+e47bb2f9-d1b0-4ff4-a8ac-6c1a7fd9e503,27,M,Fièvre modérée,66,137,88,21,37.5,96,4,,Asthme,Antiagrégant plaquettaire,VERT
+25873bdb-af17-4ad1-865c-6cd9b456275e,32,F,Difficulté respiratoire modérée,109,167,97,21,36.7,93,7,,AVC antérieur,Antihypertenseur,JAUNE
+227145f4-3bfb-4279-bc87-f1e5a22cee20,19,F,Entorse légère,77,111,70,15,37.9,96,3,0.8,Asthme,"Bêta-bloquant, Antidiabétique oral",VERT
+02f5cde4-5238-4ec8-9472-c142f21d81cd,29,F,Consultation de suivi,60,120,76,15,36.9,97,1,,Coronaropathie,"Anticoagulant, Statine, Corticoïde inhalé",GRIS
+68cccaec-b72a-4327-8341-2fe49a1fab88,75,M,Douleur thoracique atypique,84,170,99,23,36.2,93,8,,,,JAUNE
+83dd5920-c8d0-4b26-a207-94cf59f253c8,57,Autre,Renouvellement d'ordonnance,77,117,71,16,37.3,99,2,,"Cancer en rémission, BPCO, Coronaropathie",Antiagrégant plaquettaire,GRIS
+75065436-f108-4ab9-9542-d137a81f45a4,69,M,Difficulté respiratoire modérée,96,174,92,27,36.6,92,7,,"Cancer en rémission, Insuffisance rénale","Corticoïde inhalé, Diurétique",JAUNE
+33a18c8a-0b2b-4cd8-b90e-e50575743b6c,67,Autre,Douleur thoracique atypique,86,104,73,24,36.5,91,8,,"Insuffisance cardiaque, Diabète type 2",Antidiabétique oral,JAUNE
+6975ecca-4e8d-45a1-96d3-fa9317927891,48,F,Douleur abdominale modérée,78,124,84,14,37.1,97,5,,"Insuffisance cardiaque, AVC antérieur",Anticoagulant,VERT
+619a17f5-17bc-4ff8-8012-3c6559934949,31,Autre,Entorse légère,71,135,78,15,38.0,94,3,0.7,,,VERT
+81cded01-764b-4e9c-9c4b-c04820a3fa49,27,Autre,Fièvre modérée,68,116,89,18,37.3,96,3,,Insuffisance rénale,"Antihypertenseur, Corticoïde inhalé",VERT
+1e6bbaeb-33b0-4894-83e9-ffc98f05265c,67,F,Mal de tête persistant,90,125,90,20,37.3,94,3,,,,VERT
+acc3d5c7-59af-4383-97d0-5d222182f1d6,43,F,Difficulté respiratoire modérée,96,103,73,28,36.5,90,8,1.1,"Asthme, Insuffisance cardiaque, Coronaropathie",Antiagrégant plaquettaire,JAUNE
+721a1df1-612f-42ab-a405-55a80cf3ca90,52,F,Difficulté respiratoire modérée,93,100,61,27,36.4,92,6,0.9,"AVC antérieur, Insuffisance rénale, Diabète type 2","Antidiabétique oral, Statine",JAUNE
+d9761009-029b-4424-988e-3b5a6d32f360,45,M,Fièvre modérée,78,113,87,21,36.8,95,3,1.2,BPCO,Corticoïde inhalé,VERT
+58766c87-8e4d-400e-9198-0b46cb6a51ec,29,F,Douleur dorsale,76,115,80,15,36.9,94,5,1.4,,,VERT
+a50609d0-b1bf-4f6f-9383-8c13f81370e4,62,M,Mal de tête persistant,90,136,85,17,37.7,97,3,,"BPCO, Cancer en rémission, Asthme",Antihypertenseur,VERT
+2944a687-df64-4604-8be3-8c974634a3ed,85,Autre,Choc,115,88,41,34,40.4,85,10,1.3,"Insuffisance cardiaque, AVC antérieur, Insuffisance rénale",Corticoïde inhalé,ROUGE
+8de9f618-f169-40f9-89f7-9783913bb544,54,Autre,Mal de tête persistant,74,122,71,20,36.7,94,3,,,,VERT
+56785e4b-82ad-4630-989e-23bd47fa2177,64,F,Déshydratation sévère,109,173,98,22,36.7,91,5,,,,JAUNE
+75afaa25-2617-4921-86cf-647b7f2170f6,38,F,Petite plaie superficielle,65,124,70,16,36.7,97,0,,Cancer en rémission,"Diurétique, Antiagrégant plaquettaire",GRIS
+5c4e9e3d-aa61-4a90-8107-a70cd3e96a2a,27,F,Entorse légère,60,131,84,18,38.4,96,5,,,,VERT
+bdacdf69-9d68-4e37-a93f-039212e7c20c,60,F,Douleur abdominale modérée,75,129,73,18,36.7,94,3,1.1,Hypertension artérielle,"Statine, Antidiabétique oral, Bêta-bloquant",VERT
+968f48d3-11de-4b23-8856-6a122ff163e3,28,Autre,Entorse légère,88,122,79,17,36.5,94,5,0.7,BPCO,Diurétique,VERT
+59752646-896b-454a-afb5-f299cbeb6a49,42,M,Douleur thoracique atypique,93,162,93,21,36.3,91,5,,Asthme,Corticoïde inhalé,JAUNE
+38bc2c98-05bf-4c50-9c7e-47b062506908,67,F,Fièvre modérée,77,140,83,17,37.4,97,2,0.8,AVC antérieur,"Diurétique, Antihypertenseur, Bêta-bloquant",VERT
+ddfff7eb-41f0-42ce-8657-0b51b0435e65,29,M,Douleur dorsale,86,138,76,18,36.9,94,5,1.1,Diabète type 2,"Anticoagulant, Antiagrégant plaquettaire, Antihypertenseur",VERT
+9cee8566-6740-45f4-82bd-ef90a07c42f3,55,Autre,Mal de tête persistant,81,137,85,16,38.1,96,2,1.1,"Insuffisance rénale, BPCO","Antihypertenseur, Antidiabétique oral, Antiagrégant plaquettaire",VERT
+958ddae5-92f5-4544-a343-6669c3d2cdb6,22,F,Douleur abdominale modérée,83,114,81,20,37.1,94,5,0.8,,,VERT
+98532965-5d13-481c-b117-f1f53bb05eb7,56,F,Certificat médical,64,126,83,16,36.8,97,2,,Coronaropathie,"Bêta-bloquant, Antidiabétique oral",GRIS
+eb1ed8bc-1fa5-468b-9f7a-26d8fc17d5eb,57,M,Douleur dorsale,82,115,84,17,36.9,96,2,1.0,Asthme,Anticoagulant,VERT
+6bc4d2c6-e71a-403a-9f4a-cc6ab0d91ca3,55,Autre,Renouvellement d'ordonnance,67,119,75,18,36.6,100,2,1.0,"Insuffisance cardiaque, Cancer en rémission","Bêta-bloquant, Anticoagulant, Antiagrégant plaquettaire",GRIS
+82ad037c-3ba4-46f0-9545-0acc9cfacf26,41,F,Petite plaie superficielle,65,114,85,17,36.9,100,0,,Insuffisance cardiaque,"Anticoagulant, Statine, Diurétique",GRIS
+5b91a70c-5636-40b6-984d-62f145b89970,42,F,Certificat médical,74,112,80,16,36.9,100,0,,,,GRIS
+0e6305b9-e3a6-4dc1-ba1e-e4258e5e37e1,30,M,Traumatisme crânien léger,103,171,96,26,39.4,93,8,0.7,Diabète type 2,"Anticoagulant, Antidiabétique oral",JAUNE
+1b126e43-8b0f-43ea-93e5-36bb658910ba,46,Autre,Fièvre élevée avec frissons,96,173,93,28,36.4,90,6,,"Hypertension artérielle, Asthme","Antiagrégant plaquettaire, Diurétique",JAUNE
+a2f4c26a-414c-4dcf-b587-6cbcc25c149b,33,Autre,Rhume léger,65,130,82,14,36.6,97,1,,Diabète type 2,"Bêta-bloquant, Antiagrégant plaquettaire, Antidiabétique oral",GRIS
+ac742314-0a6c-49fd-bcfb-9ac7b1cd1e33,46,Autre,Fièvre élevée avec frissons,96,109,71,27,39.2,90,6,1.2,Asthme,"Antihypertenseur, Antiagrégant plaquettaire",JAUNE
+54af862b-2d75-44e1-ae73-f317fe61c859,44,Autre,Petite plaie superficielle,80,115,81,16,37.2,98,0,,,,GRIS
+643de097-5e66-487f-b088-6f8494069ccd,25,F,Rhume léger,66,116,78,15,36.7,98,1,,Diabète type 2,"Anticoagulant, Antihypertenseur, Antiagrégant plaquettaire",GRIS
+c968eda8-8ea7-425c-b69b-f9a21dc3738d,25,F,Consultation de suivi,70,125,73,14,37.1,100,0,1.2,,,GRIS
+b5603c7a-0273-40ff-94ee-e8745d5f42ba,17,M,Douleur abdominale modérée,76,139,85,14,38.0,96,5,,Coronaropathie,"Diurétique, Anticoagulant",VERT
+d5f48da0-2b4b-4186-881d-0ab8d8d994c6,53,Autre,Douleur abdominale intense,92,106,64,21,36.9,90,5,,"BPCO, Coronaropathie","Antiagrégant plaquettaire, Statine",JAUNE
+e5f528aa-c38f-444c-ab2b-55c979df638f,27,M,Douleur dorsale,90,135,80,19,37.9,94,5,1.0,Diabète type 2,"Corticoïde inhalé, Bêta-bloquant",VERT
+607b776d-cae4-4f57-934a-4a422e91b4ee,66,Autre,Hémorragie importante,118,212,101,35,35.1,86,8,,,,ROUGE
+e795507a-8166-49bf-9eaf-a22a470a3b96,65,F,Difficulté respiratoire modérée,108,102,62,28,36.5,91,5,,Coronaropathie,"Statine, Antidiabétique oral",JAUNE
+4b4f1b75-b3d1-429b-b8be-cc582812f0cb,72,F,Déshydratation sévère,83,105,67,23,36.6,93,5,,"AVC antérieur, Insuffisance rénale, Cancer en rémission",Bêta-bloquant,JAUNE
+ebdd3259-acec-4690-9dcb-9760a6b2c2ee,33,M,Entorse légère,62,128,81,19,37.4,94,3,,Hypertension artérielle,"Antihypertenseur, Statine",VERT
+22a5dd2e-18b2-4eb2-9bef-315f36805060,69,F,Mal de tête persistant,70,126,89,19,37.4,95,3,0.7,"Asthme, Insuffisance cardiaque",Antiagrégant plaquettaire,VERT
+d296eca1-a164-473b-94c8-aba298e8e6eb,24,Autre,Fièvre modérée,64,118,88,14,36.8,94,5,,,,VERT
+2cb4a4a8-b38f-4ca1-a201-6f27f2a43905,39,M,Fièvre modérée,64,132,71,17,37.4,95,3,,Insuffisance cardiaque,"Anticoagulant, Antihypertenseur, Statine",VERT
+2a104308-9dbe-4117-906c-79e1cc727ee6,42,Autre,Mal de tête persistant,71,119,76,20,38.0,96,5,0.9,Insuffisance cardiaque,"Anticoagulant, Statine",VERT
+9e388a46-9916-4a75-901b-50598a2a091e,48,F,Renouvellement d'ordonnance,66,130,70,15,37.3,98,1,,"Asthme, AVC antérieur, BPCO","Anticoagulant, Antihypertenseur, Corticoïde inhalé",GRIS
+75738a78-1ca5-4ae1-aafd-8cf9c3d5b1de,45,M,Entorse légère,63,117,71,19,37.5,97,2,1.0,AVC antérieur,"Antidiabétique oral, Corticoïde inhalé, Bêta-bloquant",VERT
+c4dad82c-e97f-41c8-b34e-6edb8bcdb017,71,F,Fièvre élevée avec frissons,100,110,67,28,38.6,90,5,,"Insuffisance cardiaque, Diabète type 2","Anticoagulant, Bêta-bloquant, Corticoïde inhalé",JAUNE
+b9589229-7266-4be7-aea2-74701653e1d7,79,Autre,Détresse respiratoire sévère,106,70,52,31,35.9,87,10,,"Cancer en rémission, Diabète type 2, Insuffisance cardiaque","Antidiabétique oral, Corticoïde inhalé, Antiagrégant plaquettaire",ROUGE
+213a0fd1-0f27-47a1-af39-8d3de02496b9,71,Autre,Traumatisme grave,111,88,46,26,40.7,73,10,1.3,,,ROUGE
+db58442b-cbff-4601-84d8-a500aa526a8c,83,Autre,Détresse respiratoire sévère,127,198,121,36,35.3,86,10,,"Coronaropathie, Insuffisance rénale, Insuffisance cardiaque","Bêta-bloquant, Diurétique, Antihypertenseur",ROUGE
+ce81e2aa-b53e-45b0-aab6-b04653e69b3c,17,M,Entorse légère,66,129,87,16,38.3,95,3,,,,VERT
+75a092cf-1aa4-451a-adcb-6289c04ff03f,57,M,Traumatisme crânien léger,88,168,100,25,39.4,93,8,,,,JAUNE
+ddc629b7-e003-4fc7-804a-3ff0251d6297,55,Autre,Fièvre modérée,80,123,74,17,37.1,95,4,,BPCO,Statine,VERT
+d50b54be-519a-4079-b1f6-9678ec8eb872,25,Autre,Rhume léger,73,121,80,14,36.8,97,1,1.3,,,GRIS
+73617ede-2777-4132-862d-c15cb3d754c1,32,F,Consultation de suivi,63,128,85,15,37.0,99,0,,Insuffisance cardiaque,"Statine, Antiagrégant plaquettaire, Antihypertenseur",GRIS
+4a75e086-04ad-4272-af3a-33e1f531dab9,40,F,Douleur abdominale intense,85,164,94,26,36.7,93,5,,"Asthme, Insuffisance rénale, BPCO","Statine, Antihypertenseur, Diurétique",JAUNE
+d1973e75-7285-4ae0-b195-ec6141e33a2e,38,Autre,Douleur abdominale modérée,81,135,84,20,36.7,96,4,1.0,BPCO,"Antidiabétique oral, Anticoagulant",VERT
+27253c84-c2e8-410b-9dbf-59abe4381132,35,M,Douleur dorsale,62,128,71,15,37.4,95,2,,Cancer en rémission,Corticoïde inhalé,VERT
+01196d73-262c-4d45-b808-76a80b203f22,61,M,Mal de tête persistant,75,132,83,15,37.1,94,4,1.2,"Hypertension artérielle, Cancer en rémission, Diabète type 2","Bêta-bloquant, Antidiabétique oral, Antihypertenseur",VERT
+63fe7839-bd9d-487a-8726-6ad66e145e18,23,Autre,Fièvre modérée,90,113,80,14,36.9,96,3,,Diabète type 2,"Statine, Bêta-bloquant",VERT
+59f1364d-2c89-4001-8720-019c47105038,28,M,Douleur dorsale,80,139,84,20,37.8,94,5,0.7,Insuffisance cardiaque,"Antidiabétique oral, Antihypertenseur",VERT
+7407dce0-37a3-4542-9236-e4963e853670,61,M,Mal de tête persistant,71,126,86,14,38.0,94,3,,Asthme,"Statine, Antidiabétique oral, Bêta-bloquant",VERT
+350af888-d9b1-4050-8c5c-6222b562a0a5,34,F,Mal de tête persistant,88,131,84,16,36.8,97,3,1.2,,,VERT
+08d04514-bfbf-474d-8dc2-fd6e495d10d6,75,M,Douleur thoracique atypique,86,165,100,25,38.9,92,6,,"Diabète type 2, AVC antérieur","Antiagrégant plaquettaire, Corticoïde inhalé",JAUNE
+5bd4948f-fdf3-4cc4-a1c7-20b3e8488629,23,F,Mal de tête persistant,76,114,74,20,38.5,94,4,,BPCO,Diurétique,VERT
+ebc94636-adbd-4358-b342-68decc8877d4,53,Autre,Entorse légère,73,117,89,21,38.0,97,3,,,,VERT
+02ed11ac-c612-4f9f-8d37-c5da6ad75276,22,F,Douleur dorsale,67,132,86,20,38.2,94,3,1.3,Asthme,Antidiabétique oral,VERT
+83c2c82e-bb57-464c-a9df-7dd533b66f5f,20,F,Renouvellement d'ordonnance,64,112,71,17,36.5,98,1,,BPCO,Diurétique,GRIS
+5a1c6fef-2b90-4182-a13b-465543f91bfa,18,Autre,Mal de tête persistant,80,140,81,14,37.8,96,5,1.3,,,VERT
+990b6fa1-310d-4298-b3a1-8a996951bbd0,60,Autre,Certificat médical,66,123,75,16,37.0,97,1,,"Diabète type 2, Insuffisance rénale","Antihypertenseur, Diurétique, Statine",GRIS
+c1155fa1-033d-44c3-accb-1eb747a41e16,38,F,Fièvre élevée avec frissons,103,104,66,26,36.6,92,8,3.4,Hypertension artérielle,"Bêta-bloquant, Antidiabétique oral, Diurétique",JAUNE
+2bf82822-8f14-4f3f-89bb-1f8f2d6b0a2a,21,M,Nausées,79,127,74,19,38.0,95,2,1.0,Insuffisance rénale,"Diurétique, Bêta-bloquant",VERT
+bd4aa5cb-8f41-47ea-875e-f6e227cc6b26,22,F,Entorse légère,75,115,89,20,37.5,94,4,,,,VERT
+98aee859-855d-4502-9e67-67f086045873,54,M,Renouvellement d'ordonnance,72,115,84,17,37.2,97,2,1.2,"BPCO, Asthme",Anticoagulant,GRIS
+4ff8a8cc-e8b3-44e7-b10e-86465e5a68f9,52,Autre,Entorse légère,88,119,77,21,37.2,96,4,,BPCO,Bêta-bloquant,VERT
+c300934e-3a06-4152-babf-c2e377912e49,55,M,Fièvre modérée,89,136,76,16,38.3,95,2,0.9,"Coronaropathie, Diabète type 2","Statine, Diurétique, Antidiabétique oral",VERT
+365c7f85-b10d-46c5-8291-7924f905ce9f,54,F,Fièvre modérée,61,115,78,14,36.7,96,2,,"Diabète type 2, AVC antérieur, Coronaropathie","Bêta-bloquant, Corticoïde inhalé",VERT
+c3402ed0-e120-4218-8a84-29a81ddf27cc,35,F,Douleur abdominale modérée,78,121,74,20,37.7,97,5,0.8,,,VERT
+489abd33-84a8-4a2d-b011-587d364a8107,42,Autre,Douleur abdominale intense,110,172,100,23,36.0,91,6,2.9,"Diabète type 2, Asthme","Antihypertenseur, Statine, Antiagrégant plaquettaire",JAUNE
+73fbfa57-9857-4fd3-a0b8-b7ec61fc55e7,16,M,Entorse légère,84,114,90,14,38.3,96,2,,,,VERT
+add99b03-5b5b-4fdd-842b-716e5302f6c7,64,Autre,Fièvre élevée avec frissons,107,169,95,22,39.0,93,8,3.5,Hypertension artérielle,Antidiabétique oral,JAUNE
+707620ea-65eb-4325-96bc-8dc79b032395,21,Autre,Mal de tête persistant,64,122,74,14,36.5,97,4,,,,VERT
+eb334606-2817-4a79-8aaf-ef209fb870c4,54,Autre,Déshydratation sévère,106,104,71,22,39.5,91,5,,,,JAUNE
+3076963a-bf67-476d-9e01-554b08df7348,35,M,Traumatisme crânien léger,84,164,100,23,38.8,91,7,,,,JAUNE
+bb0ff43c-1bbe-49b3-be53-7569a5fde158,47,F,Déshydratation sévère,91,164,100,25,36.7,90,6,1.2,"Diabète type 2, Insuffisance rénale","Corticoïde inhalé, Diurétique, Anticoagulant",JAUNE
+4aecbdc3-662e-498f-bc30-3353abeddf24,38,M,Renouvellement d'ordonnance,72,125,83,16,36.8,100,2,,BPCO,"Corticoïde inhalé, Statine",GRIS
+63cdfab7-8a16-465d-adb0-36c42272d327,49,F,Nausées,77,126,88,17,38.1,97,3,,,,VERT
+84419de6-7b94-4833-93ac-78ad370cd0ef,19,F,Rhume léger,75,121,81,15,37.4,97,0,0.8,AVC antérieur,Bêta-bloquant,GRIS
+b144a6c3-7aae-4299-ba2f-3c20b180a669,33,Autre,Difficulté respiratoire modérée,83,101,62,23,38.5,93,8,,Hypertension artérielle,Diurétique,JAUNE
+3a61b890-0094-4ba1-9418-06a7d3406efc,33,M,Consultation de suivi,78,125,74,17,36.6,98,2,,Cancer en rémission,"Diurétique, Bêta-bloquant",GRIS
+6071510f-6140-40dd-9acc-8e264a5e025b,74,M,Fièvre élevée avec frissons,83,160,96,23,39.1,91,8,,"Insuffisance cardiaque, Insuffisance rénale, Coronaropathie",Corticoïde inhalé,JAUNE
+7ce02f61-56a7-4502-a033-d63d06b06109,47,M,Traumatisme crânien léger,92,102,62,23,36.4,90,8,,"AVC antérieur, Asthme",Diurétique,JAUNE
+23d9089f-46cb-46ad-976d-76393d8241d9,27,F,Entorse légère,63,110,77,15,38.3,96,4,0.8,,,VERT
+d5f402b7-4385-488d-8c0f-20a066163fe8,37,M,Rhume léger,66,128,71,14,36.7,97,2,,Hypertension artérielle,"Antidiabétique oral, Anticoagulant",GRIS
+ae4089a5-34a4-472d-8ffa-c22a2bf947a0,40,F,Petite plaie superficielle,76,121,74,15,36.8,100,2,,"Insuffisance rénale, Diabète type 2, Insuffisance cardiaque",Antihypertenseur,GRIS
+dd4413d5-fd75-41c2-94db-536d7e525aa3,39,F,Nausées,87,112,90,14,37.7,97,2,,,,VERT
+f652edd8-a03c-49e0-9e21-3ca09f6e0e87,58,Autre,Douleur abdominale modérée,84,124,74,16,37.0,96,4,1.1,AVC antérieur,Bêta-bloquant,VERT
+60c00401-6313-4cb6-8820-d3be4ed1fb34,69,Autre,Traumatisme grave,131,185,115,27,39.7,79,8,,,,ROUGE
+def23e95-ee92-4779-b99e-390a22d7c42e,19,F,Nausées,71,118,85,19,37.7,97,4,,Asthme,Antiagrégant plaquettaire,VERT
+660060cf-662b-4adc-abb7-a2cecfb749c5,36,F,Petite plaie superficielle,79,121,72,15,36.9,99,2,,Hypertension artérielle,"Antihypertenseur, Diurétique, Antidiabétique oral",GRIS
+e1bfdd5e-59ad-49d0-b323-2a7869a60af9,50,M,Douleur abdominale modérée,87,137,72,15,37.7,97,3,1.0,,,VERT
+660ec782-c14c-4065-9ea1-1590fb3d9896,56,Autre,Mal de tête persistant,63,134,83,15,37.6,97,3,,,,VERT
+97ccfe59-8620-4431-a58e-72663e56e498,53,F,Douleur abdominale modérée,82,140,85,21,38.0,95,3,,AVC antérieur,Diurétique,VERT
+71b191dc-7d68-4422-b5f7-426c611f4ea0,60,M,Douleur thoracique atypique,86,102,62,21,36.7,92,6,0.9,"Insuffisance rénale, BPCO","Statine, Antidiabétique oral, Antihypertenseur",JAUNE
+b72674d9-6863-4c31-9d91-92f2b571c0f6,45,F,Certificat médical,65,125,85,15,36.8,100,2,,,,GRIS
+42462f70-a296-47b9-9b72-e44923f54ddd,37,Autre,Nausées,72,112,88,14,37.4,95,3,1.4,Coronaropathie,Anticoagulant,VERT
+750c8266-63e6-45e7-940d-8787960002d1,39,F,Fièvre élevée avec frissons,83,164,100,27,39.2,93,8,,Hypertension artérielle,Bêta-bloquant,JAUNE
+c55171ef-9c7f-4a09-adba-79d773908107,49,M,Nausées,72,121,81,17,38.5,94,2,0.9,Cancer en rémission,"Antiagrégant plaquettaire, Bêta-bloquant, Corticoïde inhalé",VERT
+30102580-c811-4fe7-bebb-094b8a8714c7,68,Autre,Mal de tête persistant,76,121,75,19,37.7,97,3,,"AVC antérieur, Insuffisance cardiaque, Coronaropathie","Antidiabétique oral, Antihypertenseur, Corticoïde inhalé",VERT
+3b4da4b6-a922-4be0-8b28-9c1eca84ef62,19,Autre,Petite plaie superficielle,63,130,84,17,37.2,97,2,,,,GRIS
+5476bde1-ef8f-42d5-ad4e-d4960e928fcc,41,M,Douleur abdominale modérée,84,140,73,21,36.6,97,4,,"AVC antérieur, Hypertension artérielle","Bêta-bloquant, Statine",VERT
+56d8b823-9aab-4378-b690-837def8b1cb8,57,F,Fièvre modérée,86,111,70,20,36.5,97,2,1.0,"Coronaropathie, Insuffisance rénale, Diabète type 2","Corticoïde inhalé, Antidiabétique oral, Statine",VERT
+35b0c202-81a3-4adf-beec-d2ba647100c4,5,F,Choc,133,191,112,44,40.9,82,9,,Diabète type 2,"Anticoagulant, Statine, Antihypertenseur",ROUGE
+07dfdab5-bf38-4339-bbe4-e734cc486a67,65,F,Douleur dorsale,89,116,72,18,36.7,96,2,0.7,Hypertension artérielle,"Antidiabétique oral, Statine, Bêta-bloquant",VERT
+c855a3d8-f831-45e7-89b1-42657f13aeae,26,F,Certificat médical,65,119,76,15,37.2,98,2,,AVC antérieur,"Antihypertenseur, Anticoagulant",GRIS
+8170971f-8a46-4785-b7b9-cf44ff440ee9,27,Autre,Consultation de suivi,80,124,73,18,37.4,97,0,0.9,,,GRIS
+cf842067-d721-4919-8fa6-ac0f0b416bd6,41,M,Petite plaie superficielle,63,112,85,17,37.3,100,2,1.2,"Cancer en rémission, Asthme",Statine,GRIS
+5c2fa383-036d-4fbb-b6e9-0e826c05967c,29,Autre,Rhume léger,80,120,81,18,37.4,97,1,,Hypertension artérielle,Statine,GRIS
+43161cfb-2b2a-4247-96bf-af4f03eb6638,42,Autre,Douleur thoracique atypique,97,163,93,21,39.3,91,5,1.2,"Insuffisance cardiaque, Cancer en rémission",Antidiabétique oral,JAUNE
+fb1da45b-a8e3-48bd-a18e-ef0c0b9acc75,50,Autre,Fièvre modérée,74,118,75,21,37.4,95,3,,"AVC antérieur, Diabète type 2","Statine, Antidiabétique oral, Corticoïde inhalé",VERT
+2d0eb7f6-b2e0-4cc3-8a8a-f084835c471d,88,F,AVC suspecté,147,76,58,30,40.4,89,9,0.7,,,ROUGE
+df59cebf-22c2-4ee3-a03e-64723ddc2d55,50,F,Rhume léger,73,122,70,16,37.1,99,0,0.9,"BPCO, Diabète type 2",Diurétique,GRIS
+35639710-4748-4b72-afcd-e1254e40f5be,64,F,Entorse légère,60,124,88,19,37.2,95,4,,"Insuffisance cardiaque, BPCO","Bêta-bloquant, Antihypertenseur, Statine",VERT
+8ab50f1b-69f7-42e5-a118-774c44adcfb9,53,Autre,Entorse légère,78,116,76,20,36.9,96,2,,"AVC antérieur, Diabète type 2",Antiagrégant plaquettaire,VERT
+1dce99b8-bfd0-4bcc-9b6f-5380ff6b4649,38,Autre,Petite plaie superficielle,67,130,70,18,36.5,97,1,1.3,Insuffisance rénale,"Antihypertenseur, Anticoagulant, Diurétique",GRIS
+a28a8196-1825-4a6b-b665-2711d9580566,48,M,Petite plaie superficielle,69,122,72,16,36.8,99,2,,AVC antérieur,"Antiagrégant plaquettaire, Bêta-bloquant",GRIS
+90f40e77-a8bc-456a-a29f-8c6a37e57044,37,F,Traumatisme crânien léger,83,105,73,21,39.3,91,6,3.9,Insuffisance rénale,Antihypertenseur,JAUNE
+3513fa17-8261-4402-94b2-6b06508e2229,65,M,Entorse légère,61,118,75,18,37.8,97,3,,,,VERT
+c46b70f1-3ff8-4d8d-a72e-457a3dd1f873,24,Autre,Mal de tête persistant,80,128,85,21,37.0,95,5,,Cancer en rémission,Antidiabétique oral,VERT
+ed12c9b2-7655-4ed8-a2ee-de9612d4d73c,33,Autre,Entorse légère,71,132,72,17,37.2,95,2,,,,VERT
+5a237f95-5405-427e-8209-cec5ed7d032f,31,F,Petite plaie superficielle,66,128,80,17,36.6,98,1,,Insuffisance rénale,Anticoagulant,GRIS
+b7d150ac-e609-4146-a6de-a27e6c3f8b8a,38,F,Mal de tête persistant,87,123,75,17,36.7,96,4,,Diabète type 2,Antiagrégant plaquettaire,VERT
+9a2fa7b6-3fce-4f0c-8683-0abdedd51144,77,M,Difficulté respiratoire modérée,80,101,62,28,38.5,93,7,,,,JAUNE
+94d356b5-1079-43fb-b58a-03b743507580,47,F,Entorse légère,74,133,83,18,37.5,97,3,1.0,"Cancer en rémission, AVC antérieur, Hypertension artérielle","Antihypertenseur, Diurétique, Antidiabétique oral",VERT
+75f78332-f5c1-4524-b639-2e820830a79d,0,M,AVC suspecté,147,205,112,38,35.1,77,9,1.3,,,ROUGE
+0ff5ed05-70f8-4b5e-9d72-c3fdb9c5eecd,65,M,Fièvre modérée,80,113,75,18,36.8,94,5,,"BPCO, Asthme, Cancer en rémission","Antidiabétique oral, Antiagrégant plaquettaire, Corticoïde inhalé",VERT
+c4ea42dc-921f-4c72-9543-83cebc3c90d9,44,M,Entorse légère,81,138,72,21,36.5,96,3,,"Coronaropathie, Cancer en rémission, Insuffisance cardiaque",Antiagrégant plaquettaire,VERT
+dbca3360-647e-4a30-a1f2-fafbb977ba66,60,M,Douleur thoracique atypique,106,165,92,21,39.5,91,5,0.9,"Insuffisance rénale, Insuffisance cardiaque","Antiagrégant plaquettaire, Anticoagulant, Corticoïde inhalé",JAUNE
+bdf5fc3c-a75f-4206-a26a-d6983c3bcaab,67,F,Fièvre modérée,82,113,78,19,37.3,97,2,1.0,,,VERT
+d5b29d0a-5629-4682-9506-387adf534c92,61,M,AVC suspecté,147,204,120,32,40.6,76,8,,"Insuffisance rénale, Cancer en rémission, Insuffisance cardiaque",Statine,ROUGE
+5b1bcf41-81c3-4500-bbf2-d11b0794a679,52,F,Douleur abdominale intense,98,108,70,27,36.3,91,5,,"Insuffisance cardiaque, Diabète type 2",Antiagrégant plaquettaire,JAUNE
+52418a7a-624b-4db7-ae51-25dd05d631b3,39,F,Déshydratation sévère,84,162,94,25,36.7,92,5,,,,JAUNE
+2f5045ed-ae02-42ab-a059-c439c2850033,37,M,Douleur abdominale intense,89,102,71,21,39.2,90,7,,Insuffisance rénale,Antidiabétique oral,JAUNE
+5c03cbc7-9f6a-4839-a975-89bd49c3d1cc,39,Autre,Difficulté respiratoire modérée,93,110,72,22,38.5,92,8,1.3,Insuffisance cardiaque,Corticoïde inhalé,JAUNE
+46b8f084-d385-49dd-a333-aaa1b6b7ba98,35,Autre,Douleur abdominale modérée,81,119,79,17,37.9,95,2,1.3,Asthme,"Corticoïde inhalé, Antihypertenseur",VERT
+ff118179-2d22-4507-ae09-8ce5ebc23053,46,Autre,Certificat médical,76,124,83,16,37.0,100,1,,AVC antérieur,Anticoagulant,GRIS
+61e7e8a8-1080-4586-95eb-91b8f9070ff4,34,M,Nausées,76,111,82,19,38.0,96,3,,,,VERT
+231fe23c-39c6-482f-bb60-9a3f72504bd5,63,F,Douleur thoracique atypique,82,101,69,21,39.5,90,8,,Insuffisance rénale,"Antihypertenseur, Diurétique, Antidiabétique oral",JAUNE
+be71e8f5-314a-4fda-9f84-c668d961022a,50,Autre,Mal de tête persistant,64,119,90,17,37.1,95,4,,"BPCO, Diabète type 2",Antihypertenseur,VERT
+d013b746-a516-446d-a0d7-6d3e27a32d79,25,Autre,Consultation de suivi,67,126,84,15,36.6,97,1,0.8,Asthme,Statine,GRIS
+3fd6ee13-7aa1-4ab5-b5e2-6e70c0609913,73,F,Déshydratation sévère,99,110,67,22,39.1,91,6,,Cancer en rémission,"Statine, Anticoagulant",JAUNE
+70d202f0-a468-4c2f-81a1-bfaf785084ab,52,F,Fièvre modérée,81,124,83,18,38.2,94,5,0.9,,,VERT
+c0a04da3-838d-432b-a9ea-ef174dd7f6d4,52,F,Entorse légère,80,124,84,21,38.4,95,4,0.8,"BPCO, Coronaropathie, Cancer en rémission","Corticoïde inhalé, Statine, Antihypertenseur",VERT
+06bccc37-8ad3-4983-937a-525c016fa9a7,27,F,Rhume léger,70,118,79,17,37.2,98,1,1.3,Cancer en rémission,"Anticoagulant, Statine, Diurétique",GRIS
+a7ad32c4-c619-4fcd-bbe5-18096b092042,79,Autre,Traumatisme crânien léger,88,172,91,23,36.6,92,5,0.9,"Cancer en rémission, Coronaropathie",Bêta-bloquant,JAUNE
+48fb6fe0-1801-4336-8609-25f02aa5bbee,29,Autre,Petite plaie superficielle,73,113,71,14,36.6,99,2,1.2,Hypertension artérielle,Diurétique,GRIS
+7c736ce2-efce-4ecd-a137-1c3ecd53e70f,46,F,Renouvellement d'ordonnance,80,118,85,18,37.1,98,1,,,,GRIS
+9518c38e-9382-4af4-beb5-feeefeb956ff,57,Autre,Difficulté respiratoire modérée,82,102,60,21,36.7,91,7,,Coronaropathie,Antiagrégant plaquettaire,JAUNE
+e09f10c5-88f9-40b3-8173-acacd635388c,31,Autre,Petite plaie superficielle,76,112,84,16,36.9,98,1,,Diabète type 2,Statine,GRIS
+3d294499-d9f7-427b-af4b-fef96d07a6a5,49,M,Consultation de suivi,79,119,78,18,36.8,98,1,,,,GRIS
+afd2f57e-3a60-4f9c-959b-fee3c20a1d43,48,M,Traumatisme crânien léger,98,100,63,24,36.9,92,8,,"Hypertension artérielle, Insuffisance rénale, Asthme","Statine, Antidiabétique oral",JAUNE
+7c569d8d-9018-476c-b302-6c14ad12c56e,63,M,Douleur abdominale modérée,66,117,85,19,37.2,94,2,,"Hypertension artérielle, Coronaropathie, Insuffisance rénale","Antidiabétique oral, Statine",VERT
+d82093bf-11ca-42cd-848f-73175b88079d,23,F,Douleur dorsale,61,123,85,15,38.0,96,4,,BPCO,Antihypertenseur,VERT
+2100c43f-1f21-4c25-8df9-f4c39a4e824a,30,Autre,Rhume léger,72,122,82,14,37.1,97,2,1.2,Diabète type 2,"Antidiabétique oral, Statine",GRIS
+53c68505-70fa-4534-b4f0-f06d9b6ce09b,72,F,Hémorragie importante,103,87,58,29,35.6,77,8,,,,ROUGE
+2a4a342b-61a8-483c-9e36-89603a7ff297,33,M,Douleur thoracique atypique,84,167,94,28,38.5,92,6,,Diabète type 2,"Antidiabétique oral, Antihypertenseur, Anticoagulant",JAUNE
+fad0d030-71ab-4194-b742-e6fab11c21dd,43,F,Déshydratation sévère,103,171,98,26,36.9,93,7,,,,JAUNE
+316e94b8-e781-4327-b7ac-65e0c0908d02,50,Autre,Traumatisme crânien léger,96,103,64,22,39.4,93,6,0.8,Hypertension artérielle,Antiagrégant plaquettaire,JAUNE
+43bb6b55-4a25-4f75-a6ca-4a8ec896712a,44,M,Entorse légère,75,136,72,14,38.1,96,2,1.1,"AVC antérieur, Cancer en rémission",Bêta-bloquant,VERT
+44907c7e-6f05-42c5-ae0f-9efe9e7620ea,26,Autre,Mal de tête persistant,77,139,70,14,36.5,96,4,,BPCO,Diurétique,VERT
+9244e383-2eb8-47c8-a8b0-95d5bd98218c,69,F,Douleur abdominale intense,105,177,97,21,36.6,92,8,,"Insuffisance cardiaque, Asthme, BPCO","Bêta-bloquant, Antidiabétique oral",JAUNE
+cf555502-2ae4-47b5-a9ed-84bb07b59ad1,47,Autre,Fièvre élevée avec frissons,82,104,71,24,36.3,93,7,,"Hypertension artérielle, Diabète type 2, Asthme","Diurétique, Corticoïde inhalé, Anticoagulant",JAUNE
+75994a83-8904-47fc-8044-920266dc29de,58,F,Douleur thoracique atypique,94,177,93,21,39.5,93,8,0.9,"Diabète type 2, Cancer en rémission",Statine,JAUNE
+38e7e573-f608-4f35-861e-101afcb89045,47,F,Douleur abdominale intense,84,110,61,24,36.1,90,6,,"Coronaropathie, Hypertension artérielle, Insuffisance cardiaque","Bêta-bloquant, Antihypertenseur, Diurétique",JAUNE
+200e7608-f87f-4362-a51b-fedea590a53e,61,Autre,Choc,122,86,54,34,40.4,81,8,,,,ROUGE
+4552c981-3abd-4387-a581-7dc0e79c443e,38,Autre,Mal de tête persistant,62,129,81,20,36.6,96,4,,Coronaropathie,"Statine, Antiagrégant plaquettaire",VERT
+dea8e543-19f1-4a60-9bd1-ab35a6b2ca29,41,M,Certificat médical,64,120,81,18,36.5,98,0,1.1,AVC antérieur,"Antidiabétique oral, Antihypertenseur, Antiagrégant plaquettaire",GRIS
+16800c6c-ad6b-485d-8124-587c7238ca0d,51,Autre,Nausées,83,129,85,20,36.6,94,5,0.8,Coronaropathie,Diurétique,VERT
+524c4a69-d6cd-4318-9d47-7dd35818a808,35,Autre,Entorse légère,82,121,72,17,37.5,97,4,,,,VERT
+7d141f99-24cf-4208-9e84-dbaeaa0ec8a7,45,Autre,Douleur abdominale modérée,74,139,87,20,38.3,95,3,,"Asthme, Insuffisance cardiaque, AVC antérieur","Diurétique, Anticoagulant",VERT
+86f24f42-aa5d-4572-bb7c-42100acb184b,44,F,Rhume léger,64,115,84,18,37.0,98,0,1.0,"Cancer en rémission, Diabète type 2, Insuffisance rénale",Corticoïde inhalé,GRIS
+a129da28-cf08-410b-b349-74dcaf95dc47,28,M,Renouvellement d'ordonnance,76,121,74,18,37.4,100,1,,,,GRIS
+1483913d-5dce-4590-9884-ec4401061ce1,36,F,Nausées,79,140,84,15,36.5,96,5,,AVC antérieur,"Antiagrégant plaquettaire, Diurétique",VERT
+54e5ab13-bc48-4473-8d24-c4ca763f9bc1,29,Autre,Rhume léger,76,128,81,14,36.7,97,2,,Cancer en rémission,Statine,GRIS
+1d23e027-9023-482a-a4b9-0d5c881f0a75,36,M,Fièvre élevée avec frissons,95,106,70,26,39.0,93,6,,,,JAUNE
+db9ba40e-d2b4-4747-bffa-922afe81cb91,76,M,Douleur abdominale intense,96,102,63,25,39.1,90,7,1.3,,,JAUNE
+add72e3c-e345-47b2-bb29-6743b632162a,68,M,Difficulté respiratoire modérée,101,100,66,25,38.7,91,5,,"BPCO, Insuffisance cardiaque","Corticoïde inhalé, Diurétique, Bêta-bloquant",JAUNE
+46a2b5e1-8823-4867-b200-e289a2cc0ee5,68,F,Fièvre modérée,89,124,83,15,37.4,94,5,1.3,"Diabète type 2, Coronaropathie, AVC antérieur",Bêta-bloquant,VERT
+6cce5d92-27a7-4ce7-abeb-5890b3443065,50,M,Traumatisme crânien léger,90,170,90,25,39.2,90,8,1.1,,,JAUNE
+424c3371-2a39-4625-ac2e-1521c1951eb1,68,Autre,Entorse légère,90,131,76,14,38.1,95,4,,Cancer en rémission,"Anticoagulant, Antidiabétique oral",VERT
+6321cd3f-ac84-4eeb-9eaa-386e4395e0cf,20,Autre,Douleur dorsale,83,132,75,17,37.6,95,2,,,,VERT
+484f1354-6734-4cca-a1e9-94e6d8d271af,52,M,Douleur dorsale,71,136,77,21,37.5,96,4,,"AVC antérieur, Coronaropathie, Insuffisance cardiaque","Statine, Antihypertenseur",VERT
+46ca9c20-2802-4968-b907-c09958d86f8e,63,F,Mal de tête persistant,74,124,80,19,37.9,95,2,1.0,,,VERT
+05510f9f-dd40-4cbd-b9c2-d44359095610,61,Autre,Douleur abdominale intense,101,173,90,24,38.8,91,7,1.0,"Insuffisance cardiaque, Hypertension artérielle","Antiagrégant plaquettaire, Diurétique",JAUNE
+66899c9e-cf1c-4662-a60b-ad61a4cbf367,55,M,Fièvre modérée,74,134,90,20,38.4,95,2,,"Asthme, Hypertension artérielle","Antihypertenseur, Corticoïde inhalé, Bêta-bloquant",VERT
+c349da14-f22f-49d4-ad2f-72a653e16525,39,F,Rhume léger,62,127,76,14,37.0,99,0,,BPCO,"Anticoagulant, Antiagrégant plaquettaire",GRIS
+ac2bfed6-be25-4941-8942-2c7f6cff1dda,28,Autre,Douleur dorsale,67,126,82,14,37.5,94,5,0.9,,,VERT
+2ec6be4d-72c2-4abc-94c1-bfc4f0c2aebe,59,M,Entorse légère,68,114,78,15,36.9,97,2,1.1,"AVC antérieur, Hypertension artérielle, Cancer en rémission","Anticoagulant, Antihypertenseur, Diurétique",VERT
+2dbf1951-6471-49ee-ad6e-72fb298d155f,40,M,Nausées,87,119,78,18,36.9,94,5,0.9,"AVC antérieur, Insuffisance cardiaque","Antidiabétique oral, Antiagrégant plaquettaire",VERT
+6b1e360c-e920-433e-af4b-e6ed6f59c955,90,F,Traumatisme grave,134,203,124,34,35.0,85,10,,"Hypertension artérielle, AVC antérieur, Cancer en rémission",Antiagrégant plaquettaire,ROUGE
+aee14239-7bb5-4c86-b866-f4720be72a74,51,M,Douleur dorsale,69,113,87,19,38.1,94,3,1.4,Asthme,"Antiagrégant plaquettaire, Statine",VERT
+08b2ca22-1495-427b-9310-331720dff6a7,66,M,Douleur thoracique atypique,104,161,95,28,38.8,92,8,,,,JAUNE
+b30395a3-df62-415d-88ef-38d81ac6cc1e,50,F,Nausées,75,132,85,19,36.7,97,2,,AVC antérieur,Antihypertenseur,VERT
+6c08fb1e-da3e-482d-93a1-b26f16484bc6,25,M,Renouvellement d'ordonnance,74,125,75,14,36.5,100,2,,Insuffisance rénale,"Corticoïde inhalé, Antihypertenseur",GRIS
+652b0404-ff4d-4c12-aa68-005cb7d9b3d6,42,F,Douleur dorsale,89,128,90,18,37.1,96,3,1.1,,,VERT
+318db5ca-a622-400a-bc6f-cb7c54369c2b,60,F,Nausées,79,139,74,18,36.7,96,3,,Coronaropathie,"Anticoagulant, Antidiabétique oral",VERT
+cb76050d-6d60-4c4c-b734-224cc97f6720,15,F,Douleur dorsale,66,113,71,17,37.0,96,5,,,,VERT
+533948dd-43a5-4af0-9518-d95cb2bad824,29,F,Douleur dorsale,60,128,79,17,38.3,97,4,,Insuffisance cardiaque,"Bêta-bloquant, Antihypertenseur, Statine",VERT
+91466ba3-3d2a-40dc-8c63-18439f75c778,31,F,Renouvellement d'ordonnance,68,120,78,18,36.6,100,2,,Cancer en rémission,Anticoagulant,GRIS
+75a52a57-9b3a-4600-b5ba-6374c17204be,32,M,Consultation de suivi,79,110,80,15,36.6,100,0,,,,GRIS
+6cfe5dbe-987a-4e7d-99d0-f884fa24d860,43,F,Douleur dorsale,75,127,82,19,38.3,95,5,,"Insuffisance cardiaque, Coronaropathie","Antidiabétique oral, Statine, Antiagrégant plaquettaire",VERT
+8ab0a8d0-d066-472c-8408-0e4f1458b8e4,77,Autre,Détresse respiratoire sévère,127,215,128,34,40.5,78,9,,,,ROUGE
+b967ca50-cdcf-461d-b063-adf37b27ed91,59,Autre,Fièvre élevée avec frissons,103,102,60,27,39.1,91,6,,Insuffisance cardiaque,"Antidiabétique oral, Anticoagulant",JAUNE
+db266a89-3e69-4580-894c-c0698855b25d,62,M,Traumatisme crânien léger,88,104,68,21,36.6,93,5,,"Cancer en rémission, Insuffisance rénale, BPCO",Antiagrégant plaquettaire,JAUNE
+b1266024-249c-4bc6-81e5-17e5ba7e89ba,71,Autre,Douleur thoracique atypique,81,165,92,26,39.4,91,5,,Cancer en rémission,"Antihypertenseur, Anticoagulant, Antiagrégant plaquettaire",JAUNE
+2d646a3f-685d-42cf-b304-acb17be1417b,47,M,Déshydratation sévère,99,165,99,21,39.2,92,7,,"AVC antérieur, Hypertension artérielle",Bêta-bloquant,JAUNE
+4090c5bd-49a9-42b8-99f1-a851e7ea3c65,62,M,Déshydratation sévère,88,173,92,22,38.5,91,5,0.8,"Diabète type 2, Cancer en rémission, Hypertension artérielle",Antidiabétique oral,JAUNE
+70245fe5-8480-4a81-a1c6-0d86cb21cc2c,23,M,Certificat médical,78,116,81,14,37.3,97,1,1.2,,,GRIS
+7f536201-7dca-48a0-bae9-bfba76ea7df1,71,M,Déshydratation sévère,104,102,70,23,38.9,92,8,3.8,,,JAUNE
+dd3eb5a3-0eae-4dbf-a1c3-cd9bb7fc27ad,59,F,Fièvre modérée,62,136,90,21,37.9,97,3,1.3,"BPCO, AVC antérieur, Asthme","Statine, Antidiabétique oral, Anticoagulant",VERT
+21de01da-c557-4b79-838b-7e4097e40050,47,Autre,Douleur dorsale,85,116,84,18,38.3,96,4,0.8,Cancer en rémission,Antiagrégant plaquettaire,VERT
+d1f438b4-1cfe-4ce3-bb63-b50f7b11a999,38,Autre,Mal de tête persistant,81,137,70,14,37.6,96,3,,Diabète type 2,Diurétique,VERT
+8db1b84e-ea83-4383-ac6b-d2159c337189,44,Autre,Douleur abdominale modérée,84,133,82,14,37.1,97,5,,,,VERT
+27f3ef14-a825-4d7e-8c28-ab6a24de8ff5,36,F,Douleur dorsale,72,134,86,18,38.4,95,2,,AVC antérieur,"Antihypertenseur, Antidiabétique oral, Statine",VERT
+61760987-5218-4845-97df-62cf0d7ab1d8,37,Autre,Rhume léger,66,120,71,18,37.3,98,0,1.2,Cancer en rémission,"Anticoagulant, Bêta-bloquant",GRIS
+b2072af8-4566-4c7f-a9a3-95666f21d850,27,M,Renouvellement d'ordonnance,69,116,83,16,36.6,98,0,,,,GRIS
+0752cbdd-e2de-4b78-b17d-82c3d6362c44,64,F,Entorse légère,75,132,76,16,38.0,97,5,,"BPCO, Diabète type 2, Insuffisance rénale",Diurétique,VERT
+47c14838-2bf5-428d-82b5-e8ec4052e9bf,38,F,Fièvre élevée avec frissons,108,177,91,25,36.7,93,7,,Hypertension artérielle,Anticoagulant,JAUNE
+2f66b2fd-684d-46c7-b1ec-5e1f73aadd1e,53,F,Fièvre élevée avec frissons,96,164,97,21,36.8,90,6,0.8,AVC antérieur,Statine,JAUNE
+658a0868-3d17-449b-b473-7b23b9668ca4,58,F,Entorse légère,68,124,72,20,37.9,94,4,,,,VERT
+ae00d7ef-b703-4cbc-9fb5-4730becb6246,30,M,Fièvre élevée avec frissons,84,161,94,27,36.0,93,8,1.1,Cancer en rémission,"Diurétique, Corticoïde inhalé, Bêta-bloquant",JAUNE
+fd2e38bf-ec1a-4ec1-95dc-86230bd1afdc,64,F,Douleur thoracique atypique,105,162,92,23,36.5,93,5,1.1,,,JAUNE
+1048c609-26bf-4bbe-a36e-41abaf95f81e,76,F,Douleur abdominale intense,81,161,99,28,38.6,93,7,0.9,"Insuffisance cardiaque, Asthme, Cancer en rémission","Corticoïde inhalé, Antihypertenseur",JAUNE
+7ef9ec87-55bd-480b-bf3f-6bc45fa7cf7c,34,Autre,Entorse légère,79,117,75,15,37.5,97,2,,,,VERT
+a2e6e6ff-3479-48f4-86c0-ff10e2294ff4,49,F,Certificat médical,71,126,84,17,37.2,98,0,1.0,,,GRIS
+183ee577-c268-4eae-860f-88fdafbd00e7,66,F,AVC suspecté,146,70,45,27,40.5,79,10,1.3,"Diabète type 2, BPCO","Statine, Anticoagulant, Antiagrégant plaquettaire",ROUGE
+3dfb4b87-503e-4f95-b257-d60984ed422e,69,M,Douleur dorsale,85,118,75,14,38.0,97,4,,,,VERT
+628ea499-4053-466f-829c-137635d80be0,26,Autre,Fièvre modérée,68,131,74,14,36.5,97,4,1.1,Coronaropathie,Bêta-bloquant,VERT
+01073a32-0f1d-4046-bed6-ba3216157988,60,F,Douleur abdominale modérée,62,128,83,18,37.1,97,4,,"Hypertension artérielle, Coronaropathie, Asthme","Diurétique, Corticoïde inhalé",VERT
+da9e839e-5327-47a5-9fd4-c75df37a18d8,44,Autre,Mal de tête persistant,66,131,88,16,36.8,94,2,,"Diabète type 2, BPCO","Diurétique, Anticoagulant, Corticoïde inhalé",VERT
+a837bea3-0cd9-417a-873d-9c82f6c09c23,58,Autre,Douleur abdominale intense,80,173,90,23,36.2,92,7,,AVC antérieur,"Anticoagulant, Bêta-bloquant, Statine",JAUNE
+bb89b15c-451f-4675-9072-7772d901fc02,37,M,Douleur abdominale intense,86,172,98,24,36.6,91,8,1.3,,,JAUNE
+ad8b32d0-a814-45e5-90f5-2e032f746d1a,70,M,Déshydratation sévère,108,175,97,26,39.0,91,7,,AVC antérieur,"Antihypertenseur, Statine",JAUNE
+70719910-af4b-44a7-ba4f-d03deb91bdf5,78,F,Déshydratation sévère,85,180,90,22,39.2,93,6,1.4,"AVC antérieur, Hypertension artérielle, Asthme","Bêta-bloquant, Antidiabétique oral, Statine",JAUNE
+0bee162b-4de4-414d-8b99-67969ba51c15,58,M,Fièvre modérée,60,124,81,20,37.4,95,3,1.4,"Asthme, Insuffisance cardiaque",Antihypertenseur,VERT
+5957f6e4-a575-4a8c-9a79-18db492a3892,44,F,Douleur abdominale modérée,81,126,90,21,37.3,97,2,,BPCO,"Antidiabétique oral, Antihypertenseur",VERT
+5e0cf221-3151-4e69-9a17-ba3c9ed79a32,73,Autre,Douleur abdominale intense,107,177,91,28,36.1,93,5,,Insuffisance cardiaque,"Antihypertenseur, Anticoagulant",JAUNE
+4b011c51-d658-4715-9bc6-6f4e547c3652,47,Autre,Douleur dorsale,74,134,88,20,36.6,96,2,,"Coronaropathie, Asthme, Diabète type 2","Bêta-bloquant, Anticoagulant",VERT
+d29ce0a3-9887-4036-9a9a-950169836fc7,59,Autre,Consultation de suivi,74,120,79,17,37.3,99,2,,"Insuffisance cardiaque, Insuffisance rénale, Cancer en rémission",Anticoagulant,GRIS
+2ae555a9-7783-4611-9213-50a2c052b35e,36,M,Renouvellement d'ordonnance,71,119,75,18,36.9,99,2,,Cancer en rémission,"Statine, Antidiabétique oral, Diurétique",GRIS
+e91b98ea-54d8-4237-8a9d-59622323f968,38,M,Traumatisme crânien léger,89,164,99,27,38.7,91,5,1.2,AVC antérieur,"Anticoagulant, Antiagrégant plaquettaire",JAUNE
+08b81ceb-1bab-4f89-be26-c2bbf340e053,52,Autre,Fièvre modérée,76,137,86,19,38.4,95,5,1.3,,,VERT
+c05e84a8-73de-4460-9048-745b331a9883,51,M,Fièvre élevée avec frissons,86,171,97,24,39.1,90,8,,Insuffisance rénale,Bêta-bloquant,JAUNE
+f4eff3e1-2644-4f26-ae59-867ecbcfdd3f,17,F,Douleur dorsale,63,135,71,19,36.8,94,5,,,,VERT
+b0e0300b-a82b-4e40-a067-8e528c3c0541,62,M,Douleur dorsale,89,111,89,17,38.2,95,4,,,,VERT
+9f67ce73-5dfb-4e5d-b1fc-f4a4c845b3ba,22,M,Rhume léger,69,128,85,14,36.7,98,1,1.3,,,GRIS
+b5c122bf-0d21-479e-a81e-b033e3234278,34,M,Douleur abdominale intense,83,169,99,28,38.7,91,5,,Diabète type 2,"Antiagrégant plaquettaire, Corticoïde inhalé, Diurétique",JAUNE
+89e568c1-fdf0-4b34-9c74-8053b3d842f2,58,Autre,Petite plaie superficielle,60,125,75,16,37.3,99,1,,"Insuffisance cardiaque, Insuffisance rénale, AVC antérieur","Bêta-bloquant, Anticoagulant, Corticoïde inhalé",GRIS
+d16d2dcc-1e64-4cf9-bab5-56df07bc6dd9,47,F,Douleur dorsale,74,110,80,15,37.4,97,5,,,,VERT
+44f99460-3e95-487a-a0fa-0e5bab617ebb,73,F,Douleur thoracique atypique,109,101,67,28,39.2,91,6,1.2,"Insuffisance cardiaque, BPCO, Insuffisance rénale","Anticoagulant, Antiagrégant plaquettaire, Antidiabétique oral",JAUNE
+1be47ca9-91ef-4dde-8604-a7b3f234d3ae,43,M,Renouvellement d'ordonnance,79,130,83,15,36.8,100,2,1.4,"Coronaropathie, Asthme","Diurétique, Antiagrégant plaquettaire",GRIS
+61dfa607-2e03-4551-bacc-e49d509af497,62,F,Mal de tête persistant,69,134,82,20,37.3,94,2,,Cancer en rémission,"Antihypertenseur, Corticoïde inhalé",VERT
+21acc5e3-1d28-495f-aed8-cdeca8ee59b8,43,Autre,Déshydratation sévère,88,170,98,25,36.0,93,6,,"Insuffisance cardiaque, Diabète type 2",Bêta-bloquant,JAUNE
+8ff64088-239c-4b75-b56b-ade70900415f,48,Autre,Rhume léger,75,125,77,14,37.3,100,1,,Diabète type 2,Diurétique,GRIS
+95995e28-4850-49fd-9100-188625a7d412,38,F,Fièvre modérée,63,134,83,21,38.2,96,3,,BPCO,"Antidiabétique oral, Bêta-bloquant, Antiagrégant plaquettaire",VERT
+84810009-138b-4548-b01d-d5bd1cb010f7,49,Autre,Fièvre modérée,77,137,80,18,36.6,94,4,,Asthme,"Antiagrégant plaquettaire, Antidiabétique oral",VERT
+df023a24-988e-4b76-8f8a-edb73d7a9ac9,36,M,Douleur dorsale,82,114,73,18,38.2,94,5,,Hypertension artérielle,"Antihypertenseur, Statine, Anticoagulant",VERT
+824557f9-016b-46b9-8d6b-495e514476c0,45,M,Rhume léger,70,130,72,18,37.0,99,2,0.8,Insuffisance rénale,Antidiabétique oral,GRIS
+1364c492-f45a-4d3e-a99a-d1564fe858a0,44,Autre,Douleur dorsale,66,124,84,15,36.9,96,3,,,,VERT
+402dffe2-3f34-41e0-be5a-82dbbc15bdb2,36,F,Nausées,84,110,89,20,36.9,96,5,0.9,Insuffisance cardiaque,Diurétique,VERT
+14f41e98-52d4-4782-a9e8-47fd8b469728,56,Autre,Douleur abdominale modérée,84,116,74,19,37.2,95,3,0.8,Asthme,"Diurétique, Antihypertenseur, Anticoagulant",VERT
+cf02fe5b-5ab9-4cbe-ab5a-5ed43d40aa40,44,Autre,Difficulté respiratoire modérée,86,166,95,25,39.5,91,5,1.0,"Hypertension artérielle, Cancer en rémission","Bêta-bloquant, Antiagrégant plaquettaire, Antihypertenseur",JAUNE
+19bd8054-9fbd-4cc0-a0d2-63596ed87557,40,M,Douleur abdominale modérée,84,126,88,20,36.6,95,2,0.8,"Coronaropathie, Insuffisance rénale, BPCO",Bêta-bloquant,VERT
+ad0116cf-91fd-4d80-8886-044c123d76e2,83,F,Perte de conscience,132,205,130,27,39.5,82,8,1.3,"Insuffisance cardiaque, BPCO, Coronaropathie",Corticoïde inhalé,ROUGE
+00c8fc7f-d7b5-4934-96b6-84b465ed924a,31,F,Déshydratation sévère,100,164,98,26,39.3,91,6,0.7,BPCO,"Statine, Anticoagulant, Antiagrégant plaquettaire",JAUNE
+b47ad945-639f-49b3-9a70-5085743038eb,25,F,Douleur abdominale modérée,65,121,73,16,37.3,95,3,0.8,Coronaropathie,"Diurétique, Antihypertenseur",VERT
+eccd04b4-819c-4ca4-bf2e-810725eaaa0d,51,M,Douleur abdominale intense,81,176,92,23,36.0,93,6,0.9,Diabète type 2,"Antiagrégant plaquettaire, Bêta-bloquant",JAUNE
+4eaaa3ca-5b60-4c70-8d46-f26e7537af9c,64,F,Difficulté respiratoire modérée,107,110,71,21,39.0,92,5,,"BPCO, Asthme, Diabète type 2","Anticoagulant, Corticoïde inhalé, Antidiabétique oral",JAUNE
+940bc4b1-07e1-4805-99f2-2a4293bc646b,20,Autre,Entorse légère,82,117,78,20,38.1,95,3,,Cancer en rémission,"Statine, Corticoïde inhalé, Antidiabétique oral",VERT
+be834961-d9ff-46a6-91f1-106ff171ce3b,38,Autre,Douleur abdominale modérée,78,135,76,14,37.3,94,3,1.1,BPCO,Corticoïde inhalé,VERT
+4d321845-7490-47e5-8f8f-3fd332474107,51,F,Mal de tête persistant,87,124,76,19,38.4,97,5,,Insuffisance cardiaque,"Diurétique, Anticoagulant, Antidiabétique oral",VERT
+aab7fe5c-3746-40e8-9e19-164a86008ff1,66,F,Nausées,74,112,81,15,36.8,96,5,,Diabète type 2,Antiagrégant plaquettaire,VERT
+d61c21bb-1fd3-45c6-836c-731175cd00cc,37,Autre,Déshydratation sévère,89,162,98,23,36.3,93,6,1.4,,,JAUNE
+dde286ff-ab46-45b9-a2c8-3863b88ab07f,44,M,Difficulté respiratoire modérée,103,171,98,26,39.3,90,6,,Coronaropathie,Antidiabétique oral,JAUNE
+f6991928-c54e-400d-b9d9-05b7919fe133,55,Autre,Nausées,67,137,76,16,37.5,97,4,1.4,"Insuffisance rénale, AVC antérieur","Antiagrégant plaquettaire, Anticoagulant",VERT
+6909fcbd-a781-49b0-9562-c7d6ff956642,37,M,Consultation de suivi,68,129,72,18,37.2,98,0,,,,GRIS
+8f2f1a53-a1ca-4d2c-b548-5c35855701d1,25,M,Mal de tête persistant,85,117,81,16,36.9,95,2,1.4,,,VERT
+e6f1eb82-a9bb-4dc4-a953-11b249dd3b0a,61,Autre,Nausées,90,134,80,16,37.6,96,2,,"Diabète type 2, Cancer en rémission, Insuffisance rénale","Antiagrégant plaquettaire, Anticoagulant, Antihypertenseur",VERT
+8a8cfb3a-d30d-433e-8850-8b54adf0d2a8,54,F,Douleur abdominale modérée,62,122,78,19,37.4,94,2,,Cancer en rémission,"Bêta-bloquant, Statine",VERT
+523d39d0-5b6c-45c1-a06c-fe3267aab2b2,56,Autre,Certificat médical,67,123,71,17,37.3,100,2,1.2,"Insuffisance cardiaque, Insuffisance rénale, Coronaropathie","Diurétique, Bêta-bloquant, Antiagrégant plaquettaire",GRIS
+1f185673-c6be-48ca-892f-b6b4482e9ee9,52,M,Douleur thoracique atypique,83,163,97,28,39.0,93,8,,"AVC antérieur, Hypertension artérielle, Insuffisance cardiaque",Antidiabétique oral,JAUNE
+ed711e91-3ba7-4780-8036-0d8792348289,22,M,Fièvre modérée,78,121,90,20,37.2,94,5,,Insuffisance rénale,Corticoïde inhalé,VERT
+d5ac2707-175c-4c65-91f6-f1cd0afbf532,70,Autre,Douleur abdominale intense,101,106,60,21,38.7,92,8,,,,JAUNE
+55b7cea9-0489-418b-8056-779d45f9f95c,52,F,Difficulté respiratoire modérée,88,165,93,28,36.3,92,7,,Cancer en rémission,Diurétique,JAUNE
+be79faaa-02ad-4a57-bd32-9d5508ca0114,49,Autre,Douleur abdominale modérée,70,120,89,18,38.2,97,5,,Insuffisance cardiaque,"Antiagrégant plaquettaire, Anticoagulant, Corticoïde inhalé",VERT
+b27ffb94-35be-40b9-a7f1-d7c0e849cf75,53,M,Difficulté respiratoire modérée,90,177,92,21,39.1,92,8,,,,JAUNE
+346bb94f-e683-4438-9dd5-ba63ad881892,56,Autre,Petite plaie superficielle,68,122,74,15,37.2,99,1,1.4,"Diabète type 2, Coronaropathie",Antiagrégant plaquettaire,GRIS
+717c45e8-6733-4ab9-853a-0010fbcd7e40,45,Autre,Difficulté respiratoire modérée,101,103,74,25,38.7,91,6,1.4,"Cancer en rémission, AVC antérieur","Bêta-bloquant, Antiagrégant plaquettaire, Antidiabétique oral",JAUNE
+27c92136-5854-4d51-8ab3-7e5f8662ab9b,67,F,Déshydratation sévère,98,168,96,27,36.7,92,7,0.9,Asthme,"Bêta-bloquant, Corticoïde inhalé",JAUNE
+e1df3ff7-642d-44f2-84b9-8ba2f4c7efb2,23,M,Nausées,82,133,81,21,36.6,95,3,,Hypertension artérielle,"Antiagrégant plaquettaire, Bêta-bloquant",VERT
+c5d60e9c-f471-45d9-b355-f2b555938763,19,M,Entorse légère,77,125,74,21,36.6,96,2,,,,VERT
+e542269f-5d93-4704-beb9-f7665e8ffe8b,66,F,Déshydratation sévère,80,166,100,28,39.3,91,8,0.9,,,JAUNE
+4a97bb0f-cfdf-4078-9df0-061564dc037d,62,F,Difficulté respiratoire modérée,104,171,99,26,37.0,90,5,,,,JAUNE
+44031982-c2db-4eba-97ad-f3bf2ee5eb3f,44,Autre,Renouvellement d'ordonnance,66,115,70,15,37.5,98,2,,"Diabète type 2, Insuffisance rénale","Corticoïde inhalé, Antiagrégant plaquettaire",GRIS
+4575ebcd-d460-4524-8cc1-6c2b8db4f7b6,59,F,Douleur abdominale modérée,87,132,83,19,37.8,95,4,,,,VERT
+d527142e-0264-4916-9086-4401d17c1722,29,F,Douleur dorsale,80,110,89,15,38.3,96,2,,,,VERT
+20b9cac7-a824-4d77-866e-965221ea2c43,25,M,Nausées,60,137,72,14,37.8,96,3,1.1,,,VERT
+3304118c-a44f-46b9-9280-17616cba835c,37,M,Douleur dorsale,89,132,75,16,37.1,97,3,,Hypertension artérielle,"Antidiabétique oral, Corticoïde inhalé, Anticoagulant",VERT
+3298383f-eeb6-4e3a-b2bb-7adf2e228798,36,F,Déshydratation sévère,85,170,97,23,36.5,91,8,,Insuffisance rénale,Diurétique,JAUNE
+5744acaf-31de-4e40-aefd-ac7e51332be3,24,M,Mal de tête persistant,66,135,88,20,37.6,97,2,,,,VERT
+10cd76b7-3779-48a4-8d0d-ba3fb70d1811,48,Autre,Nausées,82,120,74,20,37.1,96,5,,,,VERT
+95956cb1-2385-4ccc-9755-48a7d6c3d941,40,F,Mal de tête persistant,62,129,82,21,37.6,97,4,,"Hypertension artérielle, Insuffisance rénale",Antidiabétique oral,VERT
+efc245eb-84e0-42cf-96bb-62a2cf035958,52,Autre,Nausées,77,111,79,16,37.2,94,5,1.4,,,VERT
+ff7c5520-26fa-4064-a64d-b5c0a38b0a67,57,Autre,Traumatisme crânien léger,96,163,97,23,39.2,90,6,,BPCO,"Bêta-bloquant, Statine",JAUNE
+b767d5b9-2889-4c83-8c75-3eb42ebb38e1,15,M,Mal de tête persistant,66,131,80,15,36.5,95,3,,Coronaropathie,"Antihypertenseur, Antidiabétique oral",VERT
+60d1593e-4fcd-4e48-8bb0-0d888ddfd61e,33,Autre,Certificat médical,73,116,78,18,37.2,99,1,,AVC antérieur,"Statine, Corticoïde inhalé",GRIS
+7bf907c5-d0dd-45fc-bfd3-cea806c2b454,79,F,Fièvre élevée avec frissons,99,103,62,21,36.4,93,5,1.0,,,JAUNE
+0526248d-598b-487a-b64e-8238aac4c6e6,62,F,Douleur dorsale,82,113,73,20,37.8,96,5,,Insuffisance rénale,"Bêta-bloquant, Antidiabétique oral",VERT
+a048fe91-b710-4664-bf7d-402e4bc5e1b4,17,F,Mal de tête persistant,63,112,72,15,38.3,95,3,,Asthme,"Antihypertenseur, Diurétique",VERT
+d24ce2fe-05d7-4404-8c9d-9f70b5150a03,79,M,Difficulté respiratoire modérée,103,104,65,26,38.5,91,7,,AVC antérieur,"Anticoagulant, Antiagrégant plaquettaire",JAUNE
+36506457-d2ec-45cb-b2a9-e358d2a3a9f2,29,M,Douleur dorsale,66,112,77,19,36.9,97,4,,,,VERT
+92ac62ba-6054-4e32-85a8-2268d8d81381,5,M,Hémorragie importante,163,74,43,43,35.7,80,10,1.1,Diabète type 2,Antihypertenseur,ROUGE
+010fa68f-d999-4d8d-9f3c-5265e459c419,19,M,Douleur dorsale,86,131,89,21,37.1,96,5,,Cancer en rémission,"Statine, Anticoagulant, Diurétique",VERT
+6bb958e4-0903-41d9-a109-a30f5650ee55,24,F,Nausées,88,140,82,19,37.8,95,4,,Hypertension artérielle,"Statine, Antidiabétique oral",VERT
+6325faf8-1447-421e-85a5-361b2103876a,44,Autre,Rhume léger,67,116,82,17,36.6,99,1,,"Cancer en rémission, AVC antérieur","Diurétique, Anticoagulant",GRIS
+537dfa9c-a55e-4b67-94c6-a388174ea051,40,M,Douleur dorsale,76,140,89,17,38.2,95,4,,"Coronaropathie, Insuffisance cardiaque",Corticoïde inhalé,VERT
+a0e474fc-fea7-4bfb-9551-96a546a77aa1,24,Autre,Petite plaie superficielle,69,116,80,18,36.9,98,2,,Insuffisance rénale,"Anticoagulant, Bêta-bloquant",GRIS
+cf416d73-5351-4373-a262-7e0246bda88d,31,F,Rhume léger,65,130,82,16,37.5,98,2,,,,GRIS
+3a5fbfba-2588-4337-a316-1b73a242f19a,44,M,Douleur dorsale,64,131,73,21,38.4,94,2,0.7,Coronaropathie,Diurétique,VERT
+6d9c491d-5985-42b6-86f3-810d6c8af0fb,52,M,Déshydratation sévère,84,174,97,24,38.6,92,7,,,,JAUNE
+56766bc9-ace0-480c-ab35-029d6a286a34,53,M,Renouvellement d'ordonnance,65,115,85,17,36.6,100,2,,Diabète type 2,"Anticoagulant, Bêta-bloquant, Antihypertenseur",GRIS
+92b104a3-8ac7-493e-8245-531b3927511a,38,F,Douleur abdominale intense,92,178,99,28,38.5,92,6,,,,JAUNE
+26c5f4ae-664f-48b7-a88c-c97649d99bdd,57,Autre,Fièvre modérée,88,115,74,19,37.4,94,4,,BPCO,"Diurétique, Anticoagulant, Antiagrégant plaquettaire",VERT
+497d9e85-d81e-472f-a3f2-0ef893d4ff49,80,M,Fièvre élevée avec frissons,99,171,94,28,39.4,93,6,,Cancer en rémission,"Anticoagulant, Antihypertenseur",JAUNE
+bc08927e-d588-4d1f-8e03-e3568103f8d7,59,F,Fièvre modérée,74,131,72,20,37.8,97,4,,,,VERT
+cef4915a-92ea-46cc-8b5a-d25c585aa503,61,F,Hémorragie importante,112,201,111,33,39.6,78,10,,"Coronaropathie, Asthme","Statine, Antiagrégant plaquettaire",ROUGE
+2d6b9d2e-db17-43a7-bdfc-febc38272273,36,F,Consultation de suivi,74,126,73,14,37.3,99,0,,Diabète type 2,Antidiabétique oral,GRIS
+ae30e730-deb4-4baa-9872-78fe78a3a8aa,22,M,Rhume léger,67,110,80,14,37.4,97,2,1.1,Cancer en rémission,"Diurétique, Corticoïde inhalé, Antiagrégant plaquettaire",GRIS
+46ac1671-470b-4763-b1e4-33ebd3470e6e,25,M,Renouvellement d'ordonnance,66,110,83,14,36.7,97,2,0.7,,,GRIS
+ef681122-f557-40c3-970f-25c2f6d924eb,48,M,Mal de tête persistant,86,125,79,17,37.0,95,2,,Asthme,Statine,VERT
+5f3a4bfb-33d7-4909-848b-571d3a9f5649,52,Autre,Renouvellement d'ordonnance,63,117,75,14,36.7,99,1,,"AVC antérieur, Insuffisance cardiaque, Diabète type 2","Statine, Corticoïde inhalé",GRIS
+a3df21e0-89a5-4be0-ae7d-1da74fbb3016,30,Autre,Entorse légère,80,112,85,18,37.7,94,4,,,,VERT
+584b4253-fc6d-49ac-82a1-3be271546647,57,M,Déshydratation sévère,104,105,62,28,39.2,90,7,,"Cancer en rémission, Coronaropathie","Statine, Corticoïde inhalé",JAUNE
+5a64a3d4-e1a4-443c-b35b-bde0648e7287,49,Autre,Douleur abdominale modérée,67,138,84,16,37.9,97,4,,"Cancer en rémission, Insuffisance rénale","Anticoagulant, Antidiabétique oral",VERT
+d544b821-a8db-49c4-944e-8c457e16990c,54,F,Douleur thoracique atypique,107,100,73,23,36.4,91,6,0.9,,,JAUNE
+656676c4-1e88-43bd-a0ff-958ec2c2418c,32,F,Douleur abdominale modérée,60,117,76,21,37.8,96,5,,AVC antérieur,Antiagrégant plaquettaire,VERT
+6276e109-de8d-4cce-95f4-02bce1b05c78,0,M,Perte de conscience,175,193,113,42,39.7,86,9,0.8,AVC antérieur,"Antidiabétique oral, Statine, Antiagrégant plaquettaire",ROUGE
+ad111571-b3a9-4b4e-9e17-1d640c91a922,36,Autre,Fièvre modérée,85,110,84,16,38.5,94,4,,,,VERT
+5a7089c7-b350-4652-bd08-6cccf70e1766,29,F,Douleur dorsale,89,132,76,21,37.1,96,3,,BPCO,"Bêta-bloquant, Corticoïde inhalé, Antidiabétique oral",VERT
+874b1698-b471-46a9-9003-95908ff1560c,45,M,Fièvre modérée,76,112,86,15,37.6,96,5,,"Insuffisance cardiaque, Diabète type 2, BPCO","Bêta-bloquant, Corticoïde inhalé",VERT
+bcaa7d6e-f56b-4e6c-8787-42b704aa1634,75,M,Fièvre élevée avec frissons,107,109,75,21,38.7,90,6,,"Coronaropathie, BPCO","Bêta-bloquant, Statine, Corticoïde inhalé",JAUNE
+2640533f-bce4-4cba-b20d-172bada397f0,21,Autre,Renouvellement d'ordonnance,76,123,70,18,36.8,100,1,0.8,,,GRIS
+c986fd78-81ce-4ff4-8e85-79b895d23e04,63,F,Entorse légère,71,130,82,21,37.5,97,3,,Insuffisance cardiaque,"Statine, Antidiabétique oral",VERT
+22ad3e78-b48f-4e2f-96e3-39ab8d996c31,59,F,Difficulté respiratoire modérée,98,177,97,23,38.5,90,7,1.0,,,JAUNE
+b81b5b8b-6336-43cc-8f49-0a51c6a1a79e,35,F,Douleur abdominale modérée,70,138,86,14,36.8,94,2,,Cancer en rémission,Antidiabétique oral,VERT
+d7bd1905-ef5f-459c-92ce-5b570ccca13c,24,Autre,Renouvellement d'ordonnance,67,120,72,14,37.3,99,1,0.7,Hypertension artérielle,"Corticoïde inhalé, Diurétique, Bêta-bloquant",GRIS
+0280ad01-b08a-4f49-a3fe-2724deb75901,50,M,Douleur abdominale modérée,74,117,77,16,38.4,96,2,,BPCO,"Antihypertenseur, Antiagrégant plaquettaire",VERT
+e26344a2-cdf3-4faa-8bd4-f024dbe5504f,29,M,Douleur abdominale modérée,76,110,86,19,38.3,97,4,,AVC antérieur,"Antidiabétique oral, Antihypertenseur, Antiagrégant plaquettaire",VERT
+eec6ca9b-32b3-459a-878d-5459b116e417,28,M,Nausées,75,126,75,14,37.6,96,5,1.1,Insuffisance cardiaque,"Diurétique, Statine",VERT
+9900bd2f-8387-41d5-9277-e08514a1c930,68,M,Nausées,68,113,90,19,38.4,97,4,,"Insuffisance rénale, AVC antérieur, Diabète type 2",Antidiabétique oral,VERT
+ae423ccf-ca46-4052-983b-97a0920f7a15,24,Autre,Renouvellement d'ordonnance,66,116,79,18,37.2,99,1,,BPCO,"Statine, Antidiabétique oral, Antiagrégant plaquettaire",GRIS
+5a63ee5b-d608-4053-bfa0-a8c3cd47b56c,18,M,Renouvellement d'ordonnance,70,120,84,15,37.0,100,1,,,,GRIS
+012406a1-6649-4791-a4cf-685eb4c875e0,50,Autre,Fièvre modérée,85,137,70,17,37.6,94,2,,Insuffisance cardiaque,"Corticoïde inhalé, Diurétique",VERT
+95aa6fb0-c9b9-4ff4-a4c5-08c689e732b3,25,M,Entorse légère,71,112,78,17,37.5,96,5,,,,VERT
+f346ed4f-1dea-4778-bfe3-159b118a7199,25,F,Renouvellement d'ordonnance,68,113,70,17,37.4,98,1,0.8,Cancer en rémission,"Statine, Anticoagulant, Antihypertenseur",GRIS
+3eacc850-fa60-465a-8d88-a614932fa746,60,M,Déshydratation sévère,102,107,73,23,38.9,93,8,,"Hypertension artérielle, Diabète type 2, AVC antérieur","Statine, Diurétique",JAUNE
+294d76a8-bb13-4363-9e8a-321d0258926a,66,F,Entorse légère,81,135,70,18,36.7,97,2,,"Insuffisance rénale, Cancer en rémission",Antihypertenseur,VERT
+ef8f11ce-cd28-4bbd-9e00-47774f2a9c43,20,Autre,Fièvre modérée,74,133,87,21,36.9,96,3,1.1,AVC antérieur,"Antiagrégant plaquettaire, Anticoagulant",VERT
+873b658d-63c8-4a43-985e-4d74ac91b8fa,39,Autre,Douleur abdominale intense,101,170,95,27,38.9,92,8,,Asthme,Diurétique,JAUNE
+e181a0d5-92f9-4399-be69-ef69a6a8a1d8,70,Autre,Douleur abdominale modérée,79,137,88,19,37.3,95,3,,"AVC antérieur, Diabète type 2, Insuffisance rénale","Antidiabétique oral, Statine",VERT
+87221acd-a582-4367-9c7d-5310d1becde6,48,M,Nausées,60,133,77,18,37.2,95,4,,"Insuffisance rénale, AVC antérieur","Corticoïde inhalé, Antidiabétique oral, Statine",VERT
+b6c0c881-33fa-4014-890f-43f11448dc36,41,Autre,Entorse légère,67,132,70,21,38.2,95,2,,"Insuffisance cardiaque, BPCO, AVC antérieur","Statine, Corticoïde inhalé",VERT
+daf5d084-130d-4558-887d-fef3ff76e052,55,M,Douleur abdominale modérée,60,136,72,14,37.6,95,2,1.4,"AVC antérieur, Hypertension artérielle","Statine, Anticoagulant, Bêta-bloquant",VERT
+41590658-84cb-479d-87a8-33c6b7aa9f37,34,F,Nausées,78,111,85,21,37.1,97,4,0.9,AVC antérieur,"Antidiabétique oral, Bêta-bloquant, Diurétique",VERT
+3ec00002-1e23-4c90-b9cf-75727f8a0d87,37,Autre,Mal de tête persistant,60,125,78,20,38.0,94,2,1.2,Diabète type 2,"Corticoïde inhalé, Diurétique",VERT
+4b880c1a-1891-4bed-bfbe-0f6bee02a990,53,F,Entorse légère,70,116,89,18,37.2,97,5,1.2,"Hypertension artérielle, Cancer en rémission, Insuffisance rénale","Anticoagulant, Bêta-bloquant, Antiagrégant plaquettaire",VERT
+0980cdbb-d8da-4f23-90b2-510d03c61276,39,Autre,Douleur dorsale,83,115,84,14,37.6,97,4,,,,VERT
+4edf9ea6-b325-40fc-b1db-5579482e39a6,42,M,Douleur dorsale,64,122,90,15,38.0,94,3,,,,VERT
+02d0b35b-c74e-4247-ae6a-8be892f89ac5,39,Autre,Rhume léger,75,113,75,15,37.2,97,0,1.4,Hypertension artérielle,"Antiagrégant plaquettaire, Anticoagulant",GRIS
+b362f9dd-91a8-46d4-89ea-521b8e78e66c,57,M,Déshydratation sévère,96,106,73,26,36.1,93,5,1.4,"Insuffisance rénale, BPCO",Antidiabétique oral,JAUNE
+5f74a1ea-4f8c-4bee-8828-65ea5a6e6489,23,Autre,Renouvellement d'ordonnance,66,127,78,17,37.2,99,1,1.3,,,GRIS
+3711ec5a-f45e-41ce-9370-bcb78dec79da,50,M,Douleur abdominale modérée,66,110,81,16,38.2,97,2,,,,VERT
+cddea37b-11bc-4968-8f14-542ee675b31c,32,Autre,Nausées,60,137,85,18,36.6,95,3,1.0,Diabète type 2,Corticoïde inhalé,VERT
+b9501c31-94c6-4fb9-8473-daf53f292ec2,55,Autre,Entorse légère,64,125,86,16,36.6,94,2,,,,VERT
+99e379d5-68c7-4595-a5b0-8d66fd38bb33,70,F,Difficulté respiratoire modérée,106,172,90,25,39.3,90,6,,"Cancer en rémission, BPCO","Anticoagulant, Bêta-bloquant, Statine",JAUNE
+9ed77be4-8977-4d44-8247-546c850f8ac2,62,F,Déshydratation sévère,107,173,99,23,39.0,93,5,,"Asthme, Hypertension artérielle, Insuffisance rénale","Corticoïde inhalé, Anticoagulant",JAUNE
+7b8cbf43-668b-4a7a-8824-272ee467119b,66,F,Fièvre modérée,86,126,85,19,37.4,97,5,,"Insuffisance rénale, Asthme, BPCO","Antidiabétique oral, Diurétique",VERT
+e7a1bdd9-c34c-40cb-894a-0a0cc3395b6e,36,Autre,Nausées,79,137,79,15,37.8,96,3,1.3,BPCO,"Statine, Antidiabétique oral",VERT
+5118d5e9-3579-4a4e-a5a4-f7f8035801be,63,Autre,Douleur abdominale intense,88,164,94,25,39.2,91,6,,"Insuffisance rénale, Coronaropathie, Diabète type 2","Anticoagulant, Antihypertenseur",JAUNE
+c27798b3-7f73-45ab-af5b-761e09a56e3f,48,Autre,Difficulté respiratoire modérée,86,106,75,26,39.1,93,7,,"Asthme, Insuffisance cardiaque","Antidiabétique oral, Anticoagulant, Antihypertenseur",JAUNE
+258c6494-e70e-449c-a065-6578807f2545,85,M,Douleur thoracique intense,112,197,116,30,40.2,87,10,,,,ROUGE
+7136c1a1-d04a-41d9-b605-2bad52d94f2e,91,Autre,Douleur thoracique intense,130,71,41,32,39.7,75,8,0.9,"AVC antérieur, BPCO, Hypertension artérielle","Antihypertenseur, Antiagrégant plaquettaire, Corticoïde inhalé",ROUGE
+264edd37-667a-4d30-b206-32d2e828f566,54,Autre,Fièvre modérée,69,139,87,20,37.7,96,4,,,,VERT
+4bf40305-c1eb-4c7d-86d0-345f8f4af707,35,M,Douleur abdominale modérée,85,112,88,20,38.1,95,4,,,,VERT
+3c3faae0-8c7e-4983-a690-72aca0b5a09b,41,M,Douleur abdominale modérée,74,113,70,16,37.4,96,3,,"AVC antérieur, Cancer en rémission, Diabète type 2",Antidiabétique oral,VERT
+2a4c4a81-ee31-4a1b-b6a1-2bf09f7081b3,56,Autre,Douleur abdominale intense,94,104,66,23,36.4,93,8,,"Coronaropathie, Hypertension artérielle","Corticoïde inhalé, Antiagrégant plaquettaire",JAUNE
+2f98d12e-2262-48f1-81b2-0ac90e59f91f,28,F,Douleur abdominale modérée,82,115,82,15,37.2,97,3,0.9,,,VERT
+04210d37-4574-40d4-876e-aa3399b4a639,44,F,Traumatisme crânien léger,108,162,97,28,36.7,91,5,1.0,"Cancer en rémission, AVC antérieur, Hypertension artérielle","Statine, Anticoagulant",JAUNE
+e93dbcb0-689e-4c67-a8c3-c608ad3bff23,38,F,Mal de tête persistant,65,137,71,16,38.1,95,5,1.2,,,VERT
+63fdd19a-0588-41d9-a837-ea0f8d8158c1,35,Autre,Déshydratation sévère,97,169,92,21,39.0,92,8,0.9,Insuffisance rénale,Bêta-bloquant,JAUNE
+10e5fa6a-d7c1-4699-84c1-d10a02d59427,69,M,Traumatisme crânien léger,100,167,90,23,39.0,93,6,,,,JAUNE
+98a02921-7a2e-4ee0-9b96-4dddcef123f9,47,M,Traumatisme crânien léger,83,102,67,28,38.9,91,5,2.9,"Insuffisance rénale, Hypertension artérielle, BPCO",Anticoagulant,JAUNE
+5dab3dda-5101-49bc-91da-22c650c6cdd6,27,M,Renouvellement d'ordonnance,79,124,77,16,37.1,99,1,0.8,,,GRIS
+dd8d096b-9f4b-4d9c-a864-f6b2d7c97a12,63,M,Entorse légère,72,131,82,16,38.0,97,5,,"Insuffisance rénale, Coronaropathie, AVC antérieur","Corticoïde inhalé, Antiagrégant plaquettaire, Anticoagulant",VERT
+69fe76f8-f743-4706-a257-26e23361278e,41,M,Nausées,87,129,81,21,37.5,94,4,1.3,"Coronaropathie, Hypertension artérielle","Antiagrégant plaquettaire, Antidiabétique oral",VERT
+9e4e9070-29ff-4c98-a858-9a4032e28f59,43,F,Déshydratation sévère,104,169,96,23,39.1,91,6,1.3,,,JAUNE
+a7d9879b-e2c4-47fe-b8d7-8b98df174760,60,F,Fièvre modérée,88,117,74,17,36.9,94,2,0.7,"AVC antérieur, Diabète type 2","Statine, Anticoagulant, Antiagrégant plaquettaire",VERT
+9b9aaca6-b706-458d-abc1-f53256d31bb3,17,F,Entorse légère,71,110,73,19,38.4,95,3,,Hypertension artérielle,Bêta-bloquant,VERT
+6cae9f7a-548f-4bc5-8e63-3366f1a8f86d,38,M,Mal de tête persistant,72,119,81,19,37.0,96,2,,Cancer en rémission,"Corticoïde inhalé, Antiagrégant plaquettaire",VERT
+7204cde2-1ffa-486c-9859-742f20683714,57,Autre,Douleur dorsale,83,120,84,15,36.7,97,4,1.2,,,VERT
+ca38042a-34d9-4fbd-b33a-629a7a089150,32,F,Douleur abdominale modérée,61,123,88,14,38.5,95,3,,Asthme,"Statine, Antidiabétique oral",VERT
+9ed9bac5-58a5-435b-88df-aa1f766b0994,22,M,Consultation de suivi,68,124,75,17,37.3,98,2,,,,GRIS
+febdaea2-ef88-498f-a893-1b21e66afc39,36,Autre,Douleur dorsale,71,130,80,21,36.8,96,3,,Insuffisance rénale,"Statine, Corticoïde inhalé, Antiagrégant plaquettaire",VERT
+6ba93523-5849-4b6c-a5eb-7e8efd421c32,45,M,Douleur thoracique atypique,93,172,90,28,39.4,92,7,,,,JAUNE
+c98649f4-3cf8-421c-9f07-3f1d6b8bfbb3,65,M,Difficulté respiratoire modérée,108,176,95,24,38.7,90,8,,"Insuffisance cardiaque, Diabète type 2",Anticoagulant,JAUNE
+54475de9-7832-420b-af2e-dec3affeb301,57,M,Fièvre modérée,89,123,85,14,37.3,95,2,1.0,"Cancer en rémission, AVC antérieur","Bêta-bloquant, Antiagrégant plaquettaire, Corticoïde inhalé",VERT
+6bb5defd-b6f3-4e47-9935-4ef10ebf2f7a,48,M,Traumatisme crânien léger,105,163,91,23,39.1,93,5,,,,JAUNE
+c4ff70ae-102c-4544-92d9-873a95f7191b,46,M,Douleur dorsale,80,111,74,16,36.5,95,4,,"Coronaropathie, Diabète type 2, Hypertension artérielle",Statine,VERT
+7986ae4a-713b-4e15-b690-53f94443190b,17,Autre,Entorse légère,61,138,82,14,36.7,95,5,1.1,Insuffisance rénale,Statine,VERT
+28a705b4-d6b2-46b1-8b36-e49b35d21304,47,Autre,Certificat médical,65,119,71,18,36.6,98,1,,"Cancer en rémission, Insuffisance rénale, Asthme","Statine, Anticoagulant, Diurétique",GRIS
+50116a4e-84ac-4ed0-885c-edc7f7a19821,55,F,Difficulté respiratoire modérée,105,102,61,25,36.2,93,5,0.8,Asthme,"Antidiabétique oral, Anticoagulant, Corticoïde inhalé",JAUNE
+e819da46-5684-4257-aee5-a3724e43e26f,52,M,Douleur dorsale,75,139,76,20,37.4,96,5,,"BPCO, Coronaropathie",Antihypertenseur,VERT
+e5ca0c19-d4a4-4310-a306-70d2d0f3fc7c,34,F,Renouvellement d'ordonnance,75,120,84,17,37.2,100,0,,AVC antérieur,"Diurétique, Corticoïde inhalé, Statine",GRIS
+7b8f68f6-0f88-453f-9e9a-113288908ca3,41,M,Difficulté respiratoire modérée,110,102,67,25,39.0,92,8,,"Asthme, AVC antérieur, Hypertension artérielle",Diurétique,JAUNE
+5f7cc645-5f0e-4467-90cb-2c347bf86fd8,69,F,Fièvre élevée avec frissons,80,105,68,22,39.3,91,8,,"BPCO, AVC antérieur, Cancer en rémission","Antihypertenseur, Bêta-bloquant, Diurétique",JAUNE
+d52d801c-4a84-4304-869e-24fbe4b905b8,33,Autre,Mal de tête persistant,61,125,83,18,37.9,94,5,,BPCO,"Bêta-bloquant, Antiagrégant plaquettaire",VERT
+d51573b0-e9cc-4ee8-93ed-8b4ef4beecdc,56,M,Douleur abdominale modérée,81,111,77,18,37.5,95,5,0.7,,,VERT
+1303b12b-4802-4010-877f-ac68e52b9c47,35,Autre,Rhume léger,73,129,71,14,37.0,99,1,,,,GRIS
+bdc629d9-9690-4b60-b22b-78f91c4832a2,33,M,Douleur abdominale modérée,89,110,83,20,36.8,95,2,0.9,Diabète type 2,Statine,VERT
+7c398ab5-e573-4f37-a06a-a263ae5d362c,36,Autre,Certificat médical,73,115,81,15,37.4,98,0,,,,GRIS
+1b249715-dbbe-4a9e-ac1b-5c26b2e029f3,64,M,Détresse respiratoire sévère,107,187,124,26,39.6,78,9,1.3,"Diabète type 2, Cancer en rémission, Coronaropathie","Statine, Corticoïde inhalé, Antihypertenseur",ROUGE
+c028b72b-e389-44f2-9772-9d26889f4257,20,F,Douleur abdominale modérée,72,139,89,17,36.8,94,2,,,,VERT
+4965c590-0f1f-4474-a609-4f08b40a4f37,48,Autre,Nausées,66,110,80,21,37.3,96,5,,"AVC antérieur, BPCO, Diabète type 2",Antiagrégant plaquettaire,VERT
+53023a85-ef1b-461b-9380-293be11cc850,77,Autre,Douleur thoracique atypique,103,174,96,24,36.9,93,7,,,,JAUNE
+58eddfd0-904b-49c8-94b6-3238327c0b35,46,M,Consultation de suivi,78,130,80,16,36.5,99,1,,,,GRIS
+b4931df1-6dc9-41a0-bfd9-9187fd85edf5,44,M,Douleur abdominale modérée,86,128,74,15,37.1,94,5,,"Coronaropathie, Diabète type 2, Insuffisance cardiaque",Diurétique,VERT
+dcecf28f-1187-4205-bede-349f8a154a87,49,F,Fièvre modérée,61,132,78,15,37.8,95,5,,,,VERT
+2354300b-d78b-4bdb-814d-390e6f0c4d3a,34,Autre,Fièvre élevée avec frissons,82,104,70,28,38.8,90,6,,Insuffisance rénale,"Antidiabétique oral, Anticoagulant, Antihypertenseur",JAUNE
+1663f97e-a2d0-44c6-a512-be61057c49c8,34,F,Certificat médical,63,117,71,15,37.1,97,1,1.2,Diabète type 2,"Statine, Antiagrégant plaquettaire, Diurétique",GRIS
+2f160155-4ad7-4a75-9601-fb7fff4c1698,40,M,Fièvre modérée,89,114,72,20,37.8,94,2,,Cancer en rémission,Antiagrégant plaquettaire,VERT
+4ecb37a7-06c2-49fd-9fd8-70324a699107,55,Autre,Douleur thoracique atypique,88,102,65,23,39.1,91,5,,,,JAUNE
+ac9b5a7a-2286-46a6-90af-8dc7e7622c19,60,M,Douleur abdominale modérée,83,128,76,17,36.5,96,5,,,,VERT
+10c07428-53c2-4ebb-8137-901dbde453b9,57,F,Douleur abdominale modérée,86,139,88,18,37.9,97,4,1.1,"AVC antérieur, Insuffisance cardiaque, Coronaropathie","Antiagrégant plaquettaire, Antihypertenseur, Corticoïde inhalé",VERT
+41648e32-7466-4dd1-8f28-87e5c3cd8521,27,Autre,Fièvre modérée,82,140,77,16,37.3,94,3,,,,VERT
+73c95c16-fb99-4020-92ea-e1affa6c2439,17,Autre,Entorse légère,81,128,70,20,37.7,94,3,,Hypertension artérielle,"Antidiabétique oral, Anticoagulant",VERT
+35c7a234-285b-4a74-9355-8fb59fef85f5,24,M,Douleur dorsale,80,122,86,15,36.8,97,4,,,,VERT
+7487bd6b-0451-4d84-a2ef-0c4a4f6e4937,28,F,Fièvre modérée,66,111,78,17,37.4,97,2,,,,VERT
+07ff1a03-cac4-4920-80e1-f1ac4223298b,33,Autre,Douleur abdominale intense,96,104,65,25,38.6,92,8,,Insuffisance rénale,Antiagrégant plaquettaire,JAUNE
+6ad5f8e5-4d31-444a-bbe7-800c0c7480c1,56,M,Mal de tête persistant,66,115,85,18,37.5,96,3,,,,VERT
+f6f04403-2889-4d67-a7d5-b0dc5cbdd5d5,71,F,Douleur abdominale intense,87,168,100,23,39.2,92,7,,,,JAUNE
+6515c945-f8f4-432e-9a32-c7faeabec869,21,M,Fièvre modérée,68,130,85,17,37.2,95,2,0.7,Insuffisance rénale,"Diurétique, Antihypertenseur",VERT
+98bcefb2-64e8-4e94-9e74-cd0cb9290c3e,26,M,Douleur dorsale,69,130,82,20,38.3,95,4,1.0,,,VERT
+50219105-9513-40f5-a567-201b493dae99,17,F,Fièvre modérée,75,140,87,17,37.0,97,2,,,,VERT
+e2a8a5ed-8290-4e62-8cce-d084f58eccbe,44,F,Douleur thoracique atypique,86,108,74,28,39.5,90,6,1.0,,,JAUNE
+44ca70a8-cd87-49ff-9e81-7df2383149e0,55,F,Consultation de suivi,68,112,80,18,37.4,98,0,,,,GRIS
+a7a6e504-9737-4fad-802e-9d06200d4630,53,Autre,Douleur dorsale,80,131,70,17,38.2,95,5,,,,VERT
+a2718d72-1813-4922-ad34-f7b20ba0b11c,36,M,Entorse légère,76,132,81,17,36.8,97,4,,Asthme,Antidiabétique oral,VERT
+57a8eb06-b7cf-4c03-b5e4-95f4e7223c60,77,M,Détresse respiratoire sévère,110,192,104,29,40.6,76,9,,Asthme,Antidiabétique oral,ROUGE
+eeb1b1e9-59fe-4021-a217-add5068b982c,76,M,Fièvre élevée avec frissons,100,165,97,25,36.4,90,8,1.1,"Diabète type 2, Insuffisance rénale",Bêta-bloquant,JAUNE
+1fb3ea4b-4ed3-4269-84b7-14ad9ed035e1,44,M,Petite plaie superficielle,67,124,75,15,36.8,99,2,,"AVC antérieur, Asthme","Antiagrégant plaquettaire, Anticoagulant, Corticoïde inhalé",GRIS
+a4f3ed4e-e8c6-464e-a92f-5357534d1b93,28,Autre,Entorse légère,66,139,72,20,38.3,97,2,,,,VERT
+69a46992-d76e-4c0c-b6ac-9f01c88ecd3e,52,M,Rhume léger,75,111,75,17,37.4,98,2,,Hypertension artérielle,"Antidiabétique oral, Antiagrégant plaquettaire, Statine",GRIS
+77484d09-efd7-4d1d-9455-3d915fe6d6f2,36,Autre,Nausées,62,111,83,18,38.0,95,5,,,,VERT
+81c76062-b1f0-480e-b03c-5c6945fe8d9d,44,Autre,Déshydratation sévère,82,170,97,23,36.1,90,6,,"Hypertension artérielle, Insuffisance rénale",Antihypertenseur,JAUNE
+2aa51766-77ad-45ef-ad8b-0ae87ee7f3f4,74,M,Déshydratation sévère,80,103,75,22,39.3,90,5,,"Coronaropathie, Hypertension artérielle, AVC antérieur","Antihypertenseur, Diurétique, Antidiabétique oral",JAUNE
+6c60a20f-f576-4101-bfc6-5dcdc16ea33e,67,Autre,Traumatisme grave,118,216,117,30,35.1,74,9,1.2,,,ROUGE
+18d01055-89db-4753-b9ed-2923e95f773c,48,Autre,Traumatisme crânien léger,105,161,99,21,39.0,93,5,0.9,"Diabète type 2, Coronaropathie","Statine, Antiagrégant plaquettaire, Antidiabétique oral",JAUNE
+2c6fbbff-4ece-47f4-a077-10868ac6b13d,51,M,Douleur abdominale modérée,73,121,71,16,37.0,96,4,0.8,"Hypertension artérielle, Insuffisance rénale, Coronaropathie","Antihypertenseur, Bêta-bloquant",VERT
+26a41b13-674d-4d96-952f-c7a8dc086f8d,41,Autre,Nausées,77,134,89,21,37.3,94,3,0.7,AVC antérieur,"Antidiabétique oral, Statine",VERT
+edeec9c3-69b3-408a-a627-3becfad2b304,77,M,Fièvre élevée avec frissons,100,167,98,25,36.6,93,6,1.1,,,JAUNE
+cbdfbe7a-bea5-403c-a10a-4e62f1bcc17f,24,Autre,Entorse légère,64,126,88,20,36.8,95,4,,,,VERT
+28f6a7ef-cdb7-43f9-b5d1-218588937187,41,Autre,Douleur abdominale modérée,71,112,84,20,37.8,96,2,,,,VERT
+2f1d772a-2bbc-4c14-9602-063bc5082052,82,F,Choc,118,75,49,26,35.8,81,8,,Diabète type 2,"Corticoïde inhalé, Anticoagulant",ROUGE
+1f280ef4-eee8-4614-a1c9-1bdd34af7bc6,32,F,Nausées,78,117,87,14,37.2,96,3,,,,VERT
+43282104-9ad7-4299-ba2e-7118aaae1ff9,38,F,Traumatisme crânien léger,106,161,94,21,36.3,92,6,1.4,BPCO,"Statine, Antiagrégant plaquettaire, Anticoagulant",JAUNE
+f34caced-0b8f-4a8d-94cb-61f92cdaceeb,37,F,Déshydratation sévère,87,163,98,23,36.1,93,5,,,,JAUNE
+e5dd9a0a-9428-40b7-bf24-b929b803234b,55,Autre,Douleur abdominale modérée,75,111,83,17,38.1,95,2,,"Insuffisance rénale, Cancer en rémission, AVC antérieur","Corticoïde inhalé, Antihypertenseur",VERT
+bd378bfc-1977-4baf-a73a-aac9fdd23f5f,47,F,Nausées,83,135,70,14,37.7,94,2,1.0,"Insuffisance rénale, Hypertension artérielle, Diabète type 2","Corticoïde inhalé, Anticoagulant, Bêta-bloquant",VERT
+1b54669e-498a-4335-924b-ca9e54c3515c,46,F,Douleur dorsale,69,138,89,15,37.4,94,3,1.1,Diabète type 2,"Antidiabétique oral, Corticoïde inhalé",VERT
+954ad6fd-a5b8-4e3a-993d-f4e44320e3f1,51,Autre,Rhume léger,69,117,82,14,37.0,98,2,,"Asthme, AVC antérieur, Diabète type 2",Anticoagulant,GRIS
+44d9aa5d-72a2-4456-8435-f66c4a210132,68,Autre,Traumatisme crânien léger,84,162,94,22,38.8,92,5,,"Asthme, AVC antérieur","Antihypertenseur, Corticoïde inhalé, Anticoagulant",JAUNE
+15b88fa5-b35d-465a-bb26-fbbbf28d3fc1,64,F,Douleur abdominale modérée,75,126,73,20,37.5,94,2,,Hypertension artérielle,Antihypertenseur,VERT
+238c3adf-78ce-4b94-92b0-bf98d3511492,28,F,Mal de tête persistant,72,114,84,15,37.3,97,2,1.2,,,VERT
+361799cd-6945-4a00-a49b-f4ff0a24f97c,31,F,Certificat médical,71,123,73,14,37.3,98,1,,Insuffisance rénale,"Anticoagulant, Statine, Antidiabétique oral",GRIS
+becc0e62-a7a6-48c6-bd62-e2e8a159cb97,78,Autre,Douleur thoracique intense,107,192,110,29,40.3,86,9,1.3,"Asthme, AVC antérieur, Hypertension artérielle",Bêta-bloquant,ROUGE
+0190bbe8-643d-48b0-8c51-0f43b8f0d6ef,54,Autre,Entorse légère,61,129,71,15,37.0,94,4,,Insuffisance cardiaque,"Anticoagulant, Antihypertenseur",VERT
+8b1cc021-c600-446a-bc8f-94700a47072d,58,F,Traumatisme crânien léger,105,178,96,23,39.1,93,7,,"Cancer en rémission, Diabète type 2, Insuffisance cardiaque","Anticoagulant, Statine",JAUNE
+1e5899ba-c184-41f6-8dae-a0f00d55b012,67,F,Déshydratation sévère,110,108,69,24,39.1,92,6,,Asthme,Statine,JAUNE
+d59c7e06-cd6a-405a-81ae-2c975638f3ab,79,F,Douleur abdominale intense,98,110,63,21,39.2,93,8,,Cancer en rémission,Bêta-bloquant,JAUNE
+12ecfac4-beb0-4b87-9dc3-3b97332efbdd,61,M,Nausées,79,130,77,17,38.2,96,3,,Insuffisance cardiaque,Diurétique,VERT
+e7095525-b614-40fb-bb25-77ef452d02bf,67,M,Traumatisme grave,136,81,57,35,39.5,74,10,0.8,"AVC antérieur, Coronaropathie, BPCO","Antidiabétique oral, Corticoïde inhalé, Antiagrégant plaquettaire",ROUGE
+9ae5a89c-1017-4ac2-b5dc-46b311453c68,48,F,Consultation de suivi,64,128,80,15,37.3,99,0,0.8,,,GRIS
+0aa95308-55ed-4111-86d3-21473f60987d,30,Autre,Fièvre modérée,87,136,75,18,36.5,94,5,,,,VERT
+edfca2dd-1c43-4287-a2de-ede0eb9a9abc,47,F,Nausées,72,126,76,20,37.6,97,2,0.8,Hypertension artérielle,Corticoïde inhalé,VERT
+47fa6126-8240-464e-80af-e2c4a26eb3bc,54,Autre,Fièvre modérée,62,111,84,18,36.6,96,5,,"BPCO, Cancer en rémission, Coronaropathie","Anticoagulant, Antihypertenseur",VERT
+694c7a25-2d59-45ec-b42e-0f284c06018d,44,Autre,Fièvre élevée avec frissons,88,100,74,21,36.4,92,6,,"Asthme, Insuffisance rénale","Antihypertenseur, Statine",JAUNE
+a65702fa-6770-4222-9358-b4f36a4752e7,77,F,Déshydratation sévère,100,179,91,28,36.9,91,7,1.2,,,JAUNE
+80940454-479f-4a95-b3bc-14d930cf7561,3,M,Douleur thoracique intense,138,82,43,40,40.9,76,9,,,,ROUGE
+e1ecb3f2-3bef-4fd8-b6fc-c1bf8f15ba10,28,Autre,Consultation de suivi,62,113,77,18,36.7,100,1,1.1,Asthme,"Antiagrégant plaquettaire, Statine",GRIS
+a36432ec-57ff-4b9d-ab92-6399baf6a729,37,F,Entorse légère,66,119,78,17,37.4,96,2,,,,VERT
+61cbe39d-9306-4130-89d6-0aab98da716c,18,M,Mal de tête persistant,69,119,71,14,36.6,96,3,,Diabète type 2,"Antiagrégant plaquettaire, Statine",VERT
+8c1931d5-d281-4398-a3f5-1b8a05959f2f,27,F,Petite plaie superficielle,76,110,75,15,37.4,97,2,1.0,Insuffisance rénale,Antidiabétique oral,GRIS
+7997c0f9-47d8-48be-a1cf-789fb68e8a03,31,Autre,Mal de tête persistant,65,117,83,19,37.0,97,3,,Diabète type 2,"Anticoagulant, Statine, Diurétique",VERT
+6fbec070-023c-4f99-a22e-f33d8c2938cb,81,M,AVC suspecté,148,220,113,33,39.5,88,9,,"Cancer en rémission, Hypertension artérielle","Antiagrégant plaquettaire, Antidiabétique oral",ROUGE
+53c51cb8-6acd-41c4-a0af-fb3b409dc26b,63,M,Douleur thoracique atypique,91,110,71,21,38.6,91,7,,,,JAUNE
+af724fcf-5023-4d95-aabd-8036d9bfd2d7,70,Autre,Fièvre modérée,60,131,78,19,36.9,94,5,,"Asthme, Diabète type 2, Insuffisance cardiaque",Diurétique,VERT
+9a74cfdd-1ca7-4e20-8f03-b8a453c7f0b2,44,Autre,Entorse légère,77,135,87,18,38.1,96,2,,,,VERT
+30ece50b-f7cd-4215-a36f-54367cfcc4ca,51,M,Traumatisme crânien léger,102,169,100,24,36.5,92,6,1.3,"Diabète type 2, Insuffisance rénale, Asthme","Antiagrégant plaquettaire, Diurétique",JAUNE
+5286da40-49d1-46a5-b6ed-83f7bea02bbc,44,M,Douleur dorsale,80,138,87,21,38.4,95,5,,"Asthme, Hypertension artérielle, Insuffisance cardiaque","Statine, Bêta-bloquant",VERT
+5738c8b6-b281-4928-8569-afa040050e8e,69,M,Déshydratation sévère,100,179,99,28,39.0,93,8,,Asthme,"Bêta-bloquant, Antiagrégant plaquettaire",JAUNE
+86c09561-b114-46b9-8766-d5687e987d79,5,Autre,Perte de conscience,173,78,40,43,35.6,77,10,,AVC antérieur,"Diurétique, Antiagrégant plaquettaire",ROUGE
+41d501f4-ad08-416b-93ba-852682f50bfc,17,M,Douleur dorsale,63,137,81,16,38.0,96,4,1.4,AVC antérieur,Anticoagulant,VERT
+2b51027e-6f61-4707-b2a6-a333562936af,67,Autre,Fièvre modérée,65,135,82,17,36.6,96,3,,,,VERT
+ac09a300-08cc-4cac-baf1-957cc93a1276,66,F,Hémorragie importante,110,80,55,30,35.7,80,8,,Asthme,"Bêta-bloquant, Corticoïde inhalé",ROUGE
+e60a6ae6-ca0f-4fe5-bcdc-4b48e363fc9e,36,Autre,Nausées,85,127,82,19,38.4,94,4,1.4,Insuffisance cardiaque,"Diurétique, Antihypertenseur",VERT
+23062c9e-35de-4ec6-950d-b8fa3c4bedf2,63,F,Douleur dorsale,69,138,86,18,37.7,94,2,,,,VERT
+797aad21-6a46-4f51-bad5-de35167bf7dc,45,M,Entorse légère,66,112,81,19,36.8,94,3,0.8,,,VERT
+874e5924-756d-42d9-9b68-d6c867e62c03,38,M,Consultation de suivi,66,123,85,15,36.9,98,2,,BPCO,"Antiagrégant plaquettaire, Corticoïde inhalé",GRIS
+3ad1dfd7-f23c-4aee-9615-9f9b2ae30103,16,Autre,Fièvre modérée,90,119,72,16,37.1,94,2,,,,VERT
