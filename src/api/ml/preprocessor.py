@@ -1,96 +1,112 @@
 """
-Préprocessing des données pour le modèle de classification.
+Preprocessing des donnees pour le modele de classification.
+
+Utilise feature_config.py comme source unique de verite pour les features.
 """
 
 import pandas as pd
 import numpy as np
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Dict, List
 from sklearn.preprocessing import LabelEncoder, StandardScaler
+import logging
+
+from .feature_config import (
+    ALL_ML_FEATURES,
+    COLUMNS_TO_DROP,
+    DEFAULT_VALUES,
+    SEXE_ENCODING,
+    assess_prediction_quality,
+    PredictionQuality,
+)
+
+logger = logging.getLogger(__name__)
 
 
 class TriagePreprocessor:
     """
-    Préprocesseur pour les données de triage.
+    Preprocesseur pour les donnees de triage.
 
-    Gère :
-    - Chargement des données CSV
+    Gere :
+    - Chargement des donnees CSV
     - Nettoyage et imputation
-    - Encodage des variables catégorielles
-    - Normalisation des features numériques
+    - Encodage des variables categorielles
+    - Normalisation des features numeriques
     """
 
     def __init__(self):
-        """Initialise le préprocesseur."""
+        """Initialise le preprocesseur."""
         self.label_encoder = LabelEncoder()
         self.scaler = StandardScaler()
-        self.feature_columns: Optional[list] = None
+        self.feature_columns: Optional[List[str]] = None
         self.is_fitted = False
 
     def load_data(self, csv_path: str) -> pd.DataFrame:
         """
-        Charge les données depuis un fichier CSV.
+        Charge les donnees depuis un fichier CSV.
 
         Args:
             csv_path: Chemin vers le fichier CSV
 
         Returns:
-            pd.DataFrame: Données chargées
+            pd.DataFrame: Donnees chargees
         """
         df = pd.read_csv(csv_path)
-        print(f"Dataset charge : {len(df)} patients")
+        logger.info(f"Dataset charge : {len(df)} patients")
         return df
 
     def prepare_features(
         self, df: pd.DataFrame, fit: bool = False
     ) -> Tuple[np.ndarray, Optional[np.ndarray]]:
         """
-        Prépare les features pour le modèle.
+        Prepare les features pour le modele.
 
         Args:
-            df: DataFrame contenant les données
+            df: DataFrame contenant les donnees
             fit: Si True, ajuste le scaler et l'encodeur
 
         Returns:
             Tuple[X, y]: Features et labels (y=None si pas de colonne gravity_level)
         """
-        # Copie du dataframe pour ne pas modifier l'original
         df = df.copy()
 
-        # Séparation features / target
+        # Separation features / target
         if "gravity_level" in df.columns:
             y = df["gravity_level"].values
             df = df.drop(columns=["gravity_level"])
         else:
             y = None
 
-        # Suppression des colonnes non pertinentes pour la prédiction
-        columns_to_drop = [
-            "id",
-            "motif_consultation",
-            "antecedents",
-            "traitements_en_cours",
-        ]
-        df = df.drop(columns=[c for c in columns_to_drop if c in df.columns])
+        # Suppression des colonnes non pertinentes (utilise feature_config)
+        df = df.drop(columns=[c for c in COLUMNS_TO_DROP if c in df.columns])
 
         # Encodage du sexe (M=0, F=1, Autre=2)
         if "sexe" in df.columns:
-            df["sexe"] = df["sexe"].map({"M": 0, "F": 1, "Autre": 2})
+            df["sexe"] = df["sexe"].map(SEXE_ENCODING).fillna(SEXE_ENCODING["Autre"])
 
-        # Imputation des valeurs manquantes pour glycemie
-        if "glycemie" in df.columns:
-            df["glycemie"] = df["glycemie"].fillna(1.0)  # Valeur normale
+        # Imputation des valeurs manquantes avec les valeurs par defaut
+        for feature, default_val in DEFAULT_VALUES.items():
+            if feature in df.columns:
+                df[feature] = df[feature].fillna(default_val)
 
-        # Sauvegarde des colonnes de features (première fois)
+        # Sauvegarde des colonnes de features (premiere fois)
         if fit:
-            self.feature_columns = df.columns.tolist()
+            # Utilise l'ordre defini dans feature_config, mais seulement les colonnes presentes
+            self.feature_columns = [f for f in ALL_ML_FEATURES if f in df.columns]
+            logger.info(f"Features utilisees: {self.feature_columns}")
 
-        # Vérification que toutes les colonnes attendues sont présentes
+        # Verification que toutes les colonnes attendues sont presentes
         if self.feature_columns is not None:
             missing_cols = set(self.feature_columns) - set(df.columns)
             if missing_cols:
-                raise ValueError(f"Colonnes manquantes : {missing_cols}")
+                # Ajouter les colonnes manquantes avec valeurs par defaut
+                for col in missing_cols:
+                    if col in DEFAULT_VALUES:
+                        df[col] = DEFAULT_VALUES[col]
+                        logger.warning(f"Colonne {col} ajoutee avec valeur par defaut {DEFAULT_VALUES[col]}")
+                    else:
+                        raise ValueError(f"Colonne manquante sans valeur par defaut: {col}")
 
-            # Réorganiser les colonnes dans le bon ordre
+            # Reorganiser les colonnes dans le bon ordre
             df = df[self.feature_columns]
 
         # Conversion en array numpy
@@ -103,7 +119,7 @@ class TriagePreprocessor:
         else:
             if not self.is_fitted:
                 raise ValueError(
-                    "Le préprocesseur n'est pas encore fitté. "
+                    "Le preprocesseur n'est pas encore fitte. "
                     "Utilisez fit=True lors du premier appel."
                 )
             X = self.scaler.transform(X)
@@ -116,23 +132,62 @@ class TriagePreprocessor:
 
         return X, y
 
+    def prepare_single_patient(
+        self, features: Dict[str, any]
+    ) -> Tuple[np.ndarray, PredictionQuality, List[str]]:
+        """
+        Prepare les features pour un seul patient (inference).
+
+        Args:
+            features: Dictionnaire des features du patient
+
+        Returns:
+            Tuple (X, qualite_prediction, features_manquantes)
+        """
+        if not self.is_fitted:
+            raise ValueError("Le preprocesseur n'est pas encore fitte.")
+
+        # Evaluer la qualite des donnees
+        quality, missing = assess_prediction_quality(features)
+
+        # Encoder le sexe si present
+        processed = features.copy()
+        if "sexe" in processed and isinstance(processed["sexe"], str):
+            processed["sexe"] = SEXE_ENCODING.get(processed["sexe"], SEXE_ENCODING["Autre"])
+
+        # Imputer les valeurs manquantes
+        for feature in self.feature_columns:
+            if feature not in processed or processed[feature] is None:
+                if feature in DEFAULT_VALUES:
+                    processed[feature] = DEFAULT_VALUES[feature]
+                    logger.debug(f"Feature {feature} imputee avec {DEFAULT_VALUES[feature]}")
+
+        # Creer le DataFrame dans le bon ordre
+        df = pd.DataFrame([{f: processed.get(f) for f in self.feature_columns}])
+        X = df.values.astype(float)
+
+        # Normaliser
+        X = self.scaler.transform(X)
+
+        return X, quality, missing
+
     def prepare_train_test(
         self, df: pd.DataFrame, test_size: float = 0.2, random_state: int = 42
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         """
-        Prépare les données pour l'entraînement (train/test split).
+        Prepare les donnees pour l'entrainement (train/test split).
 
         Args:
-            df: DataFrame contenant les données
+            df: DataFrame contenant les donnees
             test_size: Proportion du test set
-            random_state: Graine aléatoire
+            random_state: Graine aleatoire
 
         Returns:
             Tuple[X_train, X_test, y_train, y_test]
         """
         from sklearn.model_selection import train_test_split
 
-        # Préparation des features et labels
+        # Preparation des features et labels
         X, y = self.prepare_features(df, fit=True)
 
         # Split train/test
@@ -140,39 +195,39 @@ class TriagePreprocessor:
             X, y, test_size=test_size, random_state=random_state, stratify=y
         )
 
-        print(f"Train set : {len(X_train)} patients")
-        print(f"Test set  : {len(X_test)} patients")
+        logger.info(f"Train set : {len(X_train)} patients")
+        logger.info(f"Test set  : {len(X_test)} patients")
 
         return X_train, X_test, y_train, y_test
 
-    def get_feature_names(self) -> list:
+    def get_feature_names(self) -> List[str]:
         """
-        Retourne les noms des features utilisées.
+        Retourne les noms des features utilisees.
 
         Returns:
             list: Liste des noms de features
         """
         if self.feature_columns is None:
-            raise ValueError("Le préprocesseur n'a pas encore été fitté.")
-        return self.feature_columns
+            raise ValueError("Le preprocesseur n'a pas encore ete fitte.")
+        return self.feature_columns.copy()
 
-    def get_class_names(self) -> list:
+    def get_class_names(self) -> List[str]:
         """
-        Retourne les noms des classes (niveaux de gravité).
+        Retourne les noms des classes (niveaux de gravite).
 
         Returns:
             list: Liste des noms de classes
         """
         if not hasattr(self.label_encoder, "classes_"):
-            raise ValueError("Le label encoder n'a pas encore été fitté.")
+            raise ValueError("Le label encoder n'a pas encore ete fitte.")
         return self.label_encoder.classes_.tolist()
 
     def inverse_transform_labels(self, y_encoded: np.ndarray) -> np.ndarray:
         """
-        Convertit les labels encodés en labels originaux.
+        Convertit les labels encodes en labels originaux.
 
         Args:
-            y_encoded: Labels encodés (entiers)
+            y_encoded: Labels encodes (entiers)
 
         Returns:
             np.ndarray: Labels originaux (GRIS/VERT/JAUNE/ROUGE)

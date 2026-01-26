@@ -9,3 +9,7 @@ python-multipart
 litellm
 ecologits[litellm]
 rapidfuzz
+# MLflow pour tracking et model registry
+mlflow==2.10.0
+# Matplotlib pour visualisations (confusion matrix)
+matplotlib
