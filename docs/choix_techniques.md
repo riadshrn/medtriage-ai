@@ -14,3 +14,7 @@
 * **Problème :** Nécessité de monitorer l'impact environnemental (CO2/Énergie) caché des requêtes IA générative.
 * **Solution :** Intégration d'**[EcoLogits](https://ecologits.ai/)** via son hook natif pour LiteLLM.
 * **Gain :** Calcul automatique et temps réel de l'empreinte carbone (`gwp_kgco2`) et énergétique (`energy_kwh`) pour chaque inférence, sans instrumentation manuelle complexe.
+
+## 4. Greenops de la brique agentique
+* **Problème :**Ecologits ne se branche pas à pydantic-ai qui nous permet d'instancier l'agent et donc on ne peut que récupérer le nbr de tokens utilisés (et la latence qu'on peut calculer ~)
+* **Solution :** Tentative d'estimer la consommation à partir des tokens et la latence --> on a donc implémenté un script calibrate.py qui utilise litellm et ecologits pour calculer la conso d'un modèle donné en paramètre sur 30 prompts de taille variable, pour ensuite extraire une relation CO_2 = a*tokens + b*latence

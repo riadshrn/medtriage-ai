@@ -17,110 +17,146 @@ apply_style()
 
 API_URL = os.getenv("API_URL", "http://api:8000")
 
-st.title("Accueil")
-st.markdown("### 📂 Charger une transcription")
+st.title("Accueil - Régulation Agentique")
+st.markdown("### 📂 Dossier Patient")
 
-# --- 1. GESTION DE L'ÉTAT (Initialisation) ---
+# --- 1. GESTION DE L'ÉTAT ---
 if 'conversation_data' not in st.session_state:
     st.session_state['conversation_data'] = None
 if 'analysis_done' not in st.session_state:
     st.session_state['analysis_done'] = False
-if 'last_simulation' not in st.session_state:
-    st.session_state['last_simulation'] = None
+if 'agent_result' not in st.session_state:
+    st.session_state['agent_result'] = None
 
-# --- 2. LE WIDGET D'UPLOAD ---
-# On utilise une clé unique pour éviter les conflits
+# --- 2. UPLOAD ---
 uploaded_file = st.file_uploader(
-    "Chargez la transcription (CSV ou TXT)", 
+    "Chargez la transcription", 
     type=["csv", "txt"],
-    key="uploader",
-    help="Format attendu : Colonne 1 = Infirmier, Colonne 2 = Patient"
+    key="uploader"
 )
 
-# --- 3. LOGIQUE DE MISE À JOUR (Seulement si un fichier est présent) ---
 if uploaded_file is not None:
-    # On vérifie si c'est un nouveau fichier pour ne pas recharger en boucle
-    # On utilise le nom du fichier comme identifiant simple
     if st.session_state.get('current_filename') != uploaded_file.name:
         with st.spinner("Lecture du fichier..."):
             try:
                 files = {"file": (uploaded_file.name, uploaded_file, "text/csv")}
                 res = requests.post(f"{API_URL}/conversation/upload", files=files)
-                
                 if res.status_code == 200:
-                    # ✅ MISE À JOUR DE LA MÉMOIRE
                     st.session_state['conversation_data'] = res.json()
                     st.session_state['current_filename'] = uploaded_file.name
-                    # On reset l'analyse précédente car le fichier a changé
                     st.session_state['analysis_done'] = False 
-                    st.session_state['last_simulation'] = None
+                    st.session_state['agent_result'] = None
                 else:
                     st.error(f"Erreur Upload : {res.text}")
             except Exception as e:
                 st.error(f"Erreur technique : {e}")
 
-# --- 4. LOGIQUE D'AFFICHAGE (Basée sur la MÉMOIRE, pas le widget) ---
-# C'est ici la correction clé : on vérifie session_state, pas uploaded_file
+# --- 3. INTERFACE PRINCIPALE ---
 if st.session_state['conversation_data'] is not None:
-    data = st.session_state['conversation_data']
+    json_payload = st.session_state['conversation_data']
     
-    # --- A. CONVERSATION (COLLAPSIBLE) ---
+    # A. CONVERSATION (COLLAPSE AUTO)
+    label_expander = f"💬 Replay : {st.session_state.get('current_filename', 'Discussion')}"
     is_expanded = not st.session_state['analysis_done']
     
-    label_expander = f"💬 Replay : {st.session_state.get('current_filename', 'Discussion')}"
-    
     with st.expander(label_expander, expanded=is_expanded):
-        chat_container = st.container(height=400, border=True)
+        chat_container = st.container(height=300, border=True)
         with chat_container:
-            for msg in data["messages"]:
-                if msg["role"] == "infirmier":
-                    with st.chat_message("user", avatar="🧑‍⚕️"):
-                        st.write(msg['content'])
-                else:
-                    with st.chat_message("assistant", avatar="🤒"):
-                        st.write(msg['content'])
+            for msg in json_payload["messages"]:
+                avatar = "🧑‍⚕️" if msg["role"] == "infirmier" else "🤒"
+                role_style = "user" if msg["role"] == "infirmier" else "assistant"
+                with st.chat_message(role_style, avatar=avatar):
+                    st.write(msg['content'])
     
-    # --- B. BOUTON D'ACTION (Si analyse pas encore faite) ---
+    # B. BOUTON ACTION
     if not st.session_state['analysis_done']:
-        if st.button("✨ Extraire les infos & Analyser (LLM)", type="primary", use_container_width=True):
-            with st.spinner("Le modèle lit la conversation..."):
+        st.markdown("---")
+        if st.button("🚀 Lancer le Copilote", type="primary", use_container_width=True):
+            with st.spinner("Analyse clinique et vérification des protocoles..."):
                 try:
-                    resp_process = requests.post(f"{API_URL}/conversation/process", json=data)
+                    response = requests.post(f"{API_URL}/conversation/agent-audit", json=json_payload)
                     
-                    if resp_process.status_code == 200:
-                        # ✅ SAUVEGARDE DU RÉSULTAT
-                        st.session_state['last_simulation'] = resp_process.json()
+                    if response.status_code == 200:
+                        res = response.json()
+                        st.session_state['agent_result'] = res
+                        st.session_state['last_agent_audit'] = res 
                         st.session_state['analysis_done'] = True
-                        st.rerun() # Recharge pour fermer l'expander
+                        st.rerun()
                     else:
-                        st.error(f"Erreur API : {resp_process.text}")
+                        st.error(f"Erreur API : {response.text}")
                 except Exception as e:
                     st.error(f"Erreur connexion : {e}")
 
-    # --- C. RÉSULTATS (Si disponibles en mémoire) ---
-    if st.session_state['analysis_done'] and st.session_state['last_simulation']:
-        sim = st.session_state['last_simulation']
-        extracted = sim['extracted_patient']
-        triage = sim['triage_result']
+    # C. AFFICHAGE DES RÉSULTATS (NOUVEAU DESIGN)
+    if st.session_state['analysis_done'] and st.session_state['agent_result']:
+        res = st.session_state['agent_result']
         
+        # Récupération des données typées
+        extracted = res.get("extracted_data", {})
+        constantes = extracted.get('constantes', {}) if extracted else {}
+        
+        # Récupération des aides à la décision
+        alert = res.get("protocol_alert")
+        missing_info = res.get("missing_info", [])
+
         st.divider()
         
-        # 1. Alerte Triage (Le plus important)
-        gravite = triage['gravity_level']
-        color_map = {"ROUGE": "red", "JAUNE": "orange", "VERT": "green", "GRIS": "grey"}
-        color = color_map.get(gravite, "blue")
-        st.markdown(f"### 🚨 Résultat Triage : :{color}[{gravite}]")
-        st.info(f"**Justification :** {triage['justification']}")
+        # LAYOUT 50/50
+        col_data, col_decision = st.columns([1, 1])
 
-        # 2. Données Brutes
-        st.markdown("### 📝 Données Extraites (JSON)")
-        st.json(extracted)
-        
-        # 3. Bouton Reset
-        if st.button("🔄 Nouvelle analyse sur ce fichier"):
+        # --- GAUCHE : DATA (Froid) ---
+        with col_data:
+            st.subheader("📋 Données Structurées")
+            
+            # Métriques
+            m1, m2, m3 = st.columns(3)
+            with m1:
+                douleur = constantes.get('echelle_douleur')
+                st.metric("Douleur", f"{douleur}/10" if douleur is not None else "-")
+            with m2:
+                temp = constantes.get('temperature')
+                st.metric("Température", f"{temp}°C" if temp else "-")
+            with m3:
+                age = extracted.get('age')
+                st.metric("Âge", f"{age} ans" if age else "-")
+            
+            # JSON Complet
+            with st.expander("Voir le dossier complet", expanded=True):
+                st.json(extracted)
+
+        # --- DROITE : DÉCISION (Chaud) ---
+        with col_decision:
+            st.subheader("🧠 Copilote IA")
+            
+            # 1. ALERTES PROTOCOLAIRES (ROUGE)
+            if alert:
+                st.error(f"🚨 **ALERTE PROTOCOLE**\n\n{alert}")
+            else:
+                st.success("✅ Aucun indicateur de gravité immédiate détecté.")
+
+            # 2. INFOS MANQUANTES (JAUNE)
+            if missing_info:
+                st.warning("**⚠️ Informations à demander :**")
+                for q in missing_info:
+                    st.markdown(f"- {q}")
+            elif not alert:
+                st.info("Le dossier semble complet pour le triage.")
+
+            # 3. RAISONNEMENT TECHNIQUE (GRIS)
+            st.markdown("---")
+            with st.expander("🕵️ Logs & Raisonnement"):
+                steps = res.get("reasoning_steps", [])
+                if steps:
+                    for step in steps:
+                        st.markdown(step)
+                else:
+                    st.caption("Analyse directe.")
+
+        # Bouton Reset
+        st.markdown("---")
+        if st.button("🔄 Nouvelle Analyse"):
             st.session_state['analysis_done'] = False
             st.rerun()
 
 else:
-    # État vide
-    st.info("👋 Bienvenue. Chargez une transcription pour commencer ou retrouver votre session.")
+    st.info("👋 Veuillez charger un fichier pour commencer.")

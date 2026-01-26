@@ -9,3 +9,5 @@ python-multipart
 litellm
 ecologits[litellm]
 rapidfuzz
+pydantic-ai
+fastmcp
