@@ -61,7 +61,14 @@ class ModelTrainer:
 
         # Initialiser MLflow si disponible
         if MLFLOW_AVAILABLE:
+            # Forcer la réinitialisation pour s'assurer que le tracking URI est correct
+            import os
+            tracking_uri = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+            logger.info(f"MLflow tracking URI from env: {tracking_uri}")
+            mlflow.set_tracking_uri(tracking_uri)
+
             self._mlflow_enabled = MLflowConfig.setup()
+            logger.info(f"MLflow enabled: {self._mlflow_enabled}")
 
     def train_from_csv(
         self,
@@ -194,8 +201,13 @@ class ModelTrainer:
                 logger.info(f"  {feature:25} : {importance:.4f}")
 
             # Logger le modele
+            logger.info(f"Before _log_model: mlflow_enabled={self._mlflow_enabled}, register_model={register_model}")
             if self._mlflow_enabled and register_model:
+                logger.info("Calling _log_model...")
                 self._log_model(X_test, register=True)
+                logger.info("_log_model completed")
+            else:
+                logger.warning(f"Skipping _log_model: mlflow_enabled={self._mlflow_enabled}")
 
             logger.info("=" * 60)
             logger.info("ENTRAINEMENT TERMINE")
@@ -389,8 +401,9 @@ class ModelTrainer:
             logger.warning(f"Impossible de logger la matrice de confusion: {e}")
 
     def _log_model(self, X_sample: np.ndarray, register: bool = True):
-        """Log le modele vers MLflow."""
+        """Log le modele vers MLflow et l'enregistre dans le Model Registry."""
         if not self._mlflow_enabled or self.classifier is None:
+            logger.warning("MLflow non active ou classifier None, skip log_model")
             return
 
         try:
@@ -399,17 +412,46 @@ class ModelTrainer:
             y_pred, _, _ = self.classifier.predict(X_sample[:5])
             signature = infer_signature(X_sample[:5], y_pred)
 
-            # Logger le modele XGBoost
+            logger.info(f"Logging modele vers MLflow (register={register}, model_name={MLflowConfig.MODEL_NAME})")
+
+            # Logger le modele XGBoost (sans enregistrement automatique)
             model_info = mlflow.xgboost.log_model(
-                #self.classifier.model,
                 self.classifier.model.get_booster(),
                 artifact_path="model",
                 signature=signature,
                 input_example=X_sample[:2],
-                registered_model_name=MLflowConfig.MODEL_NAME if register else None,
             )
 
             logger.info(f"Modele logue: {model_info.model_uri}")
+
+            # Enregistrer explicitement dans le Model Registry via MlflowClient
+            if register:
+                try:
+                    from mlflow.tracking import MlflowClient
+                    client = MlflowClient()
+                    run_id = mlflow.active_run().info.run_id
+                    model_uri = f"runs:/{run_id}/model"
+
+                    # Créer le modèle enregistré s'il n'existe pas
+                    try:
+                        client.create_registered_model(MLflowConfig.MODEL_NAME)
+                        logger.info(f"Modele cree dans Registry: {MLflowConfig.MODEL_NAME}")
+                    except Exception:
+                        # Le modèle existe déjà, c'est OK
+                        pass
+
+                    # Créer une nouvelle version
+                    model_version = client.create_model_version(
+                        name=MLflowConfig.MODEL_NAME,
+                        source=model_uri,
+                        run_id=run_id,
+                    )
+                    logger.info(
+                        f"Modele enregistre dans Registry: {MLflowConfig.MODEL_NAME} "
+                        f"version {model_version.version}"
+                    )
+                except Exception as reg_error:
+                    logger.error(f"Erreur enregistrement Model Registry: {reg_error}", exc_info=True)
 
             # Logger le preprocesseur comme artefact
             import tempfile
@@ -418,6 +460,7 @@ class ModelTrainer:
                 pickle.dump(self.preprocessor, f)
                 f.flush()
                 mlflow.log_artifact(f.name, artifact_path="preprocessor")
+                logger.info("Preprocesseur logue comme artefact")
 
         except Exception as e:
-            logger.error(f"Erreur lors du logging du modele: {e}")
+            logger.error(f"Erreur lors du logging du modele: {e}", exc_info=True)

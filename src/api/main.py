@@ -1,7 +1,7 @@
 import logging
 from fastapi import FastAPI
 
-from src.api.routes import triage, conversation, feedback, mlflow_routes
+from src.api.routes import triage, conversation, feedback, mlflow_routes, debug_mlflow
 
 # Configuration du logging
 logging.basicConfig(
@@ -20,6 +20,7 @@ app.include_router(triage.router, prefix="/triage", tags=["Triage"])
 app.include_router(conversation.router, prefix="/conversation", tags=["Conversation"])
 app.include_router(feedback.router, tags=["Feedback"])
 app.include_router(mlflow_routes.router, tags=["MLflow"])
+app.include_router(debug_mlflow.router, tags=["Debug"])
 
 @app.get("/")
 def read_root():
