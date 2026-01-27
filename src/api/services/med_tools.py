@@ -1,9 +1,7 @@
 import os
 import chromadb
 from chromadb.utils import embedding_functions
-from pydantic_ai import RunContext
-from dataclasses import dataclass
-from typing import Union, List
+from typing import List
 from src.api.schemas.extraction import ExtractedPatient, ExtractedConstantes # Ton modèle Pydantic existant
 
 # --- CONFIGURATION RAG ---
@@ -48,16 +46,19 @@ REQUIRED_FOR_ML = {
 }
 
 
-# 1. On définit la structure de notre "Mémoire Partagée"
-@dataclass
-class AgentState:
-    patient_data: ExtractedPatient
+# IMPORTANT : Dans les nouvelles versions de pydantic-ai, les tools n'utilisent plus RunContext
+# Les tools sont maintenant de simples fonctions async sans contexte explicite
 
-# 2. Outil RAG
-async def search_medical_protocol(ctx: RunContext[AgentState], symptome: str) -> str:
+async def search_medical_protocol(symptome: str) -> str:
     """
     Cherche dans la base de connaissances médicale (Protocoles & Cas Similaires).
     Utilise cette fonction pour vérifier la gravité d'un symptôme ou les actions recommandées.
+    
+    Args:
+        symptome: Le symptôme ou la condition médicale à rechercher
+        
+    Returns:
+        Contexte médical pertinent trouvé dans la base de connaissances
     """
     collection = get_knowledge_base()
     
@@ -85,11 +86,14 @@ async def search_medical_protocol(ctx: RunContext[AgentState], symptome: str) ->
         
     return context_text
 
+
 async def check_completeness_for_ml(found_fields: List[str]) -> str:
     """
     Vérifie si les données extraites sont suffisantes pour l'algorithme de prédiction.
+    
     Args:
         found_fields: Liste des champs identifiés (ex: ['age', 'douleur', 'temperature']).
+        
     Returns:
         Un message indiquant les variables manquantes ou un succès.
     """
