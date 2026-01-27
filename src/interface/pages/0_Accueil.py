@@ -89,8 +89,23 @@ if st.session_state['conversation_data'] is not None:
                     
                     if resp_process.status_code == 200:
                         # ✅ SAUVEGARDE DU RÉSULTAT
-                        st.session_state['last_simulation'] = resp_process.json()
+                        result = resp_process.json()
+                        st.session_state['last_simulation'] = result
                         st.session_state['analysis_done'] = True
+                        # Ajout à l'historique pour les stats du Dashboard
+                        if 'triage_history' not in st.session_state:
+                            st.session_state['triage_history'] = []
+                        if 'metrics_history' not in st.session_state:
+                            st.session_state['metrics_history'] = []
+                        gravity = result.get('triage_result', {}).get('gravity_level', 'INCONNU')
+                        st.session_state['triage_history'].append(gravity)
+                        # Stocker les métriques pour les totaux
+                        m = result.get('metrics', {})
+                        st.session_state['metrics_history'].append({
+                            'cost_usd': m.get('cost_usd', 0),
+                            'gwp_kgco2': m.get('gwp_kgco2', 0),
+                            'energy_kwh': m.get('energy_kwh', 0)
+                        })
                         st.rerun() # Recharge pour fermer l'expander
                     else:
                         st.error(f"Erreur API : {resp_process.text}")

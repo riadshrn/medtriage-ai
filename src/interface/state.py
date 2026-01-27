@@ -10,3 +10,6 @@ def init_session_state():
 
     if "edit_mode" not in st.session_state:
         st.session_state.edit_mode = False
+
+    if "triage_history" not in st.session_state:
+        st.session_state.triage_history = []
