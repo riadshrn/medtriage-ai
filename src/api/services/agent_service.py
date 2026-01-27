@@ -1,48 +1,39 @@
 import os
 import time
 from pydantic_ai import Agent
+from pydantic_ai.models.mistral import MistralModel
 
 # Imports mis à jour
+from src.api.services.med_tools import search_medical_protocol, check_completeness_for_ml
 from src.api.schemas.agent_io import AgentResponse 
 
 class MedicalAgentService:
     def __init__(self):
-        # Import des tools ici pour éviter les imports circulaires
-        from src.api.services.med_tools import search_medical_protocol, check_completeness_for_ml
-        
         model_name = os.getenv("LLM_MODEL", "mistral-small-latest")
-        
-        # Si la variable d'environnement contient un provider (ex: "mistral/mistral-small-latest")
-        # on extrait juste le nom du modèle
         if "/" in model_name: 
             model_name = model_name.split("/")[-1]
+
+        self.model = MistralModel(model_name)
         
-        # Si le nom contient déjà le préfixe "mistral:", on l'utilise tel quel
-        # Sinon on ajoute le préfixe
-        if model_name.startswith("mistral:"):
-            model_string = model_name
-        else:
-            model_string = f"mistral:{model_name}"
-        
-        # Créer l'agent avec les tools passés dans le constructeur
         self.agent = Agent(
-            model_string,
-            output_type=AgentResponse,
-            tools=[search_medical_protocol, check_completeness_for_ml],  # <-- Tools dans le constructeur
+            self.model,
+            result_type=AgentResponse, # <-- L'Agent va maintenant remplir tes 3 champs
+            
             system_prompt=(
                 "Tu es un Copilote de Régulation Médicale."
                 "Ta mission : Analyser le cas clinique et préparer les données pour l'IA prédictive."
-                "\n\n"
+                
                 "FLUX DE TRAVAIL (Respecte cet ordre) :"
-                "\n1. 🧠 ANALYSE : Identifie les symptômes et données présentes dans le texte."
-                "\n2. 📚 PROTOCOLE : Si un symptôme t'inquiète, interroge 'search_medical_protocol'."
-                "\n3. ✅ VALIDATION TECHNIQUE : Appelle 'check_completeness_for_ml' avec la liste des infos que tu as trouvées pour savoir ce qu'il manque au modèle ML."
-                "\n4. 📝 RÉDACTION : Génère la réponse finale."
-                "\n\n"
+                "1. 🧠 ANALYSE : Identifie les symptômes et données présentes dans le texte."
+                "2. 📚 PROTOCOLE : Si un symptôme t'inquiète, interroge 'search_medical_protocol'."
+                "3. ✅ VALIDATION TECHNIQUE : Appelle 'check_completeness_for_ml' avec la liste des infos que tu as trouvées pour savoir ce qu'il manque au modèle ML."
+                "4. 📝 RÉDACTION : Génère la réponse finale."
+                
                 "RÈGLES DE REMPLISSAGE :"
-                "\n- 'missing_info' : Combine les manques cliniques (liés au protocole) ET les manques techniques (relevés par l'outil de validation)."
-                "\n- 'protocol_alert' : Remplis uniquement si le protocole médical indique une urgence ou une action spécifique."
-            )
+                "- 'missing_info' : Combine les manques cliniques (liés au protocole) ET les manques techniques (relevés par l'outil de validation)."
+                "- 'protocol_alert' : Remplis uniquement si le protocole médical indique une urgence ou une action spécifique."
+            ),
+            tools=[search_medical_protocol, check_completeness_for_ml] 
         )
 
     def _estimate_impact(self, input_tok: int, output_tok: int, latency_s: float):
@@ -124,7 +115,7 @@ class MedicalAgentService:
                     for part in msg.parts:
                         if hasattr(part, 'tool_name'):
                             args = getattr(part, 'args', {})
-                            steps.append(f"🛠️ **Recherche RAG** : `{part.tool_name}`")
+                            steps.append(f"🛠️ **Recherche RAG** : `{part.tool_name}`") # Affichage simplifié
                         elif hasattr(part, 'content') and hasattr(msg, 'kind') and msg.kind == 'tool-return':
                              steps.append(f"✅ **Résultat** : {part.content[:80]}...")
 
@@ -147,8 +138,6 @@ class MedicalAgentService:
             
         except Exception as e:
             print(f"❌ CRASH AGENT: {e}")
-            import traceback
-            traceback.print_exc()
             return {
                 "extracted_data": None,
                 "missing_info": [],
