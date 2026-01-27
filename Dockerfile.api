@@ -12,8 +12,8 @@ ENV UV_LINK_MODE=copy
 
 # Installation des dépendances
 COPY requirements/requirements-api.txt .
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install -r requirements-api.txt
+
+RUN uv pip install --no-cache-dir -r requirements-api.txt
 
 # Copie du code source complet (API + ML + Data + Scripts)
 COPY src/ ./src/
