@@ -12,6 +12,7 @@ from src.api.schemas.triage import PatientInput
 # Services
 from src.api.services.triage_service import get_triage_service
 from src.api.services.extraction_service import PatientExtractor
+from src.api.services.agent_service import get_agent_service
 
 router = APIRouter()
 
@@ -75,3 +76,16 @@ async def process_conversation(data: ConversationUploadResponse):
         triage_result=triage_result,
         metrics=metrics # On renvoie les métriques calculées par EcoLogits
     )
+
+@router.post("/agent-audit")
+async def audit_conversation(data: ConversationUploadResponse):
+    """
+    Analyse la conversation via l'Agent PydanticAI pour voir ses décisions.
+    """
+    full_text = "\n".join([f"{m.role.upper()}: {m.content}" for m in data.messages])
+    
+    agent_service = get_agent_service()
+    # On appelle la nouvelle méthode qui renvoie le raisonnement
+    result = await agent_service.analyze_with_reasoning(full_text)
+    
+    return result
