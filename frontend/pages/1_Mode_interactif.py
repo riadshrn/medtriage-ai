@@ -493,6 +493,18 @@ def process_nurse_message(message: str) -> None:
             st.session_state.extracted_data = analysis["extracted_data"]
             st.session_state.triage_checklist.update_from_analysis(analysis["extracted_data"])
 
+            # Stocker les métriques pour le Dashboard
+            m = analysis.get("metrics")
+            if m:
+                st.session_state['interactive_metrics_history'].append({
+                    'cost_usd': m.get('cost_usd', 0),
+                    'gwp_kgco2': m.get('gwp_kgco2', 0),
+                    'energy_kwh': m.get('energy_kwh', 0)
+                })
+                # Mettre à jour la dernière requête (toutes sources)
+                st.session_state['last_request_metrics'] = m
+                st.session_state['last_request_source'] = "Mode Interactif"
+
     st.session_state.suggested_questions = generate_question_suggestions(
         st.session_state.triage_checklist,
         st.session_state.simulation_messages
