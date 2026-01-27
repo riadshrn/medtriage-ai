@@ -13,3 +13,5 @@ rapidfuzz
 mlflow==2.10.2
 # Matplotlib pour visualisations (confusion matrix)
 matplotlib
+pydantic-ai
+fastmcp
