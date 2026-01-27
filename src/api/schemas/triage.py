@@ -35,16 +35,40 @@ class PatientInput(BaseModel):
     constantes: ConstantesInput
     antecedents: Optional[List[str]] = []
 
+class PredictionQualityEnum(str, Enum):
+    """Niveau de qualite des donnees pour la prediction ML."""
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+    INSUFFICIENT = "insufficient"
+
+
 class TriageResponse(BaseModel):
+    """Reponse du service de triage."""
+    # Identifiant unique de la prediction (pour feedback)
+    prediction_id: Optional[str] = None
+
+    # Resultat principal
     gravity_level: GravityLevelEnum
     french_triage_level: FrenchTriageLevelEnum
     confidence_score: float
     justification: str
+
+    # Details cliniques
     red_flags: List[str] = []
     recommendations: List[str] = []
     orientation: str
     delai_prise_en_charge: str
+
+    # Metadata
     processing_time_ms: float
     model_version: str
-    # Debug infos
+
+    # Informations ML
     ml_score: Optional[float] = 0.0
+    ml_available: Optional[bool] = True
+    ml_error: Optional[str] = None
+
+    # Qualite des donnees
+    prediction_quality: Optional[PredictionQualityEnum] = PredictionQualityEnum.HIGH
+    missing_features: Optional[List[str]] = []

@@ -1,5 +1,30 @@
 services:
   # ============================================
+  # SERVICE MLFLOW (Tracking & Registry)
+  # ============================================
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.10.0
+    container_name: redflag-mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlflow/mlruns
+      - ./mlartifacts:/mlflow/mlartifacts
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:///mlflow/mlruns/mlflow.db
+      --default-artifact-root /mlflow/mlartifacts
+    networks:
+      - redflag-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================
   # SERVICE API (Backend - Cerveau)
   # ============================================
   api:
@@ -13,9 +38,12 @@ services:
       - ./src:/app/src
       - ./models:/app/models
       - ./data:/app/data
-    # CORRECTION ICI : On ajoute le .env proprement pour l'API
     env_file:
       - .env
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      - mlflow
     networks:
       - redflag-network
 
