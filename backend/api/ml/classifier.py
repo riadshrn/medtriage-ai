@@ -2,6 +2,7 @@
 Modèle de classification pour le triage des patients.
 """
 
+import io
 import pickle
 import time
 from pathlib import Path
@@ -10,6 +11,15 @@ import numpy as np
 from xgboost import XGBClassifier
 
 from .preprocessor import TriagePreprocessor
+
+
+class _BackwardsCompatibleUnpickler(pickle.Unpickler):
+    """Unpickler qui remappe src.api vers api pour compatibilité."""
+
+    def find_class(self, module: str, name: str):
+        if module.startswith("src.api"):
+            module = module.replace("src.api", "api", 1)
+        return super().find_class(module, name)
 
 
 class TriageClassifier:
@@ -178,9 +188,9 @@ class TriageClassifier:
         # Chargement du modèle XGBoost
         classifier.model.load_model(model_path)
 
-        # Chargement du préprocesseur
+        # Chargement du préprocesseur (avec remap src.api -> api)
         with open(preprocessor_path, "rb") as f:
-            classifier.preprocessor = pickle.load(f)
+            classifier.preprocessor = _BackwardsCompatibleUnpickler(f).load()
 
         classifier.is_trained = True
 
