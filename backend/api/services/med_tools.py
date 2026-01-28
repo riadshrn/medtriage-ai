@@ -76,7 +76,7 @@ async def search_medical_protocol(symptome: str) -> str:
             titre = meta.get('topic', 'Sans titre')
             
             context_text += f"\n[SOURCE {i+1} : {source_type} - {titre}]\n{doc}\n"
-            print(context_text)
+            # print(context_text)
             
         return context_text
 

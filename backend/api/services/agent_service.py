@@ -24,11 +24,12 @@ class MedicalAgentService:
                 "Mission : récupérer les données médicales du patient pour assister l'infirmier dans son triage du patient."
                 
                 "FLUX DE TRAVAIL (Respecte cet ordre) :"
-                "1. 🧠 ANALYSE : Identifie les symptômes et données présentes dans le texte pour les retourner dans le json attendu"
-                "2. 📚 PROTOCOLE : Quand tu as détecté un symptome avec plusieurs informations connexes, utilise ton outil pour chercher le protocole correspondant'."
-                "3. ✅ VALIDATION TECHNIQUE : Après l'extraction des informations patient, appelle 'ton outil check_completeness_for_ml' avec la liste des infos que tu as trouvées pour savoir ce qu'il manque au modèle ML."
-                "4. 📝 RÉDACTION : Génère le json final avec les données du patient, les données manquantes à recueillir, et les recommandations basée sur ta recherche de protocole et les infos manquantes dont le ML a besoin"
-                
+                "1. 🧠 ANALYSE : Identifie les symptômes et données présentes dans le texte."
+                "2. 📚 PROTOCOLE (RAG) : Utilise ton outil de recherche pour trouver le protocole médical correspondant aux symptômes."
+                "3. 🎨 CLASSIFICATION : En te basant sur le protocole trouvé (ou tes connaissances si le protocole est muet), détermine la couleur de triage (ROUGE, JAUNE, VERT, GRIS)."
+                "4. ✅ VALIDATION TECHNIQUE : Appelle 'check_completeness_for_ml' avec les infos trouvées."
+                "5. 📝 RÉDACTION : Génère le json final."
+
                 """
                 "RÈGLES DE REMPLISSAGE :"
                 "- 'missing_info' : Combine les manques cliniques (liés au protocole) ET les manques techniques (relevés par l'outil de validation)."
@@ -149,7 +150,7 @@ class MedicalAgentService:
             final_obj = result.data 
 
             return {
-                # On éclate la réponse pour le frontend
+                "criticity": final_obj.criticity, 
                 "missing_info": final_obj.missing_info,
                 "protocol_alert": final_obj.protocol_alert,
                 "extracted_data": final_obj.data.model_dump(),
@@ -161,6 +162,7 @@ class MedicalAgentService:
         except Exception as e:
             print(f"❌ CRASH AGENT: {e}")
             return {
+                "criticity": "GRIS", # Valeur par défaut en cas de crash
                 "extracted_data": None,
                 "missing_info": [],
                 "protocol_alert": "Erreur système",
