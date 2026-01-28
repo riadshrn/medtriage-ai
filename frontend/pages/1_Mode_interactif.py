@@ -134,7 +134,7 @@ def call_patient_simulation(persona: str, messages: List[Dict], nurse_message: s
         response = requests.post(
             f"{API_URL}/simulation/patient-response",
             json={"persona": persona, "history": messages, "nurse_message": nurse_message},
-            timeout=3
+            timeout=15
         )
         if response.status_code == 200:
             return response.json().get("response")
@@ -153,7 +153,7 @@ def analyze_conversation(messages: List[Dict]) -> Optional[Dict]:
         response = requests.post(
             f"{API_URL}/simulation/extraction/analyze",
             json={"text": full_text},
-            timeout=3
+            timeout=10
         )
         if response.status_code == 200:
             return response.json()
@@ -163,29 +163,54 @@ def analyze_conversation(messages: List[Dict]) -> Optional[Dict]:
 
 
 def generate_question_suggestions(checklist: TriageChecklist, messages: List[Dict]) -> List[str]:
-    """Génère des suggestions de questions basées sur les informations manquantes."""
+    """Génère des suggestions de questions basées sur les informations manquantes.
+
+    Priorité clinique pour le triage :
+    1. Motif de consultation (pourquoi êtes-vous là ?)
+    2. Durée des symptômes (depuis quand ?)
+    3. Douleur EVA (intensité)
+    4. Antécédents médicaux
+    5. Autres informations
+    """
     missing = checklist.get_missing_items()
     if not missing:
         return ["Avez-vous d'autres symptômes ?", "Y a-t-il autre chose ?", "Comment vous sentez-vous maintenant ?"]
 
     question_templates = {
-        "Âge": "Quel âge avez-vous ?",
-        "Sexe": "Êtes-vous monsieur ou madame ?",
         "Motif": "Qu'est-ce qui vous amène aux urgences ?",
-        "Douleur (EVA)": "Sur 10, comment évaluez-vous votre douleur ?",
+        "Durée symptômes": "Depuis quand avez-vous ces symptômes ?",
+        "Douleur (EVA)": "Sur une échelle de 0 à 10, comment évaluez-vous votre douleur ?",
+        "Antécédents": "Avez-vous des maladies connues ou des antécédents médicaux ?",
+        "Âge": "Quel âge avez-vous ?",
+        "Sexe": "Comment dois-je m'adresser à vous ?",
         "Température": "Avez-vous de la fièvre ?",
         "Fréq. cardiaque": "Ressentez-vous des palpitations ?",
-        "Pression artérielle": "Connaissez-vous votre tension ?",
+        "Pression artérielle": "Connaissez-vous votre tension habituelle ?",
         "Fréq. respiratoire": "Avez-vous du mal à respirer ?",
         "SpO2": "Vous sentez-vous essoufflé ?",
-        "Antécédents": "Avez-vous des maladies connues ?",
-        "Durée symptômes": "Depuis quand avez-vous ces symptômes ?",
     }
 
+    # Ordre de priorité clinique
+    priority_order = [
+        "Motif",
+        "Durée symptômes",
+        "Douleur (EVA)",
+        "Antécédents",
+        "Âge",
+        "Sexe",
+        "Température",
+        "Fréq. cardiaque",
+        "Pression artérielle",
+        "Fréq. respiratoire",
+        "SpO2",
+    ]
+
     suggestions = []
-    for item in missing[:3]:
-        if item in question_templates:
+    for item in priority_order:
+        if item in missing and item in question_templates:
             suggestions.append(question_templates[item])
+            if len(suggestions) >= 3:
+                break
 
     return suggestions if suggestions else ["Comment vous sentez-vous ?"]
 
@@ -287,16 +312,6 @@ def render_triage_help() -> None:
 
         if result.get("delai_prise_en_charge"):
             st.sidebar.info(f"⏱️ {result['delai_prise_en_charge']}")
-
-        if result.get("red_flags"):
-            st.sidebar.error("**🚨 Alertes:**")
-            for alert in result["red_flags"]:
-                st.sidebar.markdown(f"• {alert}")
-
-        if result.get("recommendations"):
-            with st.sidebar.expander("📋 Recommandations"):
-                for rec in result["recommendations"]:
-                    st.markdown(f"• {rec}")
     else:
         st.sidebar.info("💡 Le triage s'affichera après 3 échanges ou 50% d'infos collectées")
 
@@ -306,6 +321,11 @@ def render_triage_help() -> None:
                 if result:
                     st.session_state.triage_result = result
                     st.rerun()
+
+
+def send_suggestion(suggestion: str) -> None:
+    """Callback pour envoyer une question suggérée."""
+    st.session_state.pending_message = suggestion
 
 
 def render_question_suggestions() -> None:
@@ -323,9 +343,13 @@ def render_question_suggestions() -> None:
         cols = st.columns(min(len(suggestions), 3))
         for idx, (col, suggestion) in enumerate(zip(cols, suggestions[:3])):
             with col:
-                if st.button(suggestion, key=f"sugg_{idx}", use_container_width=True):
-                    st.session_state.pending_message = suggestion
-                    st.rerun()
+                st.button(
+                    suggestion,
+                    key=f"sugg_{idx}",
+                    use_container_width=True,
+                    on_click=send_suggestion,
+                    args=(suggestion,)
+                )
 
 
 def render_chat_interface() -> None:
@@ -350,26 +374,25 @@ def process_nurse_message(message: str) -> None:
     # Ajouter le message de l'infirmier
     st.session_state.simulation_messages.append({"role": "user", "content": message})
 
-    # Générer la réponse du patient
-    patient_response = call_patient_simulation(
-        st.session_state.patient_persona,
-        st.session_state.simulation_messages,
-        message
-    )
+    with st.spinner("Le patient réfléchit..."):
+        # Générer la réponse du patient
+        patient_response = call_patient_simulation(
+            st.session_state.patient_persona,
+            st.session_state.simulation_messages,
+            message
+        )
 
-    if patient_response is None:
-        patient_response = generate_fallback_response(message)
-
-    # Simuler un délai de frappe (effet naturel)
-    time.sleep(0.5)
+        if patient_response is None:
+            patient_response = generate_fallback_response(message)
 
     st.session_state.simulation_messages.append({"role": "assistant", "content": patient_response})
 
-    # Analyser la conversation en arrière-plan
-    analysis = analyze_conversation(st.session_state.simulation_messages)
-    if analysis and "extracted_data" in analysis:
-        st.session_state.extracted_data = analysis["extracted_data"]
-        st.session_state.triage_checklist.update_from_analysis(analysis["extracted_data"])
+    with st.spinner("Analyse en cours..."):
+        # Analyser la conversation
+        analysis = analyze_conversation(st.session_state.simulation_messages)
+        if analysis and "extracted_data" in analysis:
+            st.session_state.extracted_data = analysis["extracted_data"]
+            st.session_state.triage_checklist.update_from_analysis(analysis["extracted_data"])
 
     # Mettre à jour les suggestions
     st.session_state.suggested_questions = generate_question_suggestions(
@@ -430,79 +453,89 @@ def main() -> None:
 
         st.sidebar.markdown("---")
         if st.sidebar.button("🔄 Réinitialiser", use_container_width=True):
-            for key in ["simulation_messages", "triage_checklist", "extracted_data",
-                       "suggested_questions", "triage_result", "simulation_started", "pending_message"]:
-                if key == "triage_checklist":
-                    st.session_state[key] = TriageChecklist()
-                elif key == "simulation_started":
-                    st.session_state[key] = False
-                else:
-                    st.session_state[key] = [] if "messages" in key or "suggestions" in key else {} if "data" in key else None
+            st.session_state.simulation_messages = []
+            st.session_state.patient_persona = ""
+            st.session_state.triage_checklist = TriageChecklist()
+            st.session_state.extracted_data = {}
+            st.session_state.suggested_questions = []
+            st.session_state.triage_result = None
+            st.session_state.simulation_started = False
+            st.session_state.pending_message = None
             st.rerun()
 
     # --- CONFIGURATION DU PATIENT ---
     with st.expander("🎭 Configuration du Patient", expanded=not st.session_state.simulation_started):
-        default_persona = """Tu es un patient de 52 ans, homme, aux urgences pour douleur thoracique depuis 2h.
-ANTÉCÉDENTS: Diabète type 2, hypertension. Tu fumes 1 paquet/jour.
-Tu es anxieux et inquiet."""
-
-        st.session_state.patient_persona = st.text_area(
-            "Persona du patient",
-            value=st.session_state.patient_persona or default_persona,
-            height=120,
-            label_visibility="collapsed"
-        )
+        # Presets disponibles
+        presets = {
+            "Douleur thoracique": """Tu es un patient de 58 ans, homme, fumeur (30 ans). Douleur thoracique intense irradiant vers le bras gauche depuis 1h. Tu transpires et as des nausées.
+ANTÉCÉDENTS: Hypertension, cholestérol. Père décédé d'infarctus à 55 ans.
+Tu es très anxieux, tu as peur de mourir.""",
+            "Détresse respiratoire": """Tu es une patiente de 45 ans, asthmatique connue. Crise sévère depuis 30min, tu parles difficilement.
+ANTÉCÉDENTS: Asthme sévère, nombreuses hospitalisations. Tu n'as pas pris ton traitement depuis 2 jours.
+Tu es paniquée, tu n'arrives pas à reprendre ton souffle.""",
+            "Traumatisme crânien": """Tu es un patient de 25 ans, chute de vélo il y a 30min. Mal à la tête, un peu confus, bosse sur le front. Tu ne te souviens pas bien de l'accident.
+ANTÉCÉDENTS: Aucun.
+Tu as des nausées et la lumière te gêne.""",
+            "Douleur abdominale": """Tu es une patiente de 35 ans, douleur abdominale intense en fosse iliaque droite depuis 12h. Fièvre et nausées depuis ce matin.
+ANTÉCÉDENTS: Aucun antécédent notable.
+Tu as mal quand on appuie sur le ventre à droite et tu n'as pas pu manger.""",
+            "Entorse cheville": """Tu es un patient de 28 ans, entorse de la cheville droite en jouant au foot il y a 2h. Tu boites mais tu peux marcher.
+ANTÉCÉDENTS: Aucun.
+Tu es de bonne humeur malgré la douleur, tu veux juste une radio pour être sûr.""",
+        }
 
         col1, col2 = st.columns([1, 1])
         with col1:
-            if st.button("▶️ Démarrer", type="primary", use_container_width=True):
-                st.session_state.simulation_started = True
-                st.rerun()
-
-        with col2:
+            st.markdown("**Choisir un cas prédéfini :**")
             preset = st.selectbox(
                 "Cas prédéfinis",
-                ["Personnalisé", "Douleur thoracique (ROUGE)", "Détresse respiratoire (ROUGE)",
-                 "Traumatisme crânien (JAUNE)", "Douleur abdominale (JAUNE)", "Entorse cheville (VERT)"],
+                ["-- Sélectionner --"] + list(presets.keys()),
                 label_visibility="collapsed"
             )
-            presets = {
-                "Douleur thoracique (ROUGE)": """Tu es un patient de 58 ans, homme, fumeur (30 ans). Douleur thoracique intense irradiant vers le bras gauche depuis 1h. Tu transpires et as des nausées.
-ANTÉCÉDENTS: Hypertension, cholestérol. Père décédé d'infarctus à 55 ans.
-Tu es très anxieux, tu as peur de mourir.""",
-                "Détresse respiratoire (ROUGE)": """Tu es une patiente de 45 ans, asthmatique connue. Crise sévère depuis 30min, tu parles difficilement.
-ANTÉCÉDENTS: Asthme sévère, nombreuses hospitalisations. Tu n'as pas pris ton traitement depuis 2 jours.
-Tu es paniquée, tu n'arrives pas à reprendre ton souffle.""",
-                "Traumatisme crânien (JAUNE)": """Tu es un patient de 25 ans, chute de vélo il y a 30min. Mal à la tête, un peu confus, bosse sur le front. Tu ne te souviens pas bien de l'accident.
-ANTÉCÉDENTS: Aucun.
-Tu as des nausées et la lumière te gêne.""",
-                "Douleur abdominale (JAUNE)": """Tu es une patiente de 35 ans, douleur abdominale intense en fosse iliaque droite depuis 12h. Fièvre et nausées depuis ce matin.
-ANTÉCÉDENTS: Aucun antécédent notable.
-Tu as mal quand on appuie sur le ventre à droite et tu n'as pas pu manger.""",
-                "Entorse cheville (VERT)": """Tu es un patient de 28 ans, entorse de la cheville droite en jouant au foot il y a 2h. Tu boites mais tu peux marcher.
-ANTÉCÉDENTS: Aucun.
-Tu es de bonne humeur malgré la douleur, tu veux juste une radio pour être sûr.""",
-            }
-            if preset != "Personnalisé" and preset in presets:
+            if preset != "-- Sélectionner --" and preset in presets:
                 st.session_state.patient_persona = presets[preset]
-                st.rerun()
+
+        with col2:
+            st.markdown("**Ou créer un cas personnalisé :**")
+            st.caption("Décrivez le patient (âge, sexe, motif, antécédents...)")
+
+        # Zone de texte pour le persona
+        persona_value = st.text_area(
+            "Persona du patient",
+            value=st.session_state.patient_persona,
+            height=120,
+            placeholder="Ex: Tu es un patient de 45 ans, femme, venue pour migraine intense depuis 6h...",
+            label_visibility="collapsed"
+        )
+        st.session_state.patient_persona = persona_value
+
+        # Bouton démarrer
+        can_start = bool(st.session_state.patient_persona.strip())
+        if st.button("▶️ Démarrer la simulation", type="primary", use_container_width=True, disabled=not can_start):
+            st.session_state.simulation_started = True
+            st.rerun()
+
+        if not can_start:
+            st.warning("⚠️ Veuillez sélectionner un cas ou décrire un patient personnalisé.")
 
     # --- ZONE DE CHAT ---
     if st.session_state.simulation_started:
         st.markdown("---")
 
+        # Traiter un message en attente AVANT d'afficher (depuis les suggestions)
+        if st.session_state.pending_message:
+            msg_to_send = st.session_state.pending_message
+            st.session_state.pending_message = None
+            process_nurse_message(msg_to_send)
+            st.rerun()
+
         render_question_suggestions()
         st.markdown("")
         render_chat_interface()
 
-        # Traiter un message en attente (depuis les suggestions)
-        if st.session_state.pending_message:
-            process_nurse_message(st.session_state.pending_message)
-            st.session_state.pending_message = None
-            st.rerun()
-
-        # Zone de saisie avec st.chat_input (supporte Entrée nativement)
-        if user_input := st.chat_input("Posez une question au patient...", key="chat_input"):
+        # Zone de saisie avec st.chat_input
+        user_input = st.chat_input("Posez une question au patient...")
+        if user_input:
             process_nurse_message(user_input)
             st.rerun()
 

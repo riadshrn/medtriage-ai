@@ -28,23 +28,23 @@ async def evaluate_from_extraction(extracted_data: Dict[str, Any]) -> Dict:
     basé sur les informations collectées pendant l'entretien.
     """
     try:
-        constantes_data = extracted_data.get("constantes", {})
+        constantes_data = extracted_data.get("constantes") or {}
 
         patient = PatientInput(
-            age=extracted_data.get("age", 45),
-            sexe=extracted_data.get("sexe", "M"),
-            motif_consultation=extracted_data.get("motif_consultation", "Non spécifié"),
-            antecedents=extracted_data.get("antecedents", []),
+            age=extracted_data.get("age") or 45,
+            sexe=extracted_data.get("sexe") or "M",
+            motif_consultation=extracted_data.get("motif_consultation") or "Non spécifié",
+            antecedents=extracted_data.get("antecedents") or [],
             constantes=ConstantesInput(
-                frequence_cardiaque=constantes_data.get("frequence_cardiaque", 80),
-                pression_systolique=constantes_data.get("pression_systolique", 120),
-                pression_diastolique=constantes_data.get("pression_diastolique", 80),
-                frequence_respiratoire=constantes_data.get("frequence_respiratoire", 16),
-                temperature=constantes_data.get("temperature", 37.0),
-                saturation_oxygene=constantes_data.get("saturation_oxygene", 98),
-                echelle_douleur=constantes_data.get("echelle_douleur", 0),
+                frequence_cardiaque=constantes_data.get("frequence_cardiaque") or 80,
+                pression_systolique=constantes_data.get("pression_systolique") or 120,
+                pression_diastolique=constantes_data.get("pression_diastolique") or 80,
+                frequence_respiratoire=constantes_data.get("frequence_respiratoire") or 16,
+                temperature=constantes_data.get("temperature") or 37.0,
+                saturation_oxygene=constantes_data.get("saturation_oxygene") or 98,
+                echelle_douleur=constantes_data.get("echelle_douleur") or 0,
                 glycemie=constantes_data.get("glycemie"),
-                glasgow=constantes_data.get("glasgow", 15),
+                glasgow=constantes_data.get("glasgow") or 15,
             )
         )
 
