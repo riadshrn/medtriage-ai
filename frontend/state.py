@@ -7,6 +7,9 @@ def init_session_state():
 
     if "categorie" not in st.session_state:
         st.session_state.categorie = ""
+        
+    if "triage_color" not in st.session_state:
+        st.session_state.triage_color = None 
 
     if "edit_mode" not in st.session_state:
         st.session_state.edit_mode = False

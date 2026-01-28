@@ -21,17 +21,20 @@ class MedicalAgentService:
             
             system_prompt=(
                 "Tu es un Copilote de Régulation Médicale."
-                "Ta mission : Analyser le cas clinique et préparer les données pour l'IA prédictive."
+                "Mission : récupérer les données médicales du patient pour assister l'infirmier dans son triage du patient."
                 
                 "FLUX DE TRAVAIL (Respecte cet ordre) :"
                 "1. 🧠 ANALYSE : Identifie les symptômes et données présentes dans le texte."
-                "2. 📚 PROTOCOLE : Si un symptôme t'inquiète, interroge 'search_medical_protocol'."
-                "3. ✅ VALIDATION TECHNIQUE : Appelle 'check_completeness_for_ml' avec la liste des infos que tu as trouvées pour savoir ce qu'il manque au modèle ML."
-                "4. 📝 RÉDACTION : Génère la réponse finale."
-                
+                "2. 📚 PROTOCOLE (RAG) : Utilise ton outil de recherche pour trouver le protocole médical correspondant aux symptômes."
+                "3. 🎨 CLASSIFICATION : En te basant sur le protocole trouvé (ou tes connaissances si le protocole est muet), détermine la couleur de triage (ROUGE, JAUNE, VERT, GRIS)."
+                "4. ✅ VALIDATION TECHNIQUE : Appelle 'check_completeness_for_ml' avec les infos trouvées."
+                "5. 📝 RÉDACTION : Génère le json final."
+
+                """
                 "RÈGLES DE REMPLISSAGE :"
                 "- 'missing_info' : Combine les manques cliniques (liés au protocole) ET les manques techniques (relevés par l'outil de validation)."
                 "- 'protocol_alert' : Remplis uniquement si le protocole médical indique une urgence ou une action spécifique."
+                """
             ),
             tools=[search_medical_protocol, check_completeness_for_ml] 
         )
@@ -111,14 +114,34 @@ class MedicalAgentService:
             # Récupération Logs Outils
             steps = []
             for msg in result.new_messages():
-                if hasattr(msg, 'parts'):
-                    for part in msg.parts:
-                        if hasattr(part, 'tool_name'):
-                            args = getattr(part, 'args', {})
-                            steps.append(f"🛠️ **Recherche RAG** : `{part.tool_name}`") # Affichage simplifié
-                        elif hasattr(part, 'content') and hasattr(msg, 'kind') and msg.kind == 'tool-return':
-                             steps.append(f"✅ **Résultat** : {part.content[:80]}...")
+                if not hasattr(msg, 'parts'):
+                    continue
+                    
+                for part in msg.parts:
+                    # CASE 1: The Model requests a tool execution
+                    # Seen in logs: part_kind='tool-call'
+                    if part.part_kind == 'tool-call':
+                        tool_name = part.tool_name
+                        args = part.args # It is a JSON string in your logs
+                        
+                        # 'final_result' is the internal tool PydanticAI uses to return the typed response
+                        if tool_name == 'final_result':
+                             steps.append("🏁 **Finalisation** : Generating structured response.")
+                        else:
+                             steps.append(f"🛠️ **Agent Call** `{tool_name}`\n   ❓ Args: {args}")
 
+                    # CASE 2: The Tool returns data to the Model
+                    # Seen in logs: part_kind='tool-return'
+                    elif part.part_kind == 'tool-return':
+                        tool_name = part.tool_name
+                        content = part.content
+                        
+                        # Truncate long content for UI readability
+                        content_str = str(content)
+                        if len(content_str) > 500:
+                            content_str = content_str[:500] + " [...]"
+                        
+                        steps.append(f"✅ **DB Response** ({tool_name}) :\n   {content_str}")
             # Métriques
             usage = result.usage()
             impacts = self._estimate_impact(usage.request_tokens, usage.response_tokens, latency_s)
@@ -127,7 +150,7 @@ class MedicalAgentService:
             final_obj = result.data 
 
             return {
-                # On éclate la réponse pour le frontend
+                "criticity": final_obj.criticity, 
                 "missing_info": final_obj.missing_info,
                 "protocol_alert": final_obj.protocol_alert,
                 "extracted_data": final_obj.data.model_dump(),
@@ -139,6 +162,7 @@ class MedicalAgentService:
         except Exception as e:
             print(f"❌ CRASH AGENT: {e}")
             return {
+                "criticity": "GRIS", # Valeur par défaut en cas de crash
                 "extracted_data": None,
                 "missing_info": [],
                 "protocol_alert": "Erreur système",

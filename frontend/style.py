@@ -56,6 +56,20 @@ def apply_style():
             margin: 0;
             font-weight: bold;
         }
+        
+        .triage-badge {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white !important; /* Force le texte en blanc */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block; /* Assure que le div prend la largeur */
+        }
     </style>
     """, unsafe_allow_html=True)
 

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Literal # <-- AJOUTER Literal
 from api.schemas.extraction import ExtractedPatient
 
 class AgentResponse(BaseModel):
@@ -8,6 +8,11 @@ class AgentResponse(BaseModel):
     Permet un affichage modulaire dans le dashboard.
     """
     
+    criticity: Literal["ROUGE", "JAUNE", "VERT", "GRIS"] = Field(
+        ...,
+        description="Niveau de gravité trié selon le protocole médical identifié (ROUGE=Urgence Vitale, JAUNE=Urgence Relative, VERT=Consultation simple, GRIS=Conseil)."
+    )
+
     missing_info: List[str] = Field(
         default_factory=list,
         description="Liste des questions CRITIQUES que l'infirmier doit poser immédiatement (ex: 'Depuis quand ?', 'Antécédents ?')."

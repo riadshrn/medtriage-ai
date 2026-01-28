@@ -88,6 +88,7 @@ if st.session_state['conversation_data'] is not None:
                         res = response.json()
                         st.session_state['agent_result'] = res
                         st.session_state['last_agent_audit'] = res
+                        st.session_state['triage_color'] = res.get("criticity", "GRIS")
                         st.session_state['analysis_done'] = True
                         st.rerun()
                     else:
@@ -103,6 +104,7 @@ if st.session_state['conversation_data'] is not None:
         constantes = extracted.get('constantes', {}) if extracted else {}
         alert = res.get("protocol_alert")
         missing_info = res.get("missing_info", [])
+        criticity = st.session_state.get('triage_color', 'GRIS')
 
         st.divider()
         col_data, col_decision = st.columns([1, 1])
@@ -125,6 +127,30 @@ if st.session_state['conversation_data'] is not None:
 
         with col_decision:
             st.subheader("Copilote IA")
+            
+            # 1. Récupération de la criticité
+            criticity = st.session_state.get('triage_color', 'GRIS')
+            
+            # 2. Définition des couleurs (Codes Hexadécimaux garantis)
+            # On utilise des couleurs vives qui ressemblent aux alertes Streamlit
+            color_map = {
+                "ROUGE": "#ff2b2b",  # Rouge vif (similaire à st.error)
+                "JAUNE": "#ffa421",  # Orange/Jaune (similaire à st.warning)
+                "VERT": "#21c354",   # Vert (similaire à st.success)
+                "GRIS": "#808495"    # Gris neutre
+            }
+            
+            # On récupère la couleur, ou gris par défaut si la clé n'existe pas
+            bg_color = color_map.get(criticity, "#808495")
+            
+            # 3. Injection HTML avec le style INLINE (background-color)
+            # Cela force la couleur quelle que soit la configuration CSS
+            st.markdown(f"""
+                <div class="triage-badge" style="background-color: {bg_color}; border: 1px solid {bg_color};">
+                    TRIAGE : {criticity}
+                </div>
+            """, unsafe_allow_html=True)
+
             if alert:
                 st.error(f"**ALERTE PROTOCOLE**\n\n{alert}")
             else:
