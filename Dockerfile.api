@@ -25,7 +25,9 @@ RUN uv pip install --no-cache-dir "griffe==1.5.1"
 RUN python -c "from _griffe.enumerations import DocstringSectionKind; print('✓ _griffe OK')"
 
 # ÉTAPE 3 : Installer le reste (requirements-api.txt NE DOIT PAS contenir griffe)
-RUN uv pip install --resolution=highest --no-cache-dir -r requirements-api.txt
+RUN uv pip install --resolution=highest --index-strategy unsafe-best-match --no-cache-dir -r requirements-api.txt
+
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')"
 
 # ÉTAPE 4 : Vérifications finales
 RUN python -c "from pydantic_ai import Agent; print('✓ pydantic-ai OK')" && \

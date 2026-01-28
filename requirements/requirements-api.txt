@@ -1,3 +1,5 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 fastapi
 uvicorn[standard]
 pydantic
@@ -13,5 +15,8 @@ rapidfuzz
 mlflow==2.10.2
 # Matplotlib pour visualisations (confusion matrix)
 matplotlib
-pydantic-ai
+pydantic-ai==0.2.4
 fastmcp
+chromadb
+torch
+sentence-transformers
