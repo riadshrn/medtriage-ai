@@ -1,0 +1,23 @@
+# FastAPI et serveur
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# Data Science / ML
+numpy
+pandas
+xgboost
+scikit-learn
+
+# LLM Integration
+litellm
+pydantic-ai
+ecologits[litellm]
+
+# Utilities
+rapidfuzz
+matplotlib
+
+# MLflow pour tracking et model registry (service externe)
+mlflow==2.10.2
