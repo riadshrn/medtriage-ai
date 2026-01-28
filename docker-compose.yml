@@ -1,46 +1,71 @@
+version: '3.8'
+
 services:
   # ============================================
-  # SERVICE API (Backend - Cerveau)
+  # MLFLOW (Tracking & Registry)
   # ============================================
-  api:
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.10.0
+    container_name: medtriage-mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow-data:/mlflow
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:///mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+    networks:
+      - medtriage-network
+
+  # ============================================
+  # BACKEND (FastAPI)
+  # ============================================
+  backend:
     build:
-      context: .
-      dockerfile: Dockerfile.api
-    container_name: redflag-api
+      context: ./backend
+      dockerfile: Dockerfile.local
+    container_name: medtriage-backend
     ports:
       - "8000:8000"
     volumes:
-      - ./src:/app/src
-      - ./models:/app/models
-      - ./data:/app/data
-    # CORRECTION ICI : On ajoute le .env proprement pour l'API
-    env_file:
-      - .env
-    networks:
-      - redflag-network
-
-  # ============================================
-  # SERVICE UI (Frontend - Visage)
-  # ============================================
-  ui:
-    build:
-      context: .
-      dockerfile: Dockerfile.ui
-    container_name: redflag-ui
-    ports:
-      - "8501:8501"
-    volumes:
-      - ./src:/app/src
-    # CORRECTION ICI : On nettoie les commentaires
+      - ./backend/api:/app/api
+      - ./backend/models:/app/models
+      - ./backend/data:/app/data
     env_file:
       - .env
     environment:
-      - API_URL=http://api:8000
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
     depends_on:
-      - api
+      - mlflow
     networks:
-      - redflag-network
+      - medtriage-network
+
+  # ============================================
+  # FRONTEND (Streamlit)
+  # ============================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.local
+    container_name: medtriage-frontend
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./frontend:/app
+    environment:
+      - API_URL=http://backend:8000
+    depends_on:
+      - backend
+    networks:
+      - medtriage-network
+
+volumes:
+  mlflow-data:
+    name: medtriage-mlflow-data
 
 networks:
-  redflag-network:
+  medtriage-network:
     driver: bridge
