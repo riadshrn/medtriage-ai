@@ -14,12 +14,10 @@ class ExtractedConstantes(BaseModel):
     glasgow: Optional[int] = Field(None, description="Score de Glasgow (3-15)")
 
 class ExtractedPatient(BaseModel):
-    # Données démographiques (souvent déduites ou manquantes)
     age: Optional[int] = Field(None, description="Âge du patient si mentionné")
     sexe: Optional[str] = Field(None, description="'M' ou 'F' selon le contexte")
-    
-    # Le cœur de l'analyse
     motif_consultation: Optional[str] = Field(None, description="La raison principale de la venue")
+    duree_symptomes: Optional[str] = Field(None, description="Depuis quand les symptômes sont présents (ex: '2 heures', '3 jours')")
     antecedents: Optional[List[str]] = Field(default_factory=list, description="Liste des antécédents médicaux cités")
     traitements: Optional[List[str]] = Field(default_factory=list, description="Médicaments actuels")
     
