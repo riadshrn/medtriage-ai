@@ -40,7 +40,7 @@ source = st.session_state.get('last_request_source')
 
 if metrics:
     with st.container(border=True):
-        st.subheader("Dernière requête")
+        st.subheader("Informations du dernier triage")
         st.info(f"Source: **{source}**")
 
         # --- 1. METRIQUES GREENOPS/FINOPS ---
@@ -114,26 +114,27 @@ Total    : {total_tokens} tokens
         """)
 else:
     with st.container(border=True):
-        st.subheader("Dernière requête")
-        st.info("Aucune requête effectuée. Lancez une analyse depuis l'Accueil ou le Mode Interactif.")
+        st.subheader("Informations du dernier triage")
+        st.info("Aucun triage effectué. Lancez une analyse depuis l'Accueil ou le Mode Interactif.")
 
 # =============================================
 # ENCADRE 2 : METRIQUES GLOBALES (SESSION)
 # =============================================
 with st.container(border=True):
-    st.subheader("Toutes les requêtes (session)")
+    st.subheader("Informations sur l'ensemble des triages")
 
     # Historiques des deux sources
     history = st.session_state.get('triage_history', [])
     metrics_history = st.session_state.get('metrics_history', [])
     interactive_history = st.session_state.get('interactive_metrics_history', [])
+    interactive_triage = st.session_state.get('interactive_triage_history', [])
 
     # Combiner les deux historiques de métriques
     all_metrics = metrics_history + interactive_history
     nb_accueil = len(metrics_history)
     nb_interactif = len(interactive_history)
 
-    if not history and not all_metrics:
+    if not history and not all_metrics and not interactive_triage:
         st.info("Aucune analyse effectuée dans cette session.")
     else:
         # Consommation totale de la session (toutes sources)
@@ -147,7 +148,7 @@ with st.container(border=True):
             total_min_ampoule = total_energy
 
             st.markdown("**Consommation totale**")
-            st.caption(f"Accueil: {nb_accueil} requête(s) | Mode Interactif: {nb_interactif} requête(s)")
+            st.caption(f"Accueil: {nb_accueil} requête(s) | Mode Interactif: {nb_interactif} triage(s)")
 
             t1, t2, t3 = st.columns(3)
             t1.metric(
@@ -167,41 +168,67 @@ with st.container(border=True):
 
             st.divider()
 
-        # Répartition des niveaux de triage (seulement pour Accueil)
-        if history:
+        # Combiner les historiques de triage (Accueil + Mode Interactif)
+        all_triages = history + interactive_triage
+
+        if all_triages:
+            # Couleurs des pastilles
+            colors = {
+                "ROUGE": "#DC2626",
+                "JAUNE": "#F59E0B",
+                "VERT": "#10B981",
+                "GRIS": "#6B7280"
+            }
+
             st.markdown("**Répartition des niveaux de triage**")
-            total = len(history)
+            total = len(all_triages)
             counts = {
-                "ROUGE": history.count("ROUGE"),
-                "JAUNE": history.count("JAUNE"),
-                "VERT": history.count("VERT"),
-                "GRIS": history.count("GRIS")
+                "ROUGE": all_triages.count("ROUGE"),
+                "JAUNE": all_triages.count("JAUNE"),
+                "VERT": all_triages.count("VERT"),
+                "GRIS": all_triages.count("GRIS")
             }
 
             r1, r2, r3, r4 = st.columns(4)
-            r1.metric(
-                label="ROUGE",
-                value=counts["ROUGE"],
-                delta=f"{(counts['ROUGE']/total*100):.0f}%" if total > 0 else "0%",
-                delta_color="off"
-            )
-            r2.metric(
-                label="JAUNE",
-                value=counts["JAUNE"],
-                delta=f"{(counts['JAUNE']/total*100):.0f}%" if total > 0 else "0%",
-                delta_color="off"
-            )
-            r3.metric(
-                label="VERT",
-                value=counts["VERT"],
-                delta=f"{(counts['VERT']/total*100):.0f}%" if total > 0 else "0%",
-                delta_color="off"
-            )
-            r4.metric(
-                label="GRIS",
-                value=counts["GRIS"],
-                delta=f"{(counts['GRIS']/total*100):.0f}%" if total > 0 else "0%",
-                delta_color="off"
-            )
 
-            st.caption(f"Total : {total} patient(s) trié(s) dans cette session")
+            with r1:
+                st.markdown(f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:{colors["ROUGE"]};margin-right:6px;vertical-align:middle;"></span>**ROUGE**', unsafe_allow_html=True)
+                st.metric(
+                    label="",
+                    value=counts["ROUGE"],
+                    delta=f"{(counts['ROUGE']/total*100):.0f}%" if total > 0 else "0%",
+                    delta_color="off",
+                    label_visibility="collapsed"
+                )
+
+            with r2:
+                st.markdown(f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:{colors["JAUNE"]};margin-right:6px;vertical-align:middle;"></span>**JAUNE**', unsafe_allow_html=True)
+                st.metric(
+                    label="",
+                    value=counts["JAUNE"],
+                    delta=f"{(counts['JAUNE']/total*100):.0f}%" if total > 0 else "0%",
+                    delta_color="off",
+                    label_visibility="collapsed"
+                )
+
+            with r3:
+                st.markdown(f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:{colors["VERT"]};margin-right:6px;vertical-align:middle;"></span>**VERT**', unsafe_allow_html=True)
+                st.metric(
+                    label="",
+                    value=counts["VERT"],
+                    delta=f"{(counts['VERT']/total*100):.0f}%" if total > 0 else "0%",
+                    delta_color="off",
+                    label_visibility="collapsed"
+                )
+
+            with r4:
+                st.markdown(f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:{colors["GRIS"]};margin-right:6px;vertical-align:middle;"></span>**GRIS**', unsafe_allow_html=True)
+                st.metric(
+                    label="",
+                    value=counts["GRIS"],
+                    delta=f"{(counts['GRIS']/total*100):.0f}%" if total > 0 else "0%",
+                    delta_color="off",
+                    label_visibility="collapsed"
+                )
+
+            st.caption(f"Total : {total} patient(s) trié(s) (Accueil: {len(history)} | Simulation: {len(interactive_triage)})")

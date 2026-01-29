@@ -493,14 +493,14 @@ def process_nurse_message(message: str) -> None:
             st.session_state.extracted_data = analysis["extracted_data"]
             st.session_state.triage_checklist.update_from_analysis(analysis["extracted_data"])
 
-            # Stocker les métriques pour le Dashboard
+            # Accumuler les métriques pour le triage en cours (groupées par triage)
             m = analysis.get("metrics")
             if m:
-                st.session_state['interactive_metrics_history'].append({
-                    'cost_usd': m.get('cost_usd', 0),
-                    'gwp_kgco2': m.get('gwp_kgco2', 0),
-                    'energy_kwh': m.get('energy_kwh', 0)
-                })
+                acc = st.session_state['current_interactive_session_metrics']
+                acc['cost_usd'] += m.get('cost_usd', 0) or 0
+                acc['gwp_kgco2'] += m.get('gwp_kgco2', 0) or 0
+                acc['energy_kwh'] += m.get('energy_kwh', 0) or 0
+                acc['nb_calls'] += 1
                 # Mettre à jour la dernière requête (toutes sources)
                 st.session_state['last_request_metrics'] = m
                 st.session_state['last_request_source'] = "Mode Interactif"
@@ -607,6 +607,10 @@ def render_final_triage_result() -> None:
                 if key in st.session_state:
                     del st.session_state[key]
             st.session_state["triage_checklist"] = TriageChecklist()
+            # Réinitialiser l'accumulateur de métriques
+            st.session_state['current_interactive_session_metrics'] = {
+                'cost_usd': 0, 'gwp_kgco2': 0, 'energy_kwh': 0, 'nb_calls': 0
+            }
             st.rerun()
 
     with col2:
@@ -647,6 +651,10 @@ def main() -> None:
                 if key in st.session_state:
                     del st.session_state[key]
             st.session_state["triage_checklist"] = TriageChecklist()
+            # Réinitialiser l'accumulateur de métriques
+            st.session_state['current_interactive_session_metrics'] = {
+                'cost_usd': 0, 'gwp_kgco2': 0, 'energy_kwh': 0, 'nb_calls': 0
+            }
             st.rerun()
 
     # --- CONFIGURATION DU PATIENT ---
@@ -743,6 +751,24 @@ Tu es de bonne humeur malgré la douleur, tu veux juste une radio pour être sû
                             # Sauvegarder dans l'historique
                             prediction_id = save_triage_to_history(result, st.session_state.extracted_data)
                             result['prediction_id'] = prediction_id
+
+                            # Ajouter le niveau de triage à l'historique
+                            gravity = result.get("gravity_level", "GRIS")
+                            st.session_state['interactive_triage_history'].append(gravity)
+
+                            # Ajouter les métriques accumulées de la session au Dashboard (groupé par triage)
+                            acc = st.session_state['current_interactive_session_metrics']
+                            if acc['nb_calls'] > 0:
+                                st.session_state['interactive_metrics_history'].append({
+                                    'cost_usd': acc['cost_usd'],
+                                    'gwp_kgco2': acc['gwp_kgco2'],
+                                    'energy_kwh': acc['energy_kwh'],
+                                    'nb_calls': acc['nb_calls']
+                                })
+                                # Réinitialiser l'accumulateur
+                                st.session_state['current_interactive_session_metrics'] = {
+                                    'cost_usd': 0, 'gwp_kgco2': 0, 'energy_kwh': 0, 'nb_calls': 0
+                                }
 
                             st.session_state.final_triage_result = result
                             st.session_state.triage_launched = True

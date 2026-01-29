@@ -27,6 +27,19 @@ def init_session_state():
     if "last_request_source" not in st.session_state:
         st.session_state.last_request_source = None
 
-    # Historique Mode Interactif
+    # Historique Mode Interactif (par triage complété)
     if "interactive_metrics_history" not in st.session_state:
         st.session_state.interactive_metrics_history = []
+
+    # Historique des niveaux de triage Mode Interactif (ROUGE, JAUNE, VERT, GRIS)
+    if "interactive_triage_history" not in st.session_state:
+        st.session_state.interactive_triage_history = []
+
+    # Métriques de la session interactive en cours (accumulées jusqu'au triage)
+    if "current_interactive_session_metrics" not in st.session_state:
+        st.session_state.current_interactive_session_metrics = {
+            'cost_usd': 0,
+            'gwp_kgco2': 0,
+            'energy_kwh': 0,
+            'nb_calls': 0
+        }
