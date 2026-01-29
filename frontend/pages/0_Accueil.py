@@ -147,6 +147,9 @@ def main():
                         st.session_state['current_filename'] = uploaded_file.name
                         st.session_state['analysis_done'] = False
                         st.session_state['agent_result'] = None
+                        st.rerun()
+                    else:
+                        st.error(f"Erreur API: {res.text}")
                 except Exception as e:
                     st.error(f"Erreur: {e}")
     else:
@@ -226,6 +229,22 @@ def main():
                             st.session_state['last_agent_audit'] = res
                             st.session_state['triage_color'] = res.get("criticity", "GRIS")
                             st.session_state['analysis_done'] = True
+
+                            # Ajout à l'historique pour les stats du Dashboard
+                            criticity = res.get("criticity", "GRIS")
+                            st.session_state['triage_history'].append(criticity)
+
+                            # Stocker les métriques pour les totaux
+                            m = res.get('metrics', {})
+                            if m:
+                                st.session_state['metrics_history'].append({
+                                    'cost_usd': m.get('cost_usd', 0),
+                                    'gwp_kgco2': m.get('gwp_kgco2', 0),
+                                    'energy_kwh': m.get('energy_kwh', 0)
+                                })
+                                # Mettre à jour la dernière requête (toutes sources)
+                                st.session_state['last_request_metrics'] = m
+                                st.session_state['last_request_source'] = "Accueil"
 
                             # Sauvegarder dans l'historique
                             current_filename = st.session_state.get('current_filename', 'unknown')

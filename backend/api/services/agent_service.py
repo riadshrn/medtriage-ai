@@ -10,9 +10,11 @@ from api.schemas.agent_io import AgentResponse
 class MedicalAgentService:
     def __init__(self):
         model_name = os.getenv("LLM_MODEL", "mistral-small-latest")
-        if "/" in model_name: 
+        if "/" in model_name:
             model_name = model_name.split("/")[-1]
 
+        self.model_name = model_name  # Stocker pour les métriques
+        self.provider = "Mistral"
         self.model = MistralModel(model_name)
         
         self.agent = Agent(
@@ -63,6 +65,8 @@ class MedicalAgentService:
         energy_kwh = gwp_kg / 0.055 
 
         return {
+            "provider": self.provider,
+            "model_name": self.model_name,
             "input_tokens": input_tok,
             "output_tokens": output_tok,
             "total_tokens": total_tokens,
