@@ -33,7 +33,7 @@ apply_style()
 API_URL = os.getenv("API_URL", "http://backend:8000")
 
 # Seuils
-MIN_FEEDBACK_FOR_RETRAIN = 50
+MIN_FEEDBACK_FOR_RETRAIN = 3
 
 
 def get_models_list() -> Dict:

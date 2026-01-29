@@ -1,5 +1,57 @@
 [
   {
+    "prediction_id": "c357d5df-9784-41f7-bb14-cfc7a1831998",
+    "timestamp": "2026-01-29T10:39:51.240498Z",
+    "source": "accueil",
+    "filename": "v2.txt",
+    "gravity_level": "JAUNE",
+    "french_triage_level": null,
+    "confidence_score": null,
+    "orientation": null,
+    "delai_prise_en_charge": null,
+    "patient_input": null,
+    "extracted_data": {
+      "age": null,
+      "sexe": null,
+      "motif_consultation": "Fièvre + maux de tête + douleurs articulaires + difficulté respiratoire",
+      "duree_symptomes": "Depuis hier",
+      "antecedents": [
+        "Diabète"
+      ],
+      "traitements": [
+        "Insuline",
+        "Antidouleurs pour l'arthrose"
+      ],
+      "constantes": {
+        "frequence_cardiaque": null,
+        "pression_systolique": null,
+        "pression_diastolique": null,
+        "frequence_respiratoire": null,
+        "temperature": null,
+        "saturation_oxygene": null,
+        "echelle_douleur": null,
+        "glycemie": null,
+        "glasgow": null
+      },
+      "missing_critical_info": [
+        "constantes.frequence_cardiaque",
+        "sexe",
+        "constantes.frequence_respiratoire",
+        "constantes.pression_systolique",
+        "constantes.saturation_oxygene",
+        "constantes.pression_diastolique"
+      ]
+    },
+    "model_version": "agent-v1",
+    "ml_available": true,
+    "justification": null,
+    "red_flags": null,
+    "recommendations": null,
+    "feedback_given": true,
+    "feedback_type": "correct",
+    "corrected_gravity": null
+  },
+  {
     "prediction_id": "5d087781-695b-4b82-beda-00c5b5583cd9",
     "timestamp": "2026-01-29T10:22:01.228064Z",
     "source": "accueil",
