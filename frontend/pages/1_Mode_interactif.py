@@ -8,9 +8,10 @@ au triage en interagissant avec un patient simulé par LLM.
 import os
 import sys
 import time
+import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import requests
 import streamlit as st
@@ -21,7 +22,7 @@ interface_dir = current_dir.parent
 sys.path.append(str(interface_dir))
 
 from state import init_session_state
-from style import apply_style
+from style import apply_style, render_triage_badge
 
 # Initialisation
 init_session_state()
@@ -30,8 +31,15 @@ apply_style()
 # Configuration API
 API_URL = os.getenv("API_URL", "http://backend:8000")
 
-# Constante pour le seuil de confiance
+# Constantes
 CONFIDENCE_THRESHOLD = 0.70
+MIN_FIELDS_FOR_TRIAGE = 5  # Minimum de champs pour activer le bouton triage
+
+# Champs requis pour le ML
+REQUIRED_ML_FIELDS = {
+    "age", "sexe", "motif_consultation",
+    "frequence_cardiaque", "pression_systolique", "temperature"
+}
 
 
 @dataclass
@@ -92,10 +100,8 @@ class TriageChecklist:
             else:
                 value = extracted_data.get(data_path)
 
-            # Ne pas marquer comme extrait si c'est une liste vide ou None
             if value is not None and value != [] and value != "":
                 self.items[checklist_key].extracted = True
-                # Formater la valeur pour l'affichage
                 if isinstance(value, list):
                     self.items[checklist_key].value = ", ".join(str(v) for v in value) if value else None
                 else:
@@ -104,11 +110,13 @@ class TriageChecklist:
     def get_missing_items(self) -> List[str]:
         return [item.label for item in self.items.values() if not item.extracted]
 
+    def get_extracted_count(self) -> int:
+        return sum(1 for item in self.items.values() if item.extracted)
+
     def get_completion_percentage(self) -> float:
         if not self.items:
             return 0.0
-        extracted_count = sum(1 for item in self.items.values() if item.extracted)
-        return (extracted_count / len(self.items)) * 100
+        return (self.get_extracted_count() / len(self.items)) * 100
 
 
 def init_simulation_state() -> None:
@@ -122,6 +130,8 @@ def init_simulation_state() -> None:
         "triage_result": None,
         "simulation_started": False,
         "pending_message": None,
+        "triage_launched": False,
+        "final_triage_result": None,
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -163,15 +173,7 @@ def analyze_conversation(messages: List[Dict]) -> Optional[Dict]:
 
 
 def generate_question_suggestions(checklist: TriageChecklist, messages: List[Dict]) -> List[str]:
-    """Génère des suggestions de questions basées sur les informations manquantes.
-
-    Priorité clinique pour le triage :
-    1. Motif de consultation (pourquoi êtes-vous là ?)
-    2. Durée des symptômes (depuis quand ?)
-    3. Douleur EVA (intensité)
-    4. Antécédents médicaux
-    5. Autres informations
-    """
+    """Génère des suggestions de questions basées sur les informations manquantes."""
     missing = checklist.get_missing_items()
     if not missing:
         return ["Avez-vous d'autres symptômes ?", "Y a-t-il autre chose ?", "Comment vous sentez-vous maintenant ?"]
@@ -190,19 +192,10 @@ def generate_question_suggestions(checklist: TriageChecklist, messages: List[Dic
         "SpO2": "Vous sentez-vous essoufflé ?",
     }
 
-    # Ordre de priorité clinique
     priority_order = [
-        "Motif",
-        "Durée symptômes",
-        "Douleur (EVA)",
-        "Antécédents",
-        "Âge",
-        "Sexe",
-        "Température",
-        "Fréq. cardiaque",
-        "Pression artérielle",
-        "Fréq. respiratoire",
-        "SpO2",
+        "Motif", "Durée symptômes", "Douleur (EVA)", "Antécédents",
+        "Âge", "Sexe", "Température", "Fréq. cardiaque",
+        "Pression artérielle", "Fréq. respiratoire", "SpO2",
     ]
 
     suggestions = []
@@ -216,17 +209,61 @@ def generate_question_suggestions(checklist: TriageChecklist, messages: List[Dic
 
 
 def request_triage_help(extracted_data: Dict) -> Optional[Dict]:
-    """Demande une aide au triage."""
+    """Demande une aide au triage (évaluation rapide)."""
     try:
         response = requests.post(
             f"{API_URL}/triage/evaluate",
             json=extracted_data,
-            timeout=3
+            timeout=5
         )
         if response.status_code == 200:
             return response.json()
     except requests.RequestException:
         pass
+    return None
+
+
+def launch_full_triage(extracted_data: Dict) -> Optional[Dict]:
+    """Lance le triage complet via l'API."""
+    try:
+        # Utiliser /triage/evaluate qui est plus tolérant avec les données manquantes
+        response = requests.post(
+            f"{API_URL}/triage/evaluate",
+            json=extracted_data,
+            timeout=30
+        )
+        if response.status_code == 200:
+            return response.json()
+        else:
+            st.error(f"Erreur API ({response.status_code}): {response.text}")
+    except requests.RequestException as e:
+        st.error(f"Erreur de connexion: {e}")
+    return None
+
+
+def save_triage_to_history(result: Dict, extracted_data: Dict) -> Optional[str]:
+    """Sauvegarde le triage dans l'historique via l'API."""
+    try:
+        payload = {
+            "source": "simulation",
+            "filename": None,
+            "gravity_level": result.get("gravity_level", "GRIS"),
+            "french_triage_level": result.get("french_triage_level"),
+            "confidence_score": result.get("confidence_score"),
+            "orientation": result.get("orientation"),
+            "delai_prise_en_charge": result.get("delai_prise_en_charge"),
+            "extracted_data": extracted_data,
+            "model_version": result.get("model_version", "hybrid-v1"),
+            "ml_available": result.get("ml_available", True),
+            "justification": result.get("justification"),
+            "red_flags": result.get("red_flags"),
+            "recommendations": result.get("recommendations")
+        }
+        response = requests.post(f"{API_URL}/history/save", json=payload, timeout=10)
+        if response.status_code == 200:
+            return response.json().get("prediction_id")
+    except requests.RequestException as e:
+        st.warning(f"Impossible de sauvegarder dans l'historique: {e}")
     return None
 
 
@@ -240,14 +277,82 @@ def get_triage_emoji(level: str) -> str:
     return emojis.get(level, "⚪")
 
 
+def build_json_display(extracted_data: Dict) -> Dict[str, Any]:
+    """Construit un JSON formaté pour l'affichage."""
+    constantes = extracted_data.get("constantes", {})
+
+    return {
+        "patient": {
+            "age": extracted_data.get("age"),
+            "sexe": extracted_data.get("sexe"),
+            "motif_consultation": extracted_data.get("motif_consultation"),
+            "duree_symptomes": extracted_data.get("duree_symptomes"),
+        },
+        "antecedents": extracted_data.get("antecedents", []),
+        "traitements": extracted_data.get("traitements", []),
+        "constantes_vitales": {
+            "frequence_cardiaque": constantes.get("frequence_cardiaque"),
+            "pression_arterielle": f"{constantes.get('pression_systolique')}/{constantes.get('pression_diastolique')}"
+                if constantes.get('pression_systolique') else None,
+            "frequence_respiratoire": constantes.get("frequence_respiratoire"),
+            "temperature": constantes.get("temperature"),
+            "saturation_oxygene": constantes.get("saturation_oxygene"),
+            "echelle_douleur": constantes.get("echelle_douleur"),
+            "glasgow": constantes.get("glasgow"),
+        },
+        "informations_manquantes": extracted_data.get("missing_critical_info", [])
+    }
+
+
+def can_launch_triage(checklist: TriageChecklist) -> bool:
+    """Vérifie si on a assez d'informations pour lancer le triage."""
+    extracted_count = checklist.get_extracted_count()
+    # Vérifier qu'on a au moins les infos de base
+    has_motif = checklist.items.get("motif", ChecklistItem("", "")).extracted
+    has_age = checklist.items.get("age", ChecklistItem("", "")).extracted
+
+    return extracted_count >= MIN_FIELDS_FOR_TRIAGE and has_motif and has_age
+
+
+def render_json_panel() -> None:
+    """Affiche le panneau JSON temps réel."""
+    st.markdown("### 📋 Données Extraites")
+
+    extracted_data = st.session_state.extracted_data
+
+    if extracted_data:
+        json_display = build_json_display(extracted_data)
+
+        # Afficher avec coloration selon les valeurs
+        st.json(json_display)
+
+        # Indicateur de complétude
+        checklist = st.session_state.triage_checklist
+        completion = checklist.get_completion_percentage()
+        extracted_count = checklist.get_extracted_count()
+        total_count = len(checklist.items)
+
+        st.markdown(f"**Complétude:** {extracted_count}/{total_count} champs ({completion:.0f}%)")
+
+        # Barre de progression
+        progress_color = "#28a745" if completion >= 70 else "#ffc107" if completion >= 40 else "#dc3545"
+        st.markdown(
+            f"""<div style="background:#e9ecef;border-radius:10px;height:10px;margin:10px 0;">
+                <div style="background:{progress_color};width:{completion}%;height:100%;border-radius:10px;"></div>
+            </div>""",
+            unsafe_allow_html=True
+        )
+    else:
+        st.info("Les données apparaîtront ici au fur et à mesure de la conversation.")
+
+
 def render_sidebar_checklist() -> None:
     """Affiche la checklist de triage dans la sidebar avec un design amélioré."""
     checklist = st.session_state.triage_checklist
     completion = checklist.get_completion_percentage()
 
-    st.sidebar.markdown("### 📋 Informations collectées")
+    st.sidebar.markdown("### Informations collectées")
 
-    # Barre de progression avec couleur
     progress_color = "#28a745" if completion >= 70 else "#ffc107" if completion >= 40 else "#dc3545"
     st.sidebar.markdown(
         f"""<div style="background:#e9ecef;border-radius:10px;height:8px;margin:10px 0;">
@@ -257,7 +362,6 @@ def render_sidebar_checklist() -> None:
         unsafe_allow_html=True
     )
 
-    # Affichage des items en deux colonnes
     col1, col2 = st.sidebar.columns(2)
     items_list = list(checklist.items.values())
     mid = len(items_list) // 2 + len(items_list) % 2
@@ -274,20 +378,17 @@ def render_sidebar_checklist() -> None:
 def render_triage_help() -> None:
     """Affiche le panneau d'aide au triage."""
     st.sidebar.markdown("---")
-    st.sidebar.markdown("### 🏥 Niveau de Triage")
+    st.sidebar.markdown("### Niveau de Triage")
 
-    # Conditions pour afficher le triage automatiquement
     n_messages = len(st.session_state.simulation_messages)
     completion = st.session_state.triage_checklist.get_completion_percentage()
     should_show = n_messages >= 6 or completion >= 50
 
-    # Calcul du triage si pas encore fait et conditions remplies
     if not st.session_state.triage_result and st.session_state.extracted_data and should_show:
         result = request_triage_help(st.session_state.extracted_data)
         if result:
             st.session_state.triage_result = result
 
-    # Recalculer si données mises à jour
     elif st.session_state.triage_result and st.session_state.extracted_data:
         new_result = request_triage_help(st.session_state.extracted_data)
         if new_result:
@@ -299,13 +400,14 @@ def render_triage_help() -> None:
         french_level = result.get("french_triage_level", "Tri 5")
         confidence = result.get("confidence_score", 0) * 100
         emoji = get_triage_emoji(level)
-        color = get_triage_color(level)
 
+        # Badge de triage avec les nouvelles classes CSS
+        css_class = f"triage-{level.lower()}"
         st.sidebar.markdown(
-            f"""<div style="background:{color};color:white;padding:20px;border-radius:12px;text-align:center;margin:10px 0;box-shadow:0 4px 6px rgba(0,0,0,0.1);">
-                <h2 style="margin:0;font-size:2em;">{emoji} {level}</h2>
-                <p style="margin:8px 0 0 0;font-size:1.1em;">{french_level}</p>
-                <p style="margin:5px 0 0 0;font-size:0.9em;opacity:0.9;">Confiance: {confidence:.0f}%</p>
+            f"""<div class="triage-badge {css_class}" style="padding:15px;">
+                <div style="font-size:1.8em;margin-bottom:5px;">{emoji} {level}</div>
+                <div style="font-size:1em;opacity:0.95;">{french_level}</div>
+                <div style="font-size:0.85em;opacity:0.8;margin-top:5px;">Confiance: {confidence:.0f}%</div>
             </div>""",
             unsafe_allow_html=True
         )
@@ -313,7 +415,7 @@ def render_triage_help() -> None:
         if result.get("delai_prise_en_charge"):
             st.sidebar.info(f"⏱️ {result['delai_prise_en_charge']}")
     else:
-        st.sidebar.info("💡 Le triage s'affichera après 3 échanges ou 50% d'infos collectées")
+        st.sidebar.info("Le triage s'affichera après 3 échanges ou 50% d'infos collectées")
 
         if st.sidebar.button("Évaluer maintenant", use_container_width=True):
             if st.session_state.extracted_data:
@@ -339,7 +441,7 @@ def render_question_suggestions() -> None:
         st.session_state.suggested_questions = suggestions
 
     if suggestions:
-        st.markdown("**💡 Questions suggérées** *(cliquez pour utiliser)*")
+        st.markdown("**Questions suggérées** *(cliquez pour utiliser)*")
         cols = st.columns(min(len(suggestions), 3))
         for idx, (col, suggestion) in enumerate(zip(cols, suggestions[:3])):
             with col:
@@ -354,7 +456,7 @@ def render_question_suggestions() -> None:
 
 def render_chat_interface() -> None:
     """Affiche l'interface de chat."""
-    chat_container = st.container(height=380, border=True)
+    chat_container = st.container(height=350, border=True)
 
     with chat_container:
         if st.session_state.simulation_messages:
@@ -366,16 +468,14 @@ def render_chat_interface() -> None:
                     with st.chat_message("assistant", avatar="🤒"):
                         st.write(msg["content"])
         else:
-            st.info("👋 Posez votre première question au patient pour commencer.")
+            st.info("Posez votre première question au patient pour commencer.")
 
 
 def process_nurse_message(message: str) -> None:
     """Traite un message de l'infirmier et génère la réponse du patient."""
-    # Ajouter le message de l'infirmier
     st.session_state.simulation_messages.append({"role": "user", "content": message})
 
     with st.spinner("Le patient réfléchit..."):
-        # Générer la réponse du patient
         patient_response = call_patient_simulation(
             st.session_state.patient_persona,
             st.session_state.simulation_messages,
@@ -388,13 +488,11 @@ def process_nurse_message(message: str) -> None:
     st.session_state.simulation_messages.append({"role": "assistant", "content": patient_response})
 
     with st.spinner("Analyse en cours..."):
-        # Analyser la conversation
         analysis = analyze_conversation(st.session_state.simulation_messages)
         if analysis and "extracted_data" in analysis:
             st.session_state.extracted_data = analysis["extracted_data"]
             st.session_state.triage_checklist.update_from_analysis(analysis["extracted_data"])
 
-    # Mettre à jour les suggestions
     st.session_state.suggested_questions = generate_question_suggestions(
         st.session_state.triage_checklist,
         st.session_state.simulation_messages
@@ -406,14 +504,11 @@ def generate_fallback_response(nurse_message: str) -> str:
     nurse_lower = nurse_message.lower()
 
     responses = {
-        # Identité
         ("âge", "ans", "quel âge"): "J'ai 52 ans.",
         ("homme", "femme", "monsieur", "madame", "sexe"): "Je suis monsieur.",
-        # Motif et symptômes
         ("amène", "problème", "urgence", "pourquoi", "motif"): "J'ai une douleur intense dans la poitrine qui m'inquiète beaucoup.",
         ("douleur", "mal", "0 à 10", "sur 10", "eva", "intensité"): "La douleur est vraiment forte, je dirais 8 sur 10.",
         ("depuis", "quand", "combien de temps", "durée", "commencé"): "Ça a commencé il y a environ 2 heures, d'un coup.",
-        # Constantes vitales - le patient les "connait" car on vient de les prendre
         ("tension", "pression", "artérielle"): "L'infirmière vient de la prendre, elle a dit 155 sur 95.",
         ("pouls", "coeur", "cardiaque", "battement", "fréquence card"): "Mon coeur bat vite, environ 110 battements par minute d'après l'appareil.",
         ("température", "fièvre", "temp"): "On m'a pris la température, j'ai 37.2°C, pas de fièvre.",
@@ -421,13 +516,11 @@ def generate_fallback_response(nurse_message: str) -> str:
         ("saturation", "oxygène", "spo2", "satu"): "L'appareil au doigt indique 94%.",
         ("conscience", "glasgow", "orienté", "lucide"): "Je suis conscient et je sais où je suis, mais je suis très anxieux.",
         ("glycémie", "sucre", "diabète"): "Je suis diabétique, ma glycémie était à 1.8 g/L ce matin.",
-        # Antécédents
         ("antécédent", "maladie", "problème de santé", "pathologie"): "J'ai du diabète de type 2 et de l'hypertension depuis 10 ans.",
         ("médicament", "traitement", "prenez"): "Je prends de la metformine, un antihypertenseur et de l'aspirine.",
         ("allergie",): "Non, je n'ai pas d'allergie connue.",
         ("opération", "chirurgie", "hospitalisation"): "J'ai été opéré de l'appendicite il y a 20 ans, rien d'autre.",
         ("famille", "hérédité", "parent"): "Mon père a fait un infarctus à 60 ans.",
-        # Autres
         ("fum", "tabac", "cigarette"): "Oui, je fume un paquet par jour depuis 30 ans.",
         ("alcool", "boire"): "Je bois un verre de vin le soir, pas plus.",
     }
@@ -439,12 +532,95 @@ def generate_fallback_response(nurse_message: str) -> str:
     return "Je ne me sens vraiment pas bien... Cette douleur dans la poitrine m'inquiète beaucoup."
 
 
+def render_final_triage_result() -> None:
+    """Affiche le résultat final du triage."""
+    result = st.session_state.final_triage_result
+
+    if not result:
+        return
+
+    st.markdown("---")
+    st.markdown("## Résultat du Triage")
+
+    level = result.get("gravity_level", "GRIS")
+    french_level = result.get("french_triage_level", "Tri 5")
+    confidence = result.get("confidence_score", 0) * 100
+    emoji = get_triage_emoji(level)
+
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+        # Badge de triage principal avec les nouvelles classes CSS
+        css_class = f"triage-{level.lower()}"
+        st.markdown(
+            f"""<div class="triage-badge {css_class}" style="padding:2rem;">
+                <div style="font-size:2.5em;margin-bottom:10px;">{emoji} {level}</div>
+                <div style="font-size:1.3em;opacity:0.95;">{french_level}</div>
+                <div style="font-size:1em;opacity:0.8;margin-top:10px;">Confiance: {confidence:.0f}%</div>
+            </div>""",
+            unsafe_allow_html=True
+        )
+
+        if result.get("delai_prise_en_charge"):
+            st.info(f"⏱️ **Délai de prise en charge:** {result['delai_prise_en_charge']}")
+
+        if result.get("orientation"):
+            st.success(f"**Orientation:** {result['orientation']}")
+
+    with col2:
+        if result.get("justification"):
+            st.markdown("**Justification:**")
+            st.write(result["justification"])
+
+        if result.get("red_flags"):
+            st.error("**Signaux d'alerte:**")
+            for flag in result["red_flags"]:
+                st.markdown(f"- {flag}")
+
+        if result.get("recommendations"):
+            st.warning("**Recommandations:**")
+            for rec in result["recommendations"]:
+                st.markdown(f"- {rec}")
+
+    # Bouton pour donner un feedback
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("Nouvelle Simulation", use_container_width=True):
+            # Reset tout
+            for key in ["simulation_messages", "patient_persona", "extracted_data",
+                       "suggested_questions", "triage_result", "simulation_started",
+                       "pending_message", "triage_launched", "final_triage_result"]:
+                if key in st.session_state:
+                    del st.session_state[key]
+            st.session_state["triage_checklist"] = TriageChecklist()
+            st.rerun()
+
+    with col2:
+        if st.button("Donner un Feedback", type="primary", use_container_width=True):
+            # Stocker les données pour le feedback
+            st.session_state['last_triage_result'] = {
+                'prediction_id': result.get('prediction_id', str(uuid.uuid4())),
+                'gravity_level': level,
+                'french_triage_level': french_level,
+                'extracted_data': st.session_state.extracted_data,
+                'source': 'simulation'
+            }
+            st.switch_page("pages/3_Feedback.py")
+
+
 def main() -> None:
     """Point d'entrée principal de la page Mode Interactif."""
     init_simulation_state()
 
-    st.title("🎭 Mode Interactif")
+    st.title("Mode Interactif")
     st.caption("Entraînez-vous au triage en interrogeant un patient simulé")
+
+    # Si le triage final a été lancé, afficher le résultat
+    if st.session_state.triage_launched and st.session_state.final_triage_result:
+        render_final_triage_result()
+        return
 
     # --- SIDEBAR ---
     with st.sidebar:
@@ -452,20 +628,17 @@ def main() -> None:
         render_triage_help()
 
         st.sidebar.markdown("---")
-        if st.sidebar.button("🔄 Réinitialiser", use_container_width=True):
-            st.session_state.simulation_messages = []
-            st.session_state.patient_persona = ""
-            st.session_state.triage_checklist = TriageChecklist()
-            st.session_state.extracted_data = {}
-            st.session_state.suggested_questions = []
-            st.session_state.triage_result = None
-            st.session_state.simulation_started = False
-            st.session_state.pending_message = None
+        if st.sidebar.button("Réinitialiser", use_container_width=True):
+            for key in ["simulation_messages", "patient_persona", "extracted_data",
+                       "suggested_questions", "triage_result", "simulation_started",
+                       "pending_message", "triage_launched", "final_triage_result"]:
+                if key in st.session_state:
+                    del st.session_state[key]
+            st.session_state["triage_checklist"] = TriageChecklist()
             st.rerun()
 
     # --- CONFIGURATION DU PATIENT ---
-    with st.expander("🎭 Configuration du Patient", expanded=not st.session_state.simulation_started):
-        # Presets disponibles
+    with st.expander("Configuration du Patient", expanded=not st.session_state.simulation_started):
         presets = {
             "Douleur thoracique": """Tu es un patient de 58 ans, homme, fumeur (30 ans). Douleur thoracique intense irradiant vers le bras gauche depuis 1h. Tu transpires et as des nausées.
 ANTÉCÉDENTS: Hypertension, cholestérol. Père décédé d'infarctus à 55 ans.
@@ -499,7 +672,6 @@ Tu es de bonne humeur malgré la douleur, tu veux juste une radio pour être sû
             st.markdown("**Ou créer un cas personnalisé :**")
             st.caption("Décrivez le patient (âge, sexe, motif, antécédents...)")
 
-        # Zone de texte pour le persona
         persona_value = st.text_area(
             "Persona du patient",
             value=st.session_state.patient_persona,
@@ -509,38 +681,73 @@ Tu es de bonne humeur malgré la douleur, tu veux juste une radio pour être sû
         )
         st.session_state.patient_persona = persona_value
 
-        # Bouton démarrer
         can_start = bool(st.session_state.patient_persona.strip())
-        if st.button("▶️ Démarrer la simulation", type="primary", use_container_width=True, disabled=not can_start):
+        if st.button("Démarrer la simulation", type="primary", use_container_width=True, disabled=not can_start):
             st.session_state.simulation_started = True
             st.rerun()
 
         if not can_start:
-            st.warning("⚠️ Veuillez sélectionner un cas ou décrire un patient personnalisé.")
+            st.warning("Veuillez sélectionner un cas ou décrire un patient personnalisé.")
 
-    # --- ZONE DE CHAT ---
+    # --- ZONE DE CHAT ET JSON ---
     if st.session_state.simulation_started:
         st.markdown("---")
 
-        # Traiter un message en attente AVANT d'afficher (depuis les suggestions)
+        # Traiter un message en attente
         if st.session_state.pending_message:
             msg_to_send = st.session_state.pending_message
             st.session_state.pending_message = None
             process_nurse_message(msg_to_send)
             st.rerun()
 
-        render_question_suggestions()
-        st.markdown("")
-        render_chat_interface()
+        # Layout principal : Chat à gauche, JSON à droite
+        col_chat, col_json = st.columns([3, 2])
 
-        # Zone de saisie avec st.chat_input
-        user_input = st.chat_input("Posez une question au patient...")
-        if user_input:
-            process_nurse_message(user_input)
-            st.rerun()
+        with col_chat:
+            render_question_suggestions()
+            st.markdown("")
+            render_chat_interface()
+
+            # Zone de saisie
+            user_input = st.chat_input("Posez une question au patient...")
+            if user_input:
+                process_nurse_message(user_input)
+                st.rerun()
+
+        with col_json:
+            render_json_panel()
+
+            # Bouton Lancer le Triage
+            st.markdown("---")
+            checklist = st.session_state.triage_checklist
+            can_triage = can_launch_triage(checklist)
+
+            if can_triage:
+                st.success("Vous avez collecté suffisamment d'informations !")
+                if st.button("LANCER LE TRIAGE", type="primary", use_container_width=True):
+                    with st.spinner("Calcul du triage en cours..."):
+                        result = launch_full_triage(st.session_state.extracted_data)
+                        if result:
+                            # Sauvegarder dans l'historique
+                            prediction_id = save_triage_to_history(result, st.session_state.extracted_data)
+                            result['prediction_id'] = prediction_id
+
+                            st.session_state.final_triage_result = result
+                            st.session_state.triage_launched = True
+                            st.rerun()
+                        else:
+                            st.error("Erreur lors du triage. Vérifiez la connexion à l'API.")
+            else:
+                missing = checklist.get_missing_items()
+                st.warning(f"Collectez plus d'informations ({checklist.get_extracted_count()}/{MIN_FIELDS_FOR_TRIAGE} minimum)")
+                st.button("LANCER LE TRIAGE", disabled=True, use_container_width=True)
+
+                with st.expander("Informations manquantes"):
+                    for item in missing[:5]:
+                        st.markdown(f"- {item}")
 
     else:
-        st.info("👆 Configurez le patient puis cliquez sur **Démarrer** pour commencer la simulation.")
+        st.info("Configurez le patient puis cliquez sur **Démarrer** pour commencer la simulation.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,141 @@
+[
+  {
+    "prediction_id": "5d087781-695b-4b82-beda-00c5b5583cd9",
+    "timestamp": "2026-01-29T10:22:01.228064Z",
+    "source": "accueil",
+    "filename": "conv7.txt",
+    "gravity_level": "JAUNE",
+    "french_triage_level": null,
+    "confidence_score": null,
+    "orientation": null,
+    "delai_prise_en_charge": null,
+    "patient_input": null,
+    "extracted_data": {
+      "age": null,
+      "sexe": null,
+      "motif_consultation": "douleur bas du dos",
+      "duree_symptomes": "Depuis ce matin",
+      "antecedents": [],
+      "traitements": [],
+      "constantes": {
+        "frequence_cardiaque": null,
+        "pression_systolique": null,
+        "pression_diastolique": null,
+        "frequence_respiratoire": null,
+        "temperature": null,
+        "saturation_oxygene": null,
+        "echelle_douleur": 9,
+        "glycemie": null,
+        "glasgow": null
+      },
+      "missing_critical_info": [
+        "constantes.frequence_cardiaque",
+        "constantes.frequence_respiratoire",
+        "constantes.pression_diastolique",
+        "age",
+        "sexe",
+        "constantes.temperature",
+        "constantes.saturation_oxygene",
+        "constantes.pression_systolique"
+      ]
+    },
+    "model_version": "agent-v1",
+    "ml_available": true,
+    "justification": null,
+    "red_flags": null,
+    "recommendations": null,
+    "feedback_given": true,
+    "feedback_type": "correct",
+    "corrected_gravity": null
+  },
+  {
+    "prediction_id": "8c34f98f-876f-4856-83f3-3e1ad86712d6",
+    "timestamp": "2026-01-29T10:21:49.889514Z",
+    "source": "accueil",
+    "filename": "conv5.txt",
+    "gravity_level": "ROUGE",
+    "french_triage_level": null,
+    "confidence_score": null,
+    "orientation": null,
+    "delai_prise_en_charge": null,
+    "patient_input": null,
+    "extracted_data": {
+      "age": 65,
+      "sexe": null,
+      "motif_consultation": "Difficulté à marcher, bras lourd, difficulté à articuler, faiblesse musculaire unilatérale, début brutal",
+      "duree_symptomes": "45 minutes",
+      "antecedents": [],
+      "traitements": [],
+      "constantes": {
+        "frequence_cardiaque": null,
+        "pression_systolique": null,
+        "pression_diastolique": null,
+        "frequence_respiratoire": null,
+        "temperature": null,
+        "saturation_oxygene": null,
+        "echelle_douleur": null,
+        "glycemie": null,
+        "glasgow": null
+      },
+      "missing_critical_info": [
+        "duree_symptomes",
+        "antecedents"
+      ]
+    },
+    "model_version": "agent-v1",
+    "ml_available": true,
+    "justification": null,
+    "red_flags": null,
+    "recommendations": null,
+    "feedback_given": false,
+    "feedback_type": null,
+    "corrected_gravity": null
+  },
+  {
+    "prediction_id": "8b5d36ad-7779-4f57-bde2-dbe9b5093f40",
+    "timestamp": "2026-01-29T10:20:11.353544Z",
+    "source": "simulation",
+    "filename": null,
+    "gravity_level": "JAUNE",
+    "french_triage_level": "Tri 3B",
+    "confidence_score": 0.95,
+    "orientation": "Box ou salle d'attente",
+    "delai_prise_en_charge": "Médecin < 90 min",
+    "patient_input": null,
+    "extracted_data": {
+      "age": 58,
+      "sexe": "M",
+      "motif_consultation": "douleur terrible dans la poitrine",
+      "duree_symptomes": "1 heure",
+      "antecedents": null,
+      "traitements": null,
+      "constantes": {
+        "frequence_cardiaque": 110,
+        "pression_systolique": 155,
+        "pression_diastolique": 95,
+        "frequence_respiratoire": 22,
+        "temperature": 37.2,
+        "saturation_oxygene": 92,
+        "echelle_douleur": 8,
+        "glycemie": null,
+        "glasgow": null
+      },
+      "missing_critical_info": [
+        "antecedents",
+        "traitements"
+      ]
+    },
+    "model_version": "v2.1.0-hybrid",
+    "ml_available": true,
+    "justification": "Niveau Tri 3B. Alertes: Douleur intense: EVA 8/10.",
+    "red_flags": [
+      "Douleur intense: EVA 8/10"
+    ],
+    "recommendations": [
+      "Évaluation médicale standard"
+    ],
+    "feedback_given": true,
+    "feedback_type": "downgrade",
+    "corrected_gravity": "VERT"
+  }
+]

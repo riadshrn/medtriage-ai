@@ -1,4 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
+from pathlib import Path
+from typing import List, Optional
 import pandas as pd
 import io
 import time
@@ -15,6 +17,82 @@ from api.services.extraction_service import PatientExtractor
 from api.services.agent_service import get_agent_service
 
 router = APIRouter()
+
+# Chemin vers les conversations (dans le conteneur: /app/data/raw/conversations)
+CONVERSATIONS_PATH = Path(__file__).parent.parent.parent / "data" / "raw" / "conversations"
+
+# Mapping des fichiers vers leurs descriptions
+CONVERSATION_DESCRIPTIONS = {
+    "conv1.txt": {"name": "Douleur Thoracique (SCA)", "niveau": "Tri 1-2", "icon": "heart"},
+    "conv2.txt": {"name": "Douleur Abdominale (Appendicite)", "niveau": "Tri 3B", "icon": "stethoscope"},
+    "conv3.txt": {"name": "Traumatisme Cheville", "niveau": "Tri 3B", "icon": "foot"},
+    "conv4.txt": {"name": "Infection ORL (Rhinopharyngite)", "niveau": "Tri 5", "icon": "virus"},
+    "conv5.txt": {"name": "Suspicion AVC", "niveau": "Tri 2", "icon": "brain"},
+    "conv6.txt": {"name": "Douleur Pelvienne (Risque GEU)", "niveau": "Tri 3A", "icon": "warning"},
+    "conv7.txt": {"name": "Confusion / Sepsis", "niveau": "Tri 2", "icon": "thermometer"},
+    "conv8.txt": {"name": "Lombalgie Post-Traumatique", "niveau": "Tri 3B", "icon": "back"},
+    "v2.txt": {"name": "Bronchiolite Nourrisson", "niveau": "Tri 3A", "icon": "baby"},
+}
+
+
+@router.get("/list")
+async def list_conversations():
+    """Liste les conversations disponibles."""
+    conversations = []
+
+    if CONVERSATIONS_PATH.exists():
+        for file in CONVERSATIONS_PATH.glob("*.txt"):
+            if file.name == "sommaire.txt":
+                continue
+
+            desc = CONVERSATION_DESCRIPTIONS.get(file.name, {
+                "name": file.stem.replace("_", " ").title(),
+                "niveau": "Non classé",
+                "icon": "file"
+            })
+
+            conversations.append({
+                "filename": file.name,
+                **desc
+            })
+
+    return sorted(conversations, key=lambda x: x["filename"])
+
+
+@router.get("/load/{filename}", response_model=ConversationUploadResponse)
+async def load_conversation(filename: str):
+    """Charge une conversation depuis le dossier de données."""
+    filepath = CONVERSATIONS_PATH / filename
+
+    if not filepath.exists():
+        raise HTTPException(status_code=404, detail=f"Conversation '{filename}' non trouvée")
+
+    if not filepath.suffix == ".txt":
+        raise HTTPException(status_code=400, detail="Seuls les fichiers .txt sont supportés")
+
+    try:
+        df = pd.read_csv(filepath, header=0, engine='python')
+
+        messages = []
+        for index, row in df.iterrows():
+            if len(row) > 0 and pd.notna(row.iloc[0]):
+                txt = str(row.iloc[0]).strip().strip('"').strip("'")
+                if txt:
+                    messages.append(DialogueMessage(role="infirmier", content=txt))
+
+            if len(row) > 1 and pd.notna(row.iloc[1]):
+                txt = str(row.iloc[1]).strip().strip('"').strip("'")
+                if txt:
+                    messages.append(DialogueMessage(role="patient", content=txt))
+
+        return ConversationUploadResponse(
+            filename=filename,
+            messages=messages,
+            total_messages=len(messages)
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erreur lors du chargement: {str(e)}")
+
 
 @router.post("/upload", response_model=ConversationUploadResponse)
 async def upload_conversation(file: UploadFile = File(...)):

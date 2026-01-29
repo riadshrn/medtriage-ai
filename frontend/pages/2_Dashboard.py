@@ -13,11 +13,27 @@ init_session_state()
 apply_style()
 
 st.title("Dashboard & Monitoring")
-st.caption("Pilotage de la requete LLM")
+st.caption("Pilotage de la requête LLM")
 
-if 'last_simulation' in st.session_state and st.session_state['last_simulation']:
+# Récupérer les métriques depuis différentes sources
+metrics = None
+source = None
+
+if 'last_agent_audit' in st.session_state and st.session_state['last_agent_audit']:
+    audit = st.session_state['last_agent_audit']
+    if 'metrics' in audit:
+        metrics = audit['metrics']
+        source = "Agent Audit (Accueil)"
+
+elif 'last_simulation' in st.session_state and st.session_state['last_simulation']:
     sim = st.session_state['last_simulation']
-    metrics = sim['metrics']
+    if 'metrics' in sim:
+        metrics = sim['metrics']
+        source = "Simulation"
+
+if metrics:
+
+    st.info(f"Source des données: **{source}**")
 
     st.subheader("Performance & Impact")
     k1, k2, k3, k4 = st.columns(4)

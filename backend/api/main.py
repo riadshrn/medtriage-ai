@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routes import triage, conversation, feedback, mlflow_routes, debug_mlflow, simulation
+from api.routes import triage, conversation, feedback, mlflow_routes, debug_mlflow, simulation, history
 
 # Configuration du logging
 logging.basicConfig(
@@ -35,6 +35,7 @@ app.include_router(feedback.router, tags=["Feedback"])
 app.include_router(mlflow_routes.router, tags=["MLflow"])
 app.include_router(debug_mlflow.router, tags=["Debug"])
 app.include_router(simulation.router, prefix="/simulation", tags=["Simulation"])
+app.include_router(history.router, tags=["History"])
 
 @app.get("/")
 def read_root():
