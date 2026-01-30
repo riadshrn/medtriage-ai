@@ -18,10 +18,11 @@ interface_dir = current_dir.parent
 sys.path.append(str(interface_dir))
 
 from state import init_session_state
-from style import apply_style, render_triage_badge, render_patient_card
+from style import configure_page, apply_style, render_triage_badge, render_patient_card
 
 init_session_state()
 apply_style()
+configure_page(page_title="Accueil - MedTriage-AI")
 
 # URL de l'API Backend
 API_URL = os.getenv("API_URL", "")

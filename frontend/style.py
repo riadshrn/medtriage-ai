@@ -11,6 +11,27 @@ Design professionnel pour application médicale avec:
 import streamlit as st
 
 
+def configure_page(page_title: str = "MedTriage-AI", page_icon: str = "🏥"):
+    """
+    Configure la page Streamlit avec les paramètres par défaut.
+    DOIT être appelée en PREMIER dans chaque page.
+    
+    Args:
+        page_title: Titre de la page
+        page_icon: Icône de la page
+    """
+    st.set_page_config(
+        page_title=page_title,
+        page_icon=page_icon,
+        layout="wide", 
+        initial_sidebar_state="expanded",
+        menu_items={
+            'Get Help': 'https://github.com/votre-repo',
+            'Report a bug': 'https://github.com/votre-repo/issues',
+            'About': "# MedTriage-AI\nAssistance intelligente au triage des urgences"
+        }
+    )
+
 def apply_style():
     """Applique le style CSS moderne à toutes les pages."""
 

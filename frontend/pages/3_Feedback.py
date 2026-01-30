@@ -292,7 +292,23 @@ def render_history() -> None:
         history,
         key=lambda x: x.get('timestamp', ''),
         reverse=True
-    )[:20]  # Limiter à 20 derniers
+    )
+    
+    # Option pour limiter le nombre de triages affichés
+    total_triages = len(history_sorted)
+    st.markdown(f"**Total de triages:** {total_triages}")
+    
+    # Afficher un slider seulement s'il y a plus de 5 triages
+    if total_triages > 5:
+        max_display = st.slider(
+            "Nombre de triages à afficher", 
+            min_value=5, 
+            max_value=total_triages, 
+            value=min(20, total_triages),
+            step=5
+        )
+        history_sorted = history_sorted[:max_display]
+    # Sinon, afficher tous les triages disponibles
 
     for idx, entry in enumerate(history_sorted):
         gravity = entry.get('gravity_level', 'GRIS')
@@ -309,12 +325,16 @@ def render_history() -> None:
         except:
             timestamp_display = timestamp[:19] if len(timestamp) > 19 else timestamp
 
-        with st.expander(f"{emoji} {gravity} - {timestamp_display} (ID: {prediction_id}...)"):
+        # Indicateur de feedback dans le titre
+        feedback_indicator = "✅" if entry.get('feedback_given') else "⚠️"
+        
+        with st.expander(f"{feedback_indicator} {emoji} {gravity} - {timestamp_display} (ID: {prediction_id}...)"):
             col1, col2, col3 = st.columns(3)
 
             with col1:
                 st.markdown(f"**Niveau:** {french_level}")
-                confidence = entry.get('confidence_score', 0)
+                # CORRECTION: Utiliser 'or 0' pour éviter NoneType
+                confidence = entry.get('confidence_score') or 0
                 st.markdown(f"**Confiance:** {confidence*100:.0f}%")
 
             with col2:
@@ -328,9 +348,11 @@ def render_history() -> None:
                 if entry.get('ml_available'):
                     st.markdown("**ML:** Actif")
 
-            # Bouton pour donner un feedback sur cet historique
+            # Section Feedback - AMÉLIORÉE
+            st.markdown("---")
             if not entry.get('feedback_given'):
-                if st.button(f"Donner un feedback", key=f"fb_{idx}"):
+                st.warning("⚠️ Aucun feedback pour ce triage")
+                if st.button(f"📝 Donner un feedback", key=f"fb_{idx}", type="primary"):
                     st.session_state['last_triage_result'] = {
                         'prediction_id': entry.get('prediction_id'),
                         'gravity_level': gravity,
@@ -339,9 +361,31 @@ def render_history() -> None:
                     }
                     st.rerun()
             else:
+                st.success("✅ Feedback reçu")
+                
+                # Afficher les détails du feedback
                 feedback_type = entry.get('feedback_type', 'correct')
-                st.success(f"Feedback donné: {FEEDBACK_TYPES.get(feedback_type, feedback_type)}")
-
+                st.markdown(f"**Type:** {FEEDBACK_TYPES.get(feedback_type, feedback_type)}")
+                
+                # Commentaire du feedback
+                if entry.get('feedback_comment'):
+                    st.markdown(f"**Commentaire:** _{entry['feedback_comment']}_")
+                
+                # Niveau correct si différent
+                if entry.get('correct_level') and entry.get('correct_level') != gravity:
+                    st.markdown(f"**Niveau correct suggéré:** {entry['correct_level']}")
+                
+                # Date du feedback
+                if entry.get('feedback_timestamp'):
+                    try:
+                        fb_dt = datetime.fromisoformat(entry['feedback_timestamp'].replace('Z', '+00:00'))
+                        st.markdown(f"**Date du feedback:** {fb_dt.strftime('%d/%m/%Y %H:%M')}")
+                    except:
+                        pass
+                
+                # Afficher qui a donné le feedback si disponible
+                if entry.get('feedback_by'):
+                    st.markdown(f"**Par:** {entry['feedback_by']}")
 
 def render_metrics() -> None:
     """Affiche les métriques de performance."""
