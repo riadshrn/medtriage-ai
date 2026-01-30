@@ -31,7 +31,7 @@ CONVERSATION_DESCRIPTIONS = {
     "conv6.txt": {"name": "Douleur Pelvienne (Risque GEU)", "niveau": "Tri 3A", "icon": "warning"},
     "conv7.txt": {"name": "Confusion / Sepsis", "niveau": "Tri 2", "icon": "thermometer"},
     "conv8.txt": {"name": "Lombalgie Post-Traumatique", "niveau": "Tri 3B", "icon": "back"},
-    "v2.txt": {"name": "Bronchiolite Nourrisson", "niveau": "Tri 3A", "icon": "baby"},
+    "conv9.txt": {"name": "Bronchiolite Nourrisson", "niveau": "Tri 3A", "icon": "baby"},
 }
 
 
