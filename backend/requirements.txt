@@ -1,0 +1,34 @@
+# Optimisation Docker : PyTorch version CPU (évite +700Mo de drivers CUDA inutiles)
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# --- Core API ---
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# --- Machine Learning & Data ---
+numpy
+pandas
+xgboost
+scikit-learn
+# Torch est nécessaire pour SentenceTransformers (RAG)
+torch
+
+# --- LLM & Agents (RAG) ---
+litellm
+ecologits[litellm]
+# On garde votre version spécifique validée en dev
+pydantic-ai==0.2.4
+fastmcp
+
+# --- RAG & Base Vectorielle ---
+chromadb
+sentence-transformers
+
+# --- MLOps & Tracking ---
+mlflow==2.10.2
+
+# --- Utilitaires & Viz ---
+rapidfuzz
+matplotlib

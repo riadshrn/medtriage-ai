@@ -1,0 +1,44 @@
+FROM python:3.11-slim
+
+# Gestionnaire de paquets UV (Performance)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+WORKDIR /app
+
+ENV UV_SYSTEM_PYTHON=1
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_CACHE_DIR=/root/.cache/uv/
+ENV UV_LINK_MODE=copy
+
+# [IMPORTÉ DE TON FICHIER] Dépendances système pour ChromaDB/Builds
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copie des requirements du backend
+COPY requirements.txt .
+
+# [IMPORTÉ DE TON FICHIER] Fix spécifique pour Griffe/Pydantic-AI
+RUN uv pip install --no-cache-dir "griffe==1.5.1"
+
+# Installation principale
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install --index-strategy unsafe-best-match -r requirements.txt
+
+# [IMPORTÉ DE TON FICHIER] Téléchargement du modèle d'embedding au build (Cache)
+# Cela évite de le télécharger à chaque démarrage du conteneur
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')"
+
+# [IMPORTÉ DE TON FICHIER] Vérification (Sanity Check)
+RUN python -c "import chromadb; print('✓ chromadb OK')"
+
+# Copie de la nouvelle architecture (api, models, data sont maintenant dans backend/)
+COPY api/ ./api/
+COPY models/ ./models/
+COPY data/ ./data/
+
+EXPOSE 8000
+
+# Lancement avec le nouveau chemin des scripts
+CMD python api/scripts/init_model.py && \
+    uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload

@@ -25,3 +25,9 @@ Thumbs.db
 # Environnement
 .env
 *.log
+
+# MLflow local
+mlruns/
+mlartifacts/
+
+backend/data/
