@@ -172,6 +172,14 @@ def init_benchmark_state():
             st.session_state[key] = value
 
 
+def reset_benchmark_state():
+    """Remet à zéro l'état du benchmark."""
+    st.session_state.benchmark_results = {}
+    st.session_state.selected_models_extraction = ["ministral-3b-latest", "mistral-small-latest"]
+    st.session_state.selected_models_agent = ["ministral-3b-latest", "mistral-small-latest"]
+    st.session_state.selected_models_simulation = ["ministral-3b-latest", "mistral-small-latest"]
+
+
 def load_conversations() -> List[Dict]:
     """Charge la liste des conversations depuis l'API."""
     if st.session_state.conversations_cache:
@@ -584,6 +592,13 @@ def main():
 
         Sélectionnez les modèles à comparer puis lancez le benchmark.
         """)
+
+    # Bouton Réinitialiser en haut à droite
+    col_spacer, col_reset = st.columns([5, 1])
+    with col_reset:
+        if st.button("🔄 Réinitialiser", type="secondary", use_container_width=True):
+            reset_benchmark_state()
+            st.rerun()
 
     tab1, tab2, tab3 = st.tabs(["📋 Extraction", "🤖 Agent Triage", "💬 Simulation"])
 
