@@ -380,7 +380,7 @@ def render_winner_badge(results: Dict):
 
     winner = min(valid.items(), key=lambda x: x[1]["energy_wh"])
 
-    st.success(f"🏆 **{winner[1]['icon']} {winner[1]['model_name']}** est le plus sobre avec "
+    st.success(f"**{winner[1]['model_name']}** est le plus sobre avec "
                f"**{winner[1]['energy_wh']:.2f} Wh** et **{winner[1]['co2_g']:.3f} g CO₂**")
 
 
