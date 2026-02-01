@@ -3,9 +3,8 @@ title: MedTriage UI
 emoji: 🏥
 colorFrom: green
 colorTo: blue
-sdk: streamlit
-sdk_version: 1.40.0
-app_file: app.py
+sdk: docker
+app_port: 7860
 pinned: false
 license: mit
 ---

@@ -16,5 +16,18 @@ if "categorie" not in st.session_state:
 if "edit_mode" not in st.session_state:
     st.session_state.edit_mode = False
 
-# Redirige automatiquement vers la page Accueil
-st.switch_page("pages/0_Accueil.py")
+# Page d'accueil par defaut (sans switch_page pour compatibilite HF Spaces)
+st.title("🏥 MedTriage-AI")
+st.markdown("""
+### Bienvenue sur MedTriage-AI
+
+Utilisez le menu lateral pour naviguer entre les pages :
+
+- **Accueil** : Triage par description textuelle
+- **Mode interactif** : Simulation avec constantes vitales
+- **Dashboard** : Metriques GreenOps/FinOps
+- **Feedback** : Historique et retours infirmiers
+- **MLFlow** : Suivi des modeles ML
+""")
+
+st.info("Selectionnez une page dans le menu a gauche pour commencer.")

@@ -14,10 +14,22 @@ ENV UV_LINK_MODE=copy
 # Variables d'environnement par defaut
 ENV LLM_MODEL=mistral/mistral-small-latest
 
+# Dependances systeme pour ChromaDB
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
 # Installation des dependances
 COPY requirements.txt .
+
+# Fix pour Griffe/Pydantic-AI
+RUN uv pip install --no-cache-dir "griffe==1.5.1"
+
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install -r requirements.txt
+    uv pip install --index-strategy unsafe-best-match -r requirements.txt
+
+# Pre-telechargement du modele d'embedding (cache)
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')"
 
 # Copie du code source
 COPY api/ ./api/
