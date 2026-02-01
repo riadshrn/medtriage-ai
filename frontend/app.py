@@ -6,28 +6,28 @@ st.set_page_config(
     layout="wide"
 )
 
-# Initialisation des session states globaux
+# Initialisation des session states
 if "messages" not in st.session_state:
     st.session_state.messages = []
-
 if "categorie" not in st.session_state:
     st.session_state.categorie = ""
-
 if "edit_mode" not in st.session_state:
     st.session_state.edit_mode = False
 
-# Page d'accueil par defaut (sans switch_page pour compatibilite HF Spaces)
+# Page d'accueil
 st.title("🏥 MedTriage-AI")
 st.markdown("""
-### Bienvenue sur MedTriage-AI
+### Systeme intelligent de triage medical
 
-Utilisez le menu lateral pour naviguer entre les pages :
+Utilisez le **menu lateral** (a gauche) pour naviguer entre les pages :
 
-- **Accueil** : Triage par description textuelle
-- **Mode interactif** : Simulation avec constantes vitales
-- **Dashboard** : Metriques GreenOps/FinOps
-- **Feedback** : Historique et retours infirmiers
-- **MLFlow** : Suivi des modeles ML
+| Page | Description |
+|------|-------------|
+| **Accueil** | Triage par description textuelle |
+| **Mode Interactif** | Simulation avec constantes vitales |
+| **Dashboard** | Metriques GreenOps/FinOps |
+| **Feedback** | Historique et retours infirmiers |
+| **MLFlow** | Suivi des modeles ML |
 """)
 
-st.info("Selectionnez une page dans le menu a gauche pour commencer.")
+st.success("Application deployee avec succes sur Hugging Face Spaces!")

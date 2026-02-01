@@ -1,5 +1,176 @@
 [
   {
+    "prediction_id": "c7e40a6b-51f8-4d5f-8634-f227e7791a45",
+    "timestamp": "2026-02-01T13:29:43.984627Z",
+    "source": "accueil",
+    "filename": "conv1.txt",
+    "gravity_level": "ROUGE",
+    "french_triage_level": null,
+    "confidence_score": null,
+    "orientation": null,
+    "delai_prise_en_charge": null,
+    "patient_input": null,
+    "extracted_data": {
+      "age": 58,
+      "sexe": null,
+      "motif_consultation": "douleur thoracique serrante",
+      "duree_symptomes": "45 minutes",
+      "antecedents": [
+        "hypertension",
+        "tabagisme",
+        "antécédents familiaux d'infarctus"
+      ],
+      "traitements": [],
+      "constantes": {
+        "frequence_cardiaque": 110,
+        "pression_systolique": 165,
+        "pression_diastolique": 95,
+        "frequence_respiratoire": 22,
+        "temperature": 36.8,
+        "saturation_oxygene": 94,
+        "echelle_douleur": 8,
+        "glycemie": null,
+        "glasgow": null
+      },
+      "missing_critical_info": [
+        "sexe"
+      ]
+    },
+    "model_version": "agent-v1",
+    "ml_available": true,
+    "justification": null,
+    "red_flags": null,
+    "recommendations": null,
+    "metrics": {
+      "cost_usd": 0.0007735,
+      "gwp_kgco2": 2.2492413450201038e-05,
+      "energy_kwh": 0.00040895297182183706,
+      "latency_s": 7.946602821350098,
+      "input_tokens": 7394,
+      "output_tokens": 341,
+      "total_tokens": 7735,
+      "model_name": "mistral-small-latest",
+      "provider": "Mistral"
+    },
+    "feedback_given": false,
+    "feedback_type": null,
+    "corrected_gravity": null
+  },
+  {
+    "prediction_id": "ae4d1288-7b82-48be-8d37-ae3d911495b9",
+    "timestamp": "2026-02-01T13:08:34.006488Z",
+    "source": "accueil",
+    "filename": "conv7.txt",
+    "gravity_level": "ROUGE",
+    "french_triage_level": null,
+    "confidence_score": null,
+    "orientation": null,
+    "delai_prise_en_charge": null,
+    "patient_input": null,
+    "extracted_data": {
+      "age": 67,
+      "sexe": null,
+      "motif_consultation": "Fièvre persistante, brûlures urinaires, douleur lombaire droite.",
+      "duree_symptomes": "Fièvre depuis hier après-midi, brûlures urinaires depuis 4-5 jours.",
+      "antecedents": [
+        "Diabète de type 2",
+        "Hypertension"
+      ],
+      "traitements": [
+        "Antidiabétiques oraux"
+      ],
+      "constantes": {
+        "frequence_cardiaque": 118,
+        "pression_systolique": 95,
+        "pression_diastolique": 58,
+        "frequence_respiratoire": 24,
+        "temperature": 39.6,
+        "saturation_oxygene": 93,
+        "echelle_douleur": null,
+        "glycemie": 2.4,
+        "glasgow": null
+      },
+      "missing_critical_info": []
+    },
+    "model_version": "agent-v1",
+    "ml_available": true,
+    "justification": null,
+    "red_flags": null,
+    "recommendations": null,
+    "metrics": {
+      "cost_usd": 0.000831,
+      "gwp_kgco2": 2.3762508521125796e-05,
+      "energy_kwh": 0.0004320456094750145,
+      "latency_s": 6.300975799560547,
+      "input_tokens": 7882,
+      "output_tokens": 428,
+      "total_tokens": 8310,
+      "model_name": "mistral-small-latest",
+      "provider": "Mistral"
+    },
+    "feedback_given": false,
+    "feedback_type": null,
+    "corrected_gravity": null
+  },
+  {
+    "prediction_id": "de7f8555-a163-4615-b1d1-1a9077d33614",
+    "timestamp": "2026-02-01T13:04:05.518665Z",
+    "source": "accueil",
+    "filename": "conv1.txt",
+    "gravity_level": "ROUGE",
+    "french_triage_level": null,
+    "confidence_score": null,
+    "orientation": null,
+    "delai_prise_en_charge": null,
+    "patient_input": null,
+    "extracted_data": {
+      "age": 58,
+      "sexe": null,
+      "motif_consultation": "Douleur thoracique serrante",
+      "duree_symptomes": "45 minutes",
+      "antecedents": [
+        "Hypertension",
+        "Tabagisme",
+        "Antécédents familiaux d'infarctus"
+      ],
+      "traitements": [],
+      "constantes": {
+        "frequence_cardiaque": 110,
+        "pression_systolique": 165,
+        "pression_diastolique": 95,
+        "frequence_respiratoire": 22,
+        "temperature": 36.8,
+        "saturation_oxygene": 94,
+        "echelle_douleur": 8,
+        "glycemie": null,
+        "glasgow": null
+      },
+      "missing_critical_info": [
+        "sexe",
+        "constantes.temperature"
+      ]
+    },
+    "model_version": "agent-v1",
+    "ml_available": true,
+    "justification": null,
+    "red_flags": null,
+    "recommendations": null,
+    "metrics": {
+      "cost_usd": 0.0007781,
+      "gwp_kgco2": 2.3514461266323567e-05,
+      "energy_kwh": 0.0004275356593877012,
+      "latency_s": 12.908869504928589,
+      "input_tokens": 7405,
+      "output_tokens": 376,
+      "total_tokens": 7781,
+      "model_name": "mistral-small-latest",
+      "provider": "Mistral"
+    },
+    "feedback_given": false,
+    "feedback_type": null,
+    "corrected_gravity": null
+  },
+  {
     "prediction_id": "1e322e74-0283-4dea-ba92-7fb5d68345d0",
     "timestamp": "2026-02-01T11:34:47.421658Z",
     "source": "accueil",
