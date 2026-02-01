@@ -21,9 +21,10 @@ current_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(current_dir))
 
 from state import init_session_state
-from style import apply_style
+from style import configure_page, apply_style
 
 # Initialisation
+configure_page(page_title="Benchmark - MedTriage-AI", page_icon="🌱")
 init_session_state()
 apply_style()
 
