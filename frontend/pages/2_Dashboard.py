@@ -23,6 +23,7 @@ from state import init_session_state
 # IMPORTANT: configure_page DOIT être appelée EN PREMIER
 configure_page(page_title="Dashboard - MedTriage-AI")
 init_session_state()
+
 apply_style()
 
 # URL de l'API Backend
