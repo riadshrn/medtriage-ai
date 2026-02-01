@@ -122,11 +122,6 @@ def apply_style():
             margin-bottom: 1rem;
         }
 
-        /* Cacher le premier élément de nav (page principale) */
-        section[data-testid="stSidebar"] [data-testid="stSidebarNav"] > ul > li:first-child {
-            display: none;
-        }
-
         /* Style des liens de navigation */
         section[data-testid="stSidebar"] [data-testid="stSidebarNav"] a {
             background: rgba(255, 255, 255, 0.05);
