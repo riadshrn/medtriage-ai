@@ -5,6 +5,7 @@ Ce module expose les endpoints necessaires pour comparer les performances
 des differents modeles Mistral sur les taches d'extraction, agent et simulation.
 """
 
+import json
 import time
 from typing import Dict, List
 
@@ -14,6 +15,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from api.schemas.extraction import ExtractedPatient
+from api.services.agent_service import create_benchmark_agent
 
 # Initialisation EcoLogits pour le tracking environnemental
 try:
@@ -247,18 +249,19 @@ Ta reponse en tant que patient:"""
 @router.post("/agent")
 async def benchmark_agent(request: BenchmarkAgentRequest) -> Dict:
     """
-    Benchmark de l'agent de triage avec un modele specifique.
-    Note: L'agent utilise PydanticAI qui ne supporte pas facilement le switch de modele.
-    Cette route utilise une extraction enrichie comme proxy.
+    Benchmark de l'agent de triage PydanticAI avec un modele specifique.
+
+    Utilise le MedicalAgentService du projet avec les tools RAG
+    et check_completeness_for_ml, instancie dynamiquement avec le modele demande.
     """
     model_name = request.model
     if model_name not in AVAILABLE_MODELS:
         raise HTTPException(status_code=400, detail=f"Modele non supporte: {model_name}")
 
-    full_model = AVAILABLE_MODELS[model_name]
-    start_time = time.time()
-
     try:
+        # Creation d'un agent avec le modele specifique pour le benchmark
+        agent_service = create_benchmark_agent(model_name)
+
         # Reconstruction du texte de la conversation
         messages = request.conversation.get("messages", [])
         full_text = "\n".join([
@@ -266,63 +269,60 @@ async def benchmark_agent(request: BenchmarkAgentRequest) -> Dict:
             for m in messages
         ])
 
-        # Prompt d'analyse enrichi (simulation agent)
-        system_prompt = """Tu es un Copilote de Regulation Medicale expert en triage.
+        # Appel du vrai agent avec raisonnement et tools
+        result = await agent_service.analyze_with_reasoning(full_text)
 
-MISSION : Analyse la conversation et determine :
-1. Le niveau de criticite (ROUGE, JAUNE, VERT, GRIS)
-2. Les informations manquantes critiques
-3. Les alertes protocole eventuelles
+        # Verification si l'agent a reussi
+        if result.get("metrics") is None:
+            # L'agent a echoue (voir le bloc except dans analyze_with_reasoning)
+            return {
+                "success": False,
+                "model": model_name,
+                "error": f"Agent error: {result.get('reasoning_steps', ['Unknown error'])}",
+                "metrics": None
+            }
 
-Reponds en JSON avec les cles: criticity, missing_info (liste), protocol_alert (string ou null), justification (string)"""
+        # Mapping vers le format attendu par le frontend
+        # Le frontend attend "analysis" comme JSON string avec criticity, missing_info, etc.
+        analysis_obj = {
+            "criticity": result.get("criticity"),
+            "missing_info": result.get("missing_info", []),
+            "protocol_alert": result.get("protocol_alert"),
+            "justification": f"Agent PydanticAI avec RAG - {len(result.get('reasoning_steps', []))} etapes"
+        }
 
-        user_prompt = f"""Analyse cette conversation patient-infirmier:
-
-{full_text}
-
-Genere ton analyse en JSON:"""
-
-        response = litellm.completion(
-            model=full_model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            response_format={"type": "json_object"},
-            temperature=0
-        )
-
-        latency_s = time.time() - start_time
-        usage = response.usage
-        input_tokens = usage.prompt_tokens
-        output_tokens = usage.completion_tokens
-        total_tokens = input_tokens + output_tokens
-
+        # Recalcul du cout avec les prix officiels (l'agent utilise une estimation interne)
+        metrics = result.get("metrics", {})
+        input_tokens = metrics.get("input_tokens", 0)
+        output_tokens = metrics.get("output_tokens", 0)
         cost = calculate_price(model_name, input_tokens, output_tokens)
-        energy_data = get_energy_from_response(response)
 
         return {
             "success": True,
             "model": model_name,
-            "analysis": response.choices[0].message.content,
+            "analysis": json.dumps(analysis_obj, ensure_ascii=False),
             "metrics": {
-                "provider": "ecologits",
+                "provider": "pydantic_ai",
                 "model_name": model_name,
                 "input_tokens": input_tokens,
                 "output_tokens": output_tokens,
-                "total_tokens": total_tokens,
-                "latency_s": latency_s,
+                "total_tokens": metrics.get("total_tokens", 0),
+                "latency_s": metrics.get("latency_s", 0),
                 "cost_usd": cost,
-                "gwp_kgco2": energy_data["gwp_kgco2"],
-                "energy_kwh": energy_data["energy_kwh"]
+                "gwp_kgco2": metrics.get("gwp_kgco2"),
+                "energy_kwh": metrics.get("energy_kwh")
             }
         }
 
     except Exception as e:
+        # Gestion robuste des erreurs (modele trop petit, timeout, etc.)
+        error_msg = str(e)
+        print(f"❌ Benchmark Agent Error ({model_name}): {error_msg}")
+
         return {
             "success": False,
             "model": model_name,
-            "error": str(e),
+            "error": f"Agent failed with {model_name}: {error_msg}",
             "metrics": None
         }
 
