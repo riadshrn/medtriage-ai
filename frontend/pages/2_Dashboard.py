@@ -228,7 +228,7 @@ with st.container(border=True):
                     unsafe_allow_html=True
                 )
                 st.metric(
-                    label="",
+                    label=level,
                     value=count,
                     delta=f"{pct:.0f}%",
                     delta_color="off",

@@ -184,10 +184,8 @@ async def get_latest_model():
         from mlflow.exceptions import RestException
 
         try:
-            prod_versions = client.get_latest_versions(
-                MLflowConfig.MODEL_NAME,
-                stages=["Production"]
-            )
+            # Utiliser search_model_versions au lieu de get_latest_versions (déprécié depuis MLflow 2.9)
+            all_versions = client.search_model_versions(f"name='{MLflowConfig.MODEL_NAME}'")
         except RestException as e:
             # Le modèle n'existe pas encore dans le registry
             if "RESOURCE_DOES_NOT_EXIST" in str(e):
@@ -197,16 +195,16 @@ async def get_latest_model():
                 }
             raise
 
+        if not all_versions:
+            return {"message": "Aucun modele enregistre", "model_name": MLflowConfig.MODEL_NAME}
 
-        if not prod_versions:
-            # Sinon prendre le dernier
-            all_versions = client.search_model_versions(f"name='{MLflowConfig.MODEL_NAME}'")
-            if not all_versions:
-                return {"message": "Aucun modele enregistre", "model_name": MLflowConfig.MODEL_NAME}
-
-            latest = max(all_versions, key=lambda x: int(x.version))
+        # Chercher d'abord une version en Production
+        prod_versions = [v for v in all_versions if v.current_stage == "Production"]
+        if prod_versions:
+            latest = max(prod_versions, key=lambda x: int(x.version))
         else:
-            latest = prod_versions[0]
+            # Sinon prendre la dernière version
+            latest = max(all_versions, key=lambda x: int(x.version))
 
         # Recuperer les metriques
         metrics = {}
