@@ -20,9 +20,10 @@ sys.path.append(str(interface_dir))
 from state import init_session_state
 from style import configure_page, apply_style, render_triage_badge, render_patient_card
 
+# IMPORTANT: configure_page DOIT être appelée EN PREMIER
+configure_page(page_title="Accueil - MedTriage-AI")
 init_session_state()
 apply_style()
-configure_page(page_title="Accueil - MedTriage-AI")
 
 # URL de l'API Backend
 API_URL = os.getenv("API_URL", "")
@@ -71,7 +72,7 @@ def load_conversation_from_api(filename: str):
     return None
 
 
-def save_triage_to_history(result: dict, filename: str, extracted_data: dict) -> str:
+def save_triage_to_history(result: dict, filename: str, extracted_data: dict, metrics: dict = None) -> str:
     """Sauvegarde le triage dans l'historique via l'API."""
     try:
         payload = {
@@ -87,7 +88,8 @@ def save_triage_to_history(result: dict, filename: str, extracted_data: dict) ->
             "ml_available": True,
             "justification": result.get("justification"),
             "red_flags": result.get("red_flags"),
-            "recommendations": result.get("recommendations")
+            "recommendations": result.get("recommendations"),
+            "metrics": metrics
         }
         response = requests.post(f"{API_URL}/history/save", json=payload, timeout=10)
         if response.status_code == 200:
@@ -247,10 +249,10 @@ def main():
                                 st.session_state['last_request_metrics'] = m
                                 st.session_state['last_request_source'] = "Accueil"
 
-                            # Sauvegarder dans l'historique
+                            # Sauvegarder dans l'historique (avec métriques)
                             current_filename = st.session_state.get('current_filename', 'unknown')
                             extracted = res.get('extracted_data', {})
-                            prediction_id = save_triage_to_history(res, current_filename, extracted)
+                            prediction_id = save_triage_to_history(res, current_filename, extracted, m)
 
                             # Stocker pour le feedback
                             st.session_state['last_triage_result'] = {

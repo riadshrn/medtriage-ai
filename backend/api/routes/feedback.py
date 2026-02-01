@@ -104,6 +104,38 @@ async def get_feedback_count():
     return {"count": count}
 
 
+@router.post("/sync-history")
+async def sync_feedbacks_to_history():
+    """
+    Synchronise tous les feedbacks existants avec history.json.
+
+    Cette opération:
+    1. Parcourt tous les feedbacks dans nurse_feedback.jsonl
+    2. Met à jour les entrées correspondantes dans history.json
+    3. Crée de nouvelles entrées si nécessaire
+
+    Utile pour rattraper les anciens feedbacks non synchronisés.
+    """
+    try:
+        handler = get_feedback_handler()
+        stats = handler.sync_all_feedbacks_to_history()
+
+        return {
+            "status": "success",
+            "message": f"Synchronisation terminée",
+            "updated": stats.get("updated", 0),
+            "created": stats.get("created", 0),
+            "errors": stats.get("errors", 0)
+        }
+
+    except Exception as e:
+        logger.error(f"Erreur lors de la synchronisation: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erreur: {str(e)}"
+        )
+
+
 @router.post("/retrain", response_model=RetrainResponse)
 async def trigger_retraining(request: RetrainRequest):
     """

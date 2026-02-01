@@ -22,9 +22,10 @@ interface_dir = current_dir.parent
 sys.path.append(str(interface_dir))
 
 from state import init_session_state
-from style import apply_style, render_triage_badge
+from style import  configure_page, apply_style, render_triage_badge
 
-# Initialisation
+# IMPORTANT: configure_page DOIT être appelée EN PREMIER (avant tout autre appel Streamlit)
+configure_page(page_title="Feedback - MedTriage-AI")
 init_session_state()
 apply_style()
 

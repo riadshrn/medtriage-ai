@@ -58,6 +58,19 @@ class TriageHistoryEntry(BaseModel):
     corrected_gravity: Optional[str] = None
 
 
+class MetricsData(BaseModel):
+    """Métriques GreenOps/FinOps d'une requête LLM."""
+    cost_usd: Optional[float] = None
+    gwp_kgco2: Optional[float] = None
+    energy_kwh: Optional[float] = None
+    latency_s: Optional[float] = None
+    input_tokens: Optional[int] = None
+    output_tokens: Optional[int] = None
+    total_tokens: Optional[int] = None
+    model_name: Optional[str] = None
+    provider: Optional[str] = None
+
+
 class SaveTriageRequest(BaseModel):
     """Requête pour sauvegarder un triage."""
     source: str
@@ -74,6 +87,17 @@ class SaveTriageRequest(BaseModel):
     justification: Optional[str] = None
     red_flags: Optional[List[str]] = None
     recommendations: Optional[List[str]] = None
+    metrics: Optional[MetricsData] = None
+
+
+class MetricsStats(BaseModel):
+    """Statistiques agrégées des métriques GreenOps/FinOps."""
+    total_cost_usd: float = 0.0
+    total_gwp_kgco2: float = 0.0
+    total_energy_kwh: float = 0.0
+    total_tokens: int = 0
+    avg_latency_s: float = 0.0
+    requests_with_metrics: int = 0
 
 
 class HistoryStats(BaseModel):
@@ -83,6 +107,7 @@ class HistoryStats(BaseModel):
     by_source: Dict[str, int]
     feedbacks_given: int
     last_triage_date: Optional[str] = None
+    metrics_stats: Optional[MetricsStats] = None
 
 
 # =============================================================================
@@ -190,6 +215,7 @@ async def save_triage(request: SaveTriageRequest) -> Dict:
         "justification": request.justification,
         "red_flags": request.red_flags,
         "recommendations": request.recommendations,
+        "metrics": request.metrics.model_dump() if request.metrics else None,
         "feedback_given": False,
         "feedback_type": None,
         "corrected_gravity": None
@@ -242,6 +268,14 @@ async def get_stats() -> HistoryStats:
     feedbacks_given = 0
     last_date = None
 
+    # Métriques agrégées
+    total_cost = 0.0
+    total_co2 = 0.0
+    total_energy = 0.0
+    total_tokens = 0
+    total_latency = 0.0
+    requests_with_metrics = 0
+
     for entry in history:
         # Par gravité
         gravity = entry.get('gravity_level', 'GRIS')
@@ -260,12 +294,32 @@ async def get_stats() -> HistoryStats:
         if timestamp and (last_date is None or timestamp > last_date):
             last_date = timestamp
 
+        # Métriques GreenOps/FinOps
+        metrics = entry.get('metrics')
+        if metrics:
+            requests_with_metrics += 1
+            total_cost += metrics.get('cost_usd', 0) or 0
+            total_co2 += metrics.get('gwp_kgco2', 0) or 0
+            total_energy += metrics.get('energy_kwh', 0) or 0
+            total_tokens += metrics.get('total_tokens', 0) or 0
+            total_latency += metrics.get('latency_s', 0) or 0
+
+    metrics_stats = MetricsStats(
+        total_cost_usd=total_cost,
+        total_gwp_kgco2=total_co2,
+        total_energy_kwh=total_energy,
+        total_tokens=total_tokens,
+        avg_latency_s=total_latency / requests_with_metrics if requests_with_metrics > 0 else 0,
+        requests_with_metrics=requests_with_metrics
+    )
+
     return HistoryStats(
         total_triages=len(history),
         by_gravity=by_gravity,
         by_source=by_source,
         feedbacks_given=feedbacks_given,
-        last_triage_date=last_date
+        last_triage_date=last_date,
+        metrics_stats=metrics_stats
     )
 
 

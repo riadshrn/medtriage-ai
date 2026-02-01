@@ -22,9 +22,10 @@ interface_dir = current_dir.parent
 sys.path.append(str(interface_dir))
 
 from state import init_session_state
-from style import apply_style, render_triage_badge
+from style import configure_page, apply_style, render_triage_badge
 
-# Initialisation
+# IMPORTANT: configure_page DOIT être appelée EN PREMIER (avant tout autre appel Streamlit)
+configure_page(page_title="Mode interactif - MedTriage-AI")
 init_session_state()
 apply_style()
 
@@ -241,7 +242,7 @@ def launch_full_triage(extracted_data: Dict) -> Optional[Dict]:
     return None
 
 
-def save_triage_to_history(result: Dict, extracted_data: Dict) -> Optional[str]:
+def save_triage_to_history(result: Dict, extracted_data: Dict, metrics: Dict = None) -> Optional[str]:
     """Sauvegarde le triage dans l'historique via l'API."""
     try:
         payload = {
@@ -257,7 +258,8 @@ def save_triage_to_history(result: Dict, extracted_data: Dict) -> Optional[str]:
             "ml_available": result.get("ml_available", True),
             "justification": result.get("justification"),
             "red_flags": result.get("red_flags"),
-            "recommendations": result.get("recommendations")
+            "recommendations": result.get("recommendations"),
+            "metrics": metrics
         }
         response = requests.post(f"{API_URL}/history/save", json=payload, timeout=10)
         if response.status_code == 200:
@@ -748,8 +750,20 @@ Tu es de bonne humeur malgré la douleur, tu veux juste une radio pour être sû
                     with st.spinner("Calcul du triage en cours..."):
                         result = launch_full_triage(st.session_state.extracted_data)
                         if result:
-                            # Sauvegarder dans l'historique
-                            prediction_id = save_triage_to_history(result, st.session_state.extracted_data)
+                            # Récupérer les métriques accumulées de la session
+                            acc = st.session_state['current_interactive_session_metrics']
+                            metrics_to_save = {
+                                'cost_usd': acc['cost_usd'],
+                                'gwp_kgco2': acc['gwp_kgco2'],
+                                'energy_kwh': acc['energy_kwh'],
+                                'total_tokens': acc.get('total_tokens', 0),
+                                'latency_s': acc.get('latency_s', 0),
+                                'model_name': 'mistral-small-latest',
+                                'provider': 'mistral'
+                            } if acc['nb_calls'] > 0 else None
+
+                            # Sauvegarder dans l'historique avec les métriques
+                            prediction_id = save_triage_to_history(result, st.session_state.extracted_data, metrics_to_save)
                             result['prediction_id'] = prediction_id
 
                             # Ajouter le niveau de triage à l'historique
@@ -757,7 +771,6 @@ Tu es de bonne humeur malgré la douleur, tu veux juste une radio pour être sû
                             st.session_state['interactive_triage_history'].append(gravity)
 
                             # Ajouter les métriques accumulées de la session au Dashboard (groupé par triage)
-                            acc = st.session_state['current_interactive_session_metrics']
                             if acc['nb_calls'] > 0:
                                 st.session_state['interactive_metrics_history'].append({
                                     'cost_usd': acc['cost_usd'],

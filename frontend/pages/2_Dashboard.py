@@ -3,9 +3,13 @@ Dashboard - Pilotage GreenOps / FinOps.
 
 Cette page affiche les métriques d'impact environnemental et de coût
 des requêtes LLM effectuées dans l'application.
+
+Les données proviennent de l'historique persistant (history.json via API).
 """
 
+import os
 import streamlit as st
+import requests
 import sys
 from pathlib import Path
 
@@ -13,11 +17,16 @@ current_dir = Path(__file__).parent
 interface_dir = current_dir.parent
 sys.path.append(str(interface_dir))
 
-from style import apply_style
+from style import  configure_page, apply_style
 from state import init_session_state
 
+# IMPORTANT: configure_page DOIT être appelée EN PREMIER
+configure_page(page_title="Dashboard - MedTriage-AI")
 init_session_state()
 apply_style()
+
+# URL de l'API Backend
+API_URL = os.getenv("API_URL", "http://backend:8000")
 
 st.title("Dashboard & Monitoring")
 st.caption("Pilotage GreenOps / FinOps")
@@ -31,6 +40,18 @@ prix_modeles = {
     "mistral-medium-latest": {"input": 0.4, "output": 2.0},
     "mistral-large-latest": {"input": 0.5, "output": 1.5},
 }
+
+
+def get_history_stats():
+    """Récupère les statistiques depuis l'API /history/stats."""
+    try:
+        response = requests.get(f"{API_URL}/history/stats", timeout=10)
+        if response.status_code == 200:
+            return response.json()
+    except requests.RequestException:
+        pass
+    return None
+
 
 # =============================================
 # ENCADRE 1 : METRIQUES DERNIERE REQUETE
@@ -118,37 +139,39 @@ else:
         st.info("Aucun triage effectué. Lancez une analyse depuis l'Accueil ou le Mode Interactif.")
 
 # =============================================
-# ENCADRE 2 : METRIQUES GLOBALES (SESSION)
+# ENCADRE 2 : METRIQUES GLOBALES (HISTORIQUE PERSISTANT)
 # =============================================
 with st.container(border=True):
-    st.subheader("Informations sur l'ensemble des triages")
+    st.subheader("Statistiques globales (historique persistant)")
 
-    # Historiques des deux sources
-    history = st.session_state.get('triage_history', [])
-    metrics_history = st.session_state.get('metrics_history', [])
-    interactive_history = st.session_state.get('interactive_metrics_history', [])
-    interactive_triage = st.session_state.get('interactive_triage_history', [])
+    # Récupérer les stats depuis l'API
+    stats = get_history_stats()
 
-    # Combiner les deux historiques de métriques
-    all_metrics = metrics_history + interactive_history
-    nb_accueil = len(metrics_history)
-    nb_interactif = len(interactive_history)
-
-    if not history and not all_metrics and not interactive_triage:
-        st.info("Aucune analyse effectuée dans cette session.")
+    if stats is None:
+        st.warning("Impossible de récupérer les statistiques. Vérifiez la connexion à l'API.")
+    elif stats.get('total_triages', 0) == 0:
+        st.info("Aucun triage enregistré dans l'historique.")
     else:
-        # Consommation totale de la session (toutes sources)
-        if all_metrics:
-            total_cost = sum(m.get('cost_usd', 0) or 0 for m in all_metrics)
-            total_co2 = sum((m.get('gwp_kgco2', 0) or 0) * 1000 for m in all_metrics)  # en g
-            total_energy = sum((m.get('energy_kwh', 0) or 0) * 1000 for m in all_metrics)  # en Wh
+        total_triages = stats.get('total_triages', 0)
+        by_gravity = stats.get('by_gravity', {})
+        by_source = stats.get('by_source', {})
+        metrics_stats = stats.get('metrics_stats', {})
+
+        # --- METRIQUES GREENOPS/FINOPS CUMULEES ---
+        if metrics_stats and metrics_stats.get('requests_with_metrics', 0) > 0:
+            total_cost = metrics_stats.get('total_cost_usd', 0)
+            total_co2 = metrics_stats.get('total_gwp_kgco2', 0) * 1000  # en g
+            total_energy = metrics_stats.get('total_energy_kwh', 0) * 1000  # en Wh
+            total_tokens_all = metrics_stats.get('total_tokens', 0)
+            avg_latency = metrics_stats.get('avg_latency_s', 0) * 1000  # en ms
+            requests_with_metrics = metrics_stats.get('requests_with_metrics', 0)
 
             # Analogies pour les totaux
             total_google = total_co2 / 0.2 if total_co2 > 0 else 0
             total_min_ampoule = total_energy
 
-            st.markdown("**Consommation totale**")
-            st.caption(f"Accueil: {nb_accueil} requête(s) | Mode Interactif: {nb_interactif} triage(s)")
+            st.markdown("**Consommation totale (tous triages)**")
+            st.caption(f"{requests_with_metrics} triage(s) avec métriques sur {total_triages} total")
 
             t1, t2, t3 = st.columns(3)
             t1.metric(
@@ -166,69 +189,67 @@ with st.container(border=True):
                 help=f"Environ {total_min_ampoule:.2f} min d'ampoule 60W"
             )
 
+            # Ligne supplémentaire pour tokens et latence moyenne
+            t4, t5, t6 = st.columns(3)
+            t4.metric(
+                label="Tokens totaux",
+                value=f"{total_tokens_all:,}"
+            )
+            t5.metric(
+                label="Latence moyenne",
+                value=f"{avg_latency:.0f} ms"
+            )
+            t6.metric(
+                label="Triages avec métriques",
+                value=f"{requests_with_metrics}/{total_triages}"
+            )
+
             st.divider()
 
-        # Combiner les historiques de triage (Accueil + Mode Interactif)
-        all_triages = history + interactive_triage
+        # --- REPARTITION PAR NIVEAU DE TRIAGE ---
+        colors = {
+            "ROUGE": "#DC2626",
+            "JAUNE": "#F59E0B",
+            "VERT": "#10B981",
+            "GRIS": "#6B7280"
+        }
 
-        if all_triages:
-            # Couleurs des pastilles
-            colors = {
-                "ROUGE": "#DC2626",
-                "JAUNE": "#F59E0B",
-                "VERT": "#10B981",
-                "GRIS": "#6B7280"
-            }
+        st.markdown("**Répartition des niveaux de triage**")
 
-            st.markdown("**Répartition des niveaux de triage**")
-            total = len(all_triages)
-            counts = {
-                "ROUGE": all_triages.count("ROUGE"),
-                "JAUNE": all_triages.count("JAUNE"),
-                "VERT": all_triages.count("VERT"),
-                "GRIS": all_triages.count("GRIS")
-            }
+        r1, r2, r3, r4 = st.columns(4)
 
-            r1, r2, r3, r4 = st.columns(4)
-
-            with r1:
-                st.markdown(f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:{colors["ROUGE"]};margin-right:6px;vertical-align:middle;"></span>**ROUGE**', unsafe_allow_html=True)
+        for col, level in zip([r1, r2, r3, r4], ["ROUGE", "JAUNE", "VERT", "GRIS"]):
+            count = by_gravity.get(level, 0)
+            pct = (count / total_triages * 100) if total_triages > 0 else 0
+            with col:
+                st.markdown(
+                    f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:{colors[level]};margin-right:6px;vertical-align:middle;"></span>**{level}**',
+                    unsafe_allow_html=True
+                )
                 st.metric(
                     label="",
-                    value=counts["ROUGE"],
-                    delta=f"{(counts['ROUGE']/total*100):.0f}%" if total > 0 else "0%",
+                    value=count,
+                    delta=f"{pct:.0f}%",
                     delta_color="off",
                     label_visibility="collapsed"
                 )
 
-            with r2:
-                st.markdown(f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:{colors["JAUNE"]};margin-right:6px;vertical-align:middle;"></span>**JAUNE**', unsafe_allow_html=True)
-                st.metric(
-                    label="",
-                    value=counts["JAUNE"],
-                    delta=f"{(counts['JAUNE']/total*100):.0f}%" if total > 0 else "0%",
-                    delta_color="off",
-                    label_visibility="collapsed"
-                )
+        # --- REPARTITION PAR SOURCE ---
+        st.divider()
+        st.markdown("**Répartition par source**")
 
-            with r3:
-                st.markdown(f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:{colors["VERT"]};margin-right:6px;vertical-align:middle;"></span>**VERT**', unsafe_allow_html=True)
-                st.metric(
-                    label="",
-                    value=counts["VERT"],
-                    delta=f"{(counts['VERT']/total*100):.0f}%" if total > 0 else "0%",
-                    delta_color="off",
-                    label_visibility="collapsed"
-                )
+        nb_accueil = by_source.get('accueil', 0)
+        nb_simulation = by_source.get('simulation', 0)
+        nb_api = by_source.get('api', 0)
 
-            with r4:
-                st.markdown(f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:{colors["GRIS"]};margin-right:6px;vertical-align:middle;"></span>**GRIS**', unsafe_allow_html=True)
-                st.metric(
-                    label="",
-                    value=counts["GRIS"],
-                    delta=f"{(counts['GRIS']/total*100):.0f}%" if total > 0 else "0%",
-                    delta_color="off",
-                    label_visibility="collapsed"
-                )
+        s1, s2, s3 = st.columns(3)
+        s1.metric(label="Accueil", value=nb_accueil)
+        s2.metric(label="Simulation", value=nb_simulation)
+        s3.metric(label="API", value=nb_api)
 
-            st.caption(f"Total : {total} patient(s) trié(s) (Accueil: {len(history)} | Simulation: {len(interactive_triage)})")
+        st.caption(f"Total : {total_triages} patient(s) trié(s)")
+
+        # --- DERNIERE DATE DE TRIAGE ---
+        last_date = stats.get('last_triage_date')
+        if last_date:
+            st.caption(f"Dernier triage : {last_date[:19].replace('T', ' ')}")
