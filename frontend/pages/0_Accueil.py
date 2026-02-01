@@ -8,6 +8,7 @@ patient-infirmier depuis la base de données de conversations.
 import os
 import sys
 from pathlib import Path
+from typing import Dict
 
 import requests
 import streamlit as st
@@ -42,6 +43,18 @@ ICON_MAP = {
     "file": "📄"
 }
 
+def filter_empty_values(data: Dict) -> Dict:
+    if not isinstance(data, dict): return data
+    clean_dict = {}
+    for k, v in data.items():
+        if isinstance(v, dict):
+            nested = filter_empty_values(v)
+            if nested: clean_dict[k] = nested
+        elif isinstance(v, list):
+            if v: clean_dict[k] = v
+        elif v is not None and v != "":
+            clean_dict[k] = v
+    return clean_dict
 
 def load_available_conversations():
     """Charge la liste des conversations depuis l'API."""
@@ -297,7 +310,8 @@ def main():
                     st.metric("Âge", f"{age} ans" if age else "-")
 
                 with st.expander("Dossier complet", expanded=True):
-                    st.json(extracted)
+                    clean_data = filter_empty_values(extracted)
+                    st.json(clean_data)
 
             with col_decision:
                 st.subheader("Copilote IA")
