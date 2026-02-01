@@ -8,7 +8,6 @@ des infirmiers IOA au processus de triage.
 Endpoints:
     - POST /patient-response : Génère une réponse de patient simulé via LLM
     - POST /suggest-questions : Propose des questions pertinentes pour le triage
-    - POST /extraction/analyze : Analyse la conversation et extrait les données médicales
 """
 
 import os
@@ -20,6 +19,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from api.services.extraction_service import PatientExtractor
+from api.services.agent_service import get_agent_service
 
 router = APIRouter()
 
@@ -214,32 +214,12 @@ Génère 3 questions (une par ligne, sans numérotation):"""
         }
 
 
-@router.post("/extraction/analyze")
-async def analyze_text(request: TextAnalysisRequest) -> Dict:
+# Remplacement logique de l'ancien endpoint d'extraction
+@router.post("/agent/interact") 
+async def interact_with_agent(request: TextAnalysisRequest): # <--- Correction ici
     """
-    Analyse une transcription et extrait les données médicales structurées.
-
-    Utilise le service d'extraction pour identifier les informations
-    pertinentes au triage: constantes vitales, motif de consultation,
-    antécédents, etc.
-
-    Args:
-        request: Requête contenant le texte de la conversation
-
-    Returns:
-        Dict contenant les données extraites et les métriques de performance
-
-    Raises:
-        HTTPException: En cas d'erreur lors de l'extraction
+    Endpoint unifié : Reçoit le texte, appelle l'Agent (RAG + Extraction + Triage).
     """
-    try:
-        extractor = PatientExtractor()
-        extracted_data, metrics = extractor.extract_from_conversation(request.text)
-
-        return {
-            "extracted_data": extracted_data.model_dump(),
-            "metrics": metrics.model_dump() if metrics else None
-        }
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erreur lors de l'extraction: {str(e)}")
+    # Appel direct au service Agent qui fait Extraction + Triage + Raisonnement
+    result = await get_agent_service().analyze_with_reasoning(request.text)
+    return result
