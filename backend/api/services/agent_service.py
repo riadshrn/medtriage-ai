@@ -5,11 +5,39 @@ from pydantic_ai.models.mistral import MistralModel
 
 # Imports mis à jour
 from api.services.med_tools import search_medical_protocol, check_completeness_for_ml
-from api.schemas.agent_io import AgentResponse 
+from api.schemas.agent_io import AgentResponse
+
+# System prompt partagé entre le singleton et la factory
+MEDICAL_AGENT_SYSTEM_PROMPT = (
+    "Tu es un Copilote de Régulation Médicale."
+    "Mission : récupérer les données médicales du patient pour assister l'infirmier dans son triage du patient."
+
+    "FLUX DE TRAVAIL (Respecte cet ordre) :"
+    "1. 🧠 ANALYSE : Identifie les symptômes et données présentes dans le texte."
+    "2. 📚 PROTOCOLE (RAG) : Utilise ton outil de recherche pour trouver le protocole médical correspondant aux symptômes."
+    "3. 🎨 CLASSIFICATION : En te basant sur le protocole trouvé (ou tes connaissances si le protocole est muet), détermine la couleur de triage (ROUGE, JAUNE, VERT, GRIS)."
+    "4. ✅ VALIDATION TECHNIQUE : Appelle 'check_completeness_for_ml' avec les infos trouvées."
+    "5. 📝 RÉDACTION : Génère le json final."
+
+    """
+    "RÈGLES DE REMPLISSAGE :"
+    "- 'missing_info' : Combine les manques cliniques (liés au protocole) ET les manques techniques (relevés par l'outil de validation)."
+    "- 'protocol_alert' : Remplis uniquement si le protocole médical indique une urgence ou une action spécifique."
+    """
+)
+
 
 class MedicalAgentService:
-    def __init__(self):
-        model_name = os.getenv("LLM_MODEL", "mistral-small-latest")
+    def __init__(self, model_name: str = None):
+        """
+        Initialise le service d'agent médical.
+
+        Args:
+            model_name: Nom du modèle à utiliser. Si None, utilise la variable d'env LLM_MODEL.
+        """
+        if model_name is None:
+            model_name = os.getenv("LLM_MODEL", "mistral-small-latest")
+
         if "/" in model_name:
             model_name = model_name.split("/")[-1]
 
@@ -19,26 +47,9 @@ class MedicalAgentService:
         
         self.agent = Agent(
             self.model,
-            result_type=AgentResponse, # <-- L'Agent va maintenant remplir tes 3 champs
-            
-            system_prompt=(
-                "Tu es un Copilote de Régulation Médicale."
-                "Mission : récupérer les données médicales du patient pour assister l'infirmier dans son triage du patient."
-                
-                "FLUX DE TRAVAIL (Respecte cet ordre) :"
-                "1. 🧠 ANALYSE : Identifie les symptômes et données présentes dans le texte."
-                "2. 📚 PROTOCOLE (RAG) : Utilise ton outil de recherche pour trouver le protocole médical correspondant aux symptômes."
-                "3. 🎨 CLASSIFICATION : En te basant sur le protocole trouvé (ou tes connaissances si le protocole est muet), détermine la couleur de triage (ROUGE, JAUNE, VERT, GRIS)."
-                "4. ✅ VALIDATION TECHNIQUE : Appelle 'check_completeness_for_ml' avec les infos trouvées."
-                "5. 📝 RÉDACTION : Génère le json final."
-
-                """
-                "RÈGLES DE REMPLISSAGE :"
-                "- 'missing_info' : Combine les manques cliniques (liés au protocole) ET les manques techniques (relevés par l'outil de validation)."
-                "- 'protocol_alert' : Remplis uniquement si le protocole médical indique une urgence ou une action spécifique."
-                """
-            ),
-            tools=[search_medical_protocol, check_completeness_for_ml] 
+            result_type=AgentResponse,
+            system_prompt=MEDICAL_AGENT_SYSTEM_PROMPT,
+            tools=[search_medical_protocol, check_completeness_for_ml]
         )
 
     def _estimate_impact(self, input_tok: int, output_tok: int, latency_s: float):
@@ -174,10 +185,29 @@ class MedicalAgentService:
                 "metrics": None
             }
 
-# Singleton
+# Singleton pour l'application principale
 _agent_instance = None
+
+
 def get_agent_service():
+    """Retourne le singleton de l'agent (modèle par défaut via env)."""
     global _agent_instance
     if _agent_instance is None:
         _agent_instance = MedicalAgentService()
     return _agent_instance
+
+
+def create_benchmark_agent(model_name: str) -> MedicalAgentService:
+    """
+    Factory pour créer un agent avec un modèle spécifique (benchmark).
+
+    Cette fonction crée une nouvelle instance de MedicalAgentService
+    avec le modèle demandé, sans affecter le singleton de production.
+
+    Args:
+        model_name: Nom du modèle Mistral (ex: "ministral-3b-latest", "mistral-large-latest")
+
+    Returns:
+        Une instance de MedicalAgentService configurée avec le modèle spécifié.
+    """
+    return MedicalAgentService(model_name=model_name)
