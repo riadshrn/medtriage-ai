@@ -203,12 +203,12 @@ L'agent médical intègre une couche de protection contre les injections de prom
 
 ---
 
-## Équipe
+## Auteurs
 
-Projet réalisé dans le cadre du Master SISE - Cours LLM.
+Projet réalisé dans le cadre du Master SISE par : 
+- Riad SAHRANE
+- Constantin REY-COQUAIS
+- Eugénie BARLET
+- Perrine IBOUROI
 
----
 
-## Licence
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
