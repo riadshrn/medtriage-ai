@@ -1,0 +1,356 @@
+[
+    {
+        "id": 1,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Renouvellement d'ordonnance pour médicaments habituels"
+    },
+    {
+        "id": 2,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Demande de certificat médical pour le sport"
+    },
+    {
+        "id": 3,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Petite coupure superficielle qui a arrêté de saigner"
+    },
+    {
+        "id": 4,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Rhume ou grippe sans fièvre élevée"
+    },
+    {
+        "id": 5,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Petite égratignure ou écorchure"
+    },
+    {
+        "id": 6,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Demande de vaccination de routine"
+    },
+    {
+        "id": 7,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Mal de gorge léger depuis 1-2 jours"
+    },
+    {
+        "id": 8,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Petite verrue à retirer"
+    },
+    {
+        "id": 9,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Consultation pour résultats d'analyses déjà faites"
+    },
+    {
+        "id": 10,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Toux légère sans difficulté respiratoire"
+    },
+    {
+        "id": 11,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Conseil pour un problème de peau mineur (bouton, rougeur légère)"
+    },
+    {
+        "id": 12,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Demande d'arrêt de travail pour maladie bénigne"
+    },
+    {
+        "id": 13,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Petite piqûre d'insecte sans réaction importante"
+    },
+    {
+        "id": 14,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Mal de tête occasionnel et léger"
+    },
+    {
+        "id": 15,
+        "category": "GRIS",
+        "urgency_level": 0,
+        "description": "Fatigue générale sans autres symptômes"
+    },
+    {
+        "id": 16,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Entorse de cheville légère à modérée"
+    },
+    {
+        "id": 17,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Conjonctivite (œil rouge et irrité)"
+    },
+    {
+        "id": 18,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Infection urinaire simple sans fièvre"
+    },
+    {
+        "id": 19,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Douleur dentaire supportable"
+    },
+    {
+        "id": 20,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Petite brûlure du 1er degré (type coup de soleil)"
+    },
+    {
+        "id": 21,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Mal de dos depuis quelques jours, stable"
+    },
+    {
+        "id": 22,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Gastro-entérite avec nausées et diarrhée légère"
+    },
+    {
+        "id": 23,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Otite sans fièvre élevée"
+    },
+    {
+        "id": 24,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Éruption cutanée qui démange"
+    },
+    {
+        "id": 25,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Saignement de nez qui s'arrête facilement"
+    },
+    {
+        "id": 26,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Petit corps étranger dans l'œil (poussière)"
+    },
+    {
+        "id": 27,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Réaction allergique légère (urticaire localisée)"
+    },
+    {
+        "id": 28,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Vomissements occasionnels sans déshydratation"
+    },
+    {
+        "id": 29,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Douleur abdominale légère et stable"
+    },
+    {
+        "id": 30,
+        "category": "VERT",
+        "urgency_level": 1,
+        "description": "Migraine habituelle chez une personne connue migraineuse"
+    },
+    {
+        "id": 31,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Fracture suspectée (os cassé) d'un bras ou d'une jambe"
+    },
+    {
+        "id": 32,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Luxation d'une articulation (épaule, doigt)"
+    },
+    {
+        "id": 33,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Coupure profonde nécessitant des points de suture"
+    },
+    {
+        "id": 34,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Brûlure du 2ème degré avec cloques étendues"
+    },
+    {
+        "id": 35,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Fièvre élevée (>39°C) persistante chez un adulte"
+    },
+    {
+        "id": 36,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Douleur abdominale intense et persistante"
+    },
+    {
+        "id": 37,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Vomissements répétés avec signes de déshydratation"
+    },
+    {
+        "id": 38,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Crise d'asthme modérée répondant partiellement au traitement"
+    },
+    {
+        "id": 39,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Saignement qui ne s'arrête pas après 15-20 minutes"
+    },
+    {
+        "id": 40,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Traumatisme crânien avec confusion légère mais conscient"
+    },
+    {
+        "id": 41,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Infection urinaire avec fièvre et douleurs lombaires"
+    },
+    {
+        "id": 42,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Entorse grave avec impossibilité de poser le pied"
+    },
+    {
+        "id": 43,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Réaction allergique avec gonflement important mais respiration normale"
+    },
+    {
+        "id": 44,
+        "category": "JAUNE",
+        "urgency_level": 2,
+        "description": "Coliques néphrétiques (douleur intense aux reins)"
+    },
+    {
+        "id": 45,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Douleur thoracique (poitrine) intense, oppressante"
+    },
+    {
+        "id": 46,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Difficulté respiratoire sévère, essoufflement au repos"
+    },
+    {
+        "id": 47,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Perte de conscience ou évanouissement"
+    },
+    {
+        "id": 48,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Paralysie soudaine d'un côté du corps ou du visage"
+    },
+    {
+        "id": 49,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Difficulté soudaine à parler ou confusion importante"
+    },
+    {
+        "id": 50,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Convulsions ou crise d'épilepsie"
+    },
+    {
+        "id": 51,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Hémorragie importante (sang qui coule abondamment)"
+    },
+    {
+        "id": 52,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Traumatisme crânien avec perte de conscience"
+    },
+    {
+        "id": 53,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Douleur abdominale très intense avec ventre dur"
+    },
+    {
+        "id": 54,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Réaction allergique grave (gonflement du visage/gorge, difficulté à respirer)"
+    },
+    {
+        "id": 55,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Perte de vision soudaine"
+    },
+    {
+        "id": 56,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Vertiges intenses avec impossibilité de tenir debout"
+    },
+    {
+        "id": 57,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Vomissements de sang ou selles noires"
+    },
+    {
+        "id": 58,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Brûlure étendue du 3ème degré"
+    },
+    {
+        "id": 59,
+        "category": "ROUGE",
+        "urgency_level": 3,
+        "description": "Intoxication médicamenteuse ou empoisonnement"
+    }
+]
