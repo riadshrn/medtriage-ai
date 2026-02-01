@@ -29,3 +29,6 @@ Thumbs.db
 # MLflow local
 mlruns/
 mlartifacts/
+
+# data
+backend/data/
