@@ -236,22 +236,123 @@ def main():
     if st.session_state.triage_launched and st.session_state.final_triage_result:
         res = st.session_state.final_triage_result
         lvl = res.get("gravity_level", "GRIS")
-        st.markdown(f"## Résultat : {lvl} {get_triage_emoji(lvl)}")
-        st.info(res.get("justification", "Pas de justification"))
-        
+        french_level = res.get("french_triage_level", "Tri Agent")
+        confidence = res.get("confidence_score", 0.75)
+        if isinstance(confidence, (int, float)) and confidence <= 1:
+            confidence = confidence * 100
+        emoji = get_triage_emoji(lvl)
+
+        # Couleurs par niveau
+        colors = {
+            "ROUGE": ("#dc3545", "#fff", "Urgence Vitale"),
+            "JAUNE": ("#ffc107", "#000", "Urgence Relative"),
+            "VERT": ("#28a745", "#fff", "Consultation Standard"),
+            "GRIS": ("#6c757d", "#fff", "Non Urgent")
+        }
+        bg_color, text_color, level_desc = colors.get(lvl, ("#6c757d", "#fff", "Non défini"))
+
+        # Grande bannière de triage
+        st.markdown(f"""
+        <div style="
+            background: linear-gradient(135deg, {bg_color} 0%, {bg_color}dd 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            margin: 1rem 0 2rem 0;
+            box-shadow: 0 10px 40px {bg_color}66;
+        ">
+            <div style="font-size: 4rem; margin-bottom: 0.5rem;">{emoji}</div>
+            <div style="font-size: 2.5rem; font-weight: bold; color: {text_color};">{lvl}</div>
+            <div style="font-size: 1.3rem; color: {text_color}; opacity: 0.9; margin-top: 0.5rem;">{french_level}</div>
+            <div style="font-size: 1rem; color: {text_color}; opacity: 0.8; margin-top: 0.3rem;">{level_desc}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Score de confiance avec explication
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("Nouvelle Simulation", use_container_width=True):
-                for k in ["simulation_messages", "patient_persona", "extracted_data", "triage_launched", "final_triage_result", "simulation_started"]:
+            st.markdown("### Score de Confiance")
+            conf_color = "#28a745" if confidence >= 80 else "#ffc107" if confidence >= 60 else "#dc3545"
+            st.markdown(f"""
+            <div style="background: #1e293b; border-radius: 15px; padding: 1.5rem; text-align: center;">
+                <div style="font-size: 2.5rem; font-weight: bold; color: {conf_color};">{confidence:.0f}%</div>
+                <div style="background: #334155; border-radius: 10px; height: 12px; margin: 1rem 0;">
+                    <div style="background: {conf_color}; width: {confidence}%; height: 100%; border-radius: 10px;"></div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            with st.expander("Comment est calculé le score ?"):
+                st.markdown("""
+                Le **score de confiance** est calculé selon plusieurs critères :
+
+                - **Base** : 75% (protocole FRENCH)
+                - **+15%** si le ML confirme le niveau FRENCH
+                - **+10%** si red flags détectés → confiance max
+                - **-10%** si qualité des données LOW
+                - **-20%** si données insuffisantes
+
+                *Formule* : `Confiance = Base + Bonus_ML - Pénalité_Qualité`
+                """)
+
+        with col2:
+            st.markdown("### Prise en Charge")
+            delai = res.get("delai_prise_en_charge", "À évaluer")
+            orientation = res.get("orientation", "À déterminer par le médecin")
+
+            st.markdown(f"""
+            <div style="background: #1e293b; border-radius: 15px; padding: 1.5rem;">
+                <div style="margin-bottom: 1rem;">
+                    <div style="color: #94a3b8; font-size: 0.9rem;">⏱️ Délai de prise en charge</div>
+                    <div style="color: #fff; font-size: 1.3rem; font-weight: 600;">{delai}</div>
+                </div>
+                <div>
+                    <div style="color: #94a3b8; font-size: 0.9rem;">🏥 Orientation</div>
+                    <div style="color: #fff; font-size: 1.3rem; font-weight: 600;">{orientation}</div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown("---")
+
+        # Justification
+        st.markdown("### Justification")
+        justification = res.get("justification", "Évaluation basée sur le protocole FRENCH et l'analyse de l'agent.")
+        st.info(f"📋 {justification}")
+
+        # Signaux d'alerte
+        red_flags = res.get("red_flags", [])
+        if red_flags:
+            st.markdown("### Signaux d'Alerte")
+            for flag in red_flags:
+                if flag:
+                    st.error(f"🚨 {flag}")
+
+        # Recommandations
+        recommendations = res.get("recommendations", [])
+        if recommendations:
+            st.markdown("### Recommandations")
+            for rec in recommendations:
+                if rec:
+                    st.warning(f"💡 {rec}")
+
+        st.markdown("---")
+
+        # Boutons d'action
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("🔄 Nouvelle Simulation", use_container_width=True):
+                for k in ["simulation_messages", "patient_persona", "extracted_data", "triage_launched", "final_triage_result", "simulation_started", "latest_agent_result"]:
                     if k in st.session_state: del st.session_state[k]
+                st.session_state['current_interactive_session_metrics'] = {'cost_usd': 0, 'gwp_kgco2': 0, 'energy_kwh': 0, 'nb_calls': 0}
                 st.rerun()
         with col2:
-            if st.button("Donner un Feedback", type="primary", use_container_width=True):
-                # Préparation du contexte pour la page Feedback
+            if st.button("📝 Donner un Feedback", type="primary", use_container_width=True):
                 st.session_state['last_triage_result'] = {
                     'prediction_id': res.get('prediction_id') or "sim_unknown",
                     'gravity_level': lvl,
-                    'french_triage_level': "Tri Agent",
+                    'french_triage_level': french_level,
+                    'confidence_score': confidence,
                     'extracted_data': st.session_state.extracted_data,
                     'source': 'simulation',
                     'filename': 'Simulation Interactive'
@@ -313,21 +414,57 @@ def main():
         is_emergency = agent_res.get("criticity") == "ROUGE"
         
         if ml_completion >= 100 or is_emergency:
-            if st.button("VALIDER LE TRIAGE", type="primary", use_container_width=True):
+            if st.button("🏥 VALIDER LE TRIAGE", type="primary", use_container_width=True):
                 if agent_res:
-                    final = {
-                        "gravity_level": agent_res.get("criticity"),
-                        "justification": "Protocole Médical (Agent).",
-                        "red_flags": [agent_res.get("protocol_alert")] if agent_res.get("protocol_alert") else []
+                    # Mapping niveau de gravité vers niveau FRENCH et délais
+                    gravity = agent_res.get("criticity", "GRIS")
+                    french_mapping = {
+                        "ROUGE": ("Tri 1 / Tri 2", "Immédiat / < 20 min", "SAUV / Déchocage"),
+                        "JAUNE": ("Tri 3", "< 60 min", "Box Urgence"),
+                        "VERT": ("Tri 4", "< 120 min", "Zone de consultation"),
+                        "GRIS": ("Tri 5", "< 240 min", "Salle d'attente")
                     }
+                    french_level, delai, orientation = french_mapping.get(gravity, ("Tri 5", "À évaluer", "À déterminer"))
+
+                    # Calcul du score de confiance
+                    base_confidence = 0.75
+                    if ml_completion >= 100:
+                        base_confidence += 0.10  # Bonus dossier complet
+                    if is_emergency:
+                        base_confidence = 0.95  # Red flag = haute confiance
+                    confidence = min(base_confidence, 0.99)
+
+                    # Construction de la justification
+                    protocol_alert = agent_res.get("protocol_alert", "")
+                    justification = protocol_alert if protocol_alert else f"Triage {gravity} basé sur l'analyse des données cliniques selon le protocole FRENCH."
+
+                    # Recommandations basées sur le niveau
+                    recommendations_map = {
+                        "ROUGE": ["Prise en charge immédiate", "Monitoring continu", "Alerte médecin senior"],
+                        "JAUNE": ["Surveillance rapprochée", "Réévaluation dans 30 min", "Bilan complémentaire"],
+                        "VERT": ["Consultation standard", "Réévaluation si aggravation"],
+                        "GRIS": ["Prise en charge différée possible", "Orientation médecine de ville si besoin"]
+                    }
+
+                    final = {
+                        "gravity_level": gravity,
+                        "french_triage_level": french_level,
+                        "confidence_score": confidence,
+                        "delai_prise_en_charge": delai,
+                        "orientation": orientation,
+                        "justification": justification,
+                        "red_flags": [protocol_alert] if protocol_alert else agent_res.get("missing_info", [])[:3],
+                        "recommendations": recommendations_map.get(gravity, [])
+                    }
+
                     acc = st.session_state['current_interactive_session_metrics']
                     pred_id = save_triage_to_history(final, data, acc if acc['nb_calls'] > 0 else None)
-                    final['prediction_id'] = pred_id # On stocke l'ID
+                    final['prediction_id'] = pred_id
                     st.session_state.final_triage_result = final
                     st.session_state.triage_launched = True
                     st.rerun()
         else:
-            st.button(f"Complétez le dossier ({int(ml_completion)}%)", disabled=True, use_container_width=True)
+            st.button(f"📋 Complétez le dossier ({int(ml_completion)}%)", disabled=True, use_container_width=True)
 
 if __name__ == "__main__":
     main()
