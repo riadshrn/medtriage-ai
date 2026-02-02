@@ -1,5 +1,59 @@
 [
   {
+    "prediction_id": "956a361d-bbc0-4b9e-bc43-5b574b806015",
+    "timestamp": "2026-02-02T11:18:27.689051Z",
+    "source": "simulation",
+    "filename": null,
+    "gravity_level": "GRIS",
+    "french_triage_level": "Tri 5",
+    "confidence_score": null,
+    "orientation": null,
+    "delai_prise_en_charge": null,
+    "patient_input": null,
+    "extracted_data": {
+      "age": 58,
+      "sexe": "M",
+      "motif_consultation": "douleur thoracique",
+      "duree_symptomes": null,
+      "antecedents": null,
+      "traitements": null,
+      "constantes": {
+        "frequence_cardiaque": 110,
+        "pression_systolique": 155,
+        "pression_diastolique": 95,
+        "frequence_respiratoire": 22,
+        "temperature": 37.5,
+        "saturation_oxygene": 92,
+        "echelle_douleur": null,
+        "glycemie": null,
+        "glasgow": null
+      },
+      "missing_critical_info": []
+    },
+    "model_version": "hybrid-v1",
+    "ml_available": null,
+    "justification": "Triage GRIS basé sur l'analyse des données cliniques selon le protocole FRENCH.",
+    "red_flags": [],
+    "recommendations": [
+      "Prise en charge différée possible",
+      "Orientation médecine de ville si besoin"
+    ],
+    "metrics": {
+      "cost_usd": 0.0014682,
+      "gwp_kgco2": 4.090615103992939e-05,
+      "energy_kwh": 0.0007437482007259889,
+      "latency_s": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "total_tokens": null,
+      "model_name": null,
+      "provider": null
+    },
+    "feedback_given": false,
+    "feedback_type": null,
+    "corrected_gravity": null
+  },
+  {
     "prediction_id": "3fe57091-ffc3-4903-b5b5-3dd98e57bc0c",
     "timestamp": "2026-02-02T11:09:54.280522Z",
     "source": "simulation",
