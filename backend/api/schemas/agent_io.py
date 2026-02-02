@@ -20,7 +20,7 @@ class AgentResponse(BaseModel):
     
     protocol_alert: Optional[str] = Field(
         None, 
-        description="Alerte basée sur les protocoles médicaux..."
+        description="Recommandations basées sur les protocoles médicaux..."
     )
     
     data: ExtractedPatient = Field(

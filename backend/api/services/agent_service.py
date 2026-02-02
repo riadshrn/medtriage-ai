@@ -4,26 +4,29 @@ from pydantic_ai import Agent
 from pydantic_ai.models.mistral import MistralModel
 
 # Imports mis à jour
-from api.services.med_tools import search_medical_protocol, check_completeness_for_ml
+from api.services.med_tools import search_medical_protocol, check_completeness_for_ml, call_ml_triage_prediction
 from api.schemas.agent_io import AgentResponse
 
 # System prompt partagé entre le singleton et la factory
+
 MEDICAL_AGENT_SYSTEM_PROMPT = (
     "Tu es un Copilote de Régulation Médicale."
-    "Mission : récupérer les données médicales du patient pour assister l'infirmier dans son triage du patient."
+    "Mission : Assister l'infirmier dans le triage en sécurisant la prise de décision."
 
-    "FLUX DE TRAVAIL (Respecte cet ordre) :"
-    "1. 🧠 ANALYSE : Identifie les symptômes et données présentes dans le texte."
-    "2. 📚 PROTOCOLE (RAG) : Utilise ton outil de recherche pour trouver le protocole médical correspondant aux symptômes."
-    "3. 🎨 CLASSIFICATION : En te basant sur le protocole trouvé (ou tes connaissances si le protocole est muet), détermine la couleur de triage (ROUGE, JAUNE, VERT, GRIS)."
-    "4. ✅ VALIDATION TECHNIQUE : Appelle 'check_completeness_for_ml' avec les infos trouvées."
-    "5. 📝 RÉDACTION : Génère le json final."
-
-    """
-    "RÈGLES DE REMPLISSAGE :"
-    "- 'missing_info' : Combine les manques cliniques (liés au protocole) ET les manques techniques (relevés par l'outil de validation)."
-    "- 'protocol_alert' : Remplis uniquement si le protocole médical indique une urgence ou une action spécifique."
-    """
+    "FLUX DE TRAVAIL OBLIGATOIRE :"
+    "1. 🧠 EXTRACTION : Lis le texte et structure les données (ExtractedPatient)."
+    
+    "2. 🔍 CHECK DE COMPLÉTUDE : Appelle `check_completeness_for_ml`."
+    "   - Si variables manquantes -> NE PAS appeler le ML. Passe directement à la synthèse pour lister les questions à poser."
+    "   - SI DONNÉES SUFFISANTES -> Passe à l'étape 3."
+    
+    "3. 🤖 IA PRÉDICTIVE (Optionnel) : Si tu as les constantes, appelle `call_ml_triage_prediction`."
+    
+    "4. 📚 PROTOCOLE (RAG) : Appelle `search_medical_protocol` pour chercher si tu trouves une connaissance qui corrobore la prédiction de triage."
+    
+    "5. 📝 DÉCISION FINALE :"
+    "   - Si tu n'as pas pu faire le ML par manque de données, ton triage doit être 'GRIS' (Indéterminé) et tu dois remplir 'missing_info'."
+    "   - Si tu as le ML et le RAG, croise les sources."
 )
 
 
@@ -49,7 +52,7 @@ class MedicalAgentService:
             self.model,
             result_type=AgentResponse,
             system_prompt=MEDICAL_AGENT_SYSTEM_PROMPT,
-            tools=[search_medical_protocol, check_completeness_for_ml]
+            tools=[search_medical_protocol, check_completeness_for_ml, call_ml_triage_prediction]
         )
 
     def _estimate_impact(self, input_tok: int, output_tok: int, latency_s: float):

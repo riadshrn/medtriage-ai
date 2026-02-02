@@ -319,17 +319,20 @@ def main():
                 # Utiliser le nouveau badge de triage avec animation
                 st.markdown(render_triage_badge(criticity), unsafe_allow_html=True)
 
+                # 1. Alerte Protocolaire (Priorité absolue)
                 if alert:
                     st.error(f"**ALERTE PROTOCOLE**\n\n{alert}")
-                else:
-                    st.success("Aucun indicateur de gravité immédiate.")
-
+                
+                # 2. Informations Manquantes (Bloquant pour le succès)
                 if missing_info:
-                    st.warning("**Informations à demander:**")
+                    st.warning("⚠️ **Données incomplètes**")
+                    st.markdown("L'IA ne peut pas finaliser le triage. Veuillez demander :")
                     for q in missing_info:
                         st.markdown(f"- {q}")
-                elif not alert:
-                    st.info("Dossier complet pour le triage.")
+                
+                # 3. Dossier Complet & Sain (Uniquement si ni alerte ni manque)
+                elif not alert and not missing_info:
+                    st.success("✅ Dossier complet.\nAucun indicateur de gravité immédiate détecté.")
 
                 st.markdown("---")
                 with st.expander("Logs & Raisonnement"):

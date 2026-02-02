@@ -3,7 +3,9 @@ import chromadb
 from chromadb.utils import embedding_functions
 from dataclasses import dataclass
 from typing import Union, List
-from api.schemas.extraction import ExtractedPatient, ExtractedConstantes # Ton modèle Pydantic existant
+from api.schemas.extraction import ExtractedPatient, ExtractedConstantes 
+from api.schemas.triage import PatientInput, ConstantesInput
+from api.services.triage_service import get_triage_service
 
 DB_PATH = os.path.join(os.getcwd(), "data", "vector_db")
 COLLECTION_NAME = "medical_knowledge"
@@ -106,3 +108,64 @@ async def check_completeness_for_ml(found_fields: List[str]) -> str:
         return "✅ TOUTES les données requises pour le ML sont présentes."
     else:
         return f"⚠️ ALERTE ML - Variables manquantes pour l'algorithme : {', '.join(missing)}. Ajoute-les à 'missing_info'."
+    
+
+async def call_ml_triage_prediction(data: ExtractedPatient) -> str:
+    """
+    Appelle le modèle d'IA Prédictive.
+    
+    RÈGLE DE SÉCURITÉ : 
+    Cet outil refusera de donner une prédiction si les données sont insuffisantes (imputation interdite).
+    """
+    try:
+        c = data.constantes
+        
+        # 1. CHECK DE SÉCURITÉ AVANT APPEL
+        # On définit ce qui est absolument critique pour ne pas "halluciner" un triage
+        missing_criticals = []
+        if c.frequence_cardiaque is None: missing_criticals.append("Fréquence Cardiaque")
+        if c.pression_systolique is None: missing_criticals.append("Tension (Sys)")
+        if c.echelle_douleur is None: missing_criticals.append("Douleur")
+        
+        # Si trop de manques, on avorte le ML pour forcer l'agent à poser des questions
+        if len(missing_criticals) > 0:
+            return (
+                f"🛑 PRÉDICTION ML IMPOSSIBLE : Données vitales manquantes ({', '.join(missing_criticals)}).\n"
+                "Ne tente pas d'inventer ces valeurs. Demande à l'infirmier de les récolter"
+            )
+
+        # 2. Conversion (Si on arrive ici, on a les données critiques)
+        # On garde quelques valeurs par défaut inoffensives (ex: saturation 98% si patient parle normalement)
+        # mais on est stricts sur le coeur/tension.
+        
+        patient_input = PatientInput(
+            age=data.age or 45, # L'âge influe moins le triage immédiat que la tension
+            sexe=data.sexe or "M",
+            motif_consultation=data.motif_consultation or "Non spécifié",
+            antecedents=data.antecedents or [],
+            constantes=ConstantesInput(
+                frequence_cardiaque=c.frequence_cardiaque, # Pas de défaut, doit être présent
+                pression_systolique=c.pression_systolique, # Pas de défaut
+                pression_diastolique=c.pression_diastolique or 80, # Moins grave si approximatif
+                frequence_respiratoire=c.frequence_respiratoire or 16,
+                temperature=c.temperature or 37.0,
+                saturation_oxygene=c.saturation_oxygene or 98,
+                echelle_douleur=c.echelle_douleur,
+                glycemie=c.glycemie,
+                glasgow=c.glasgow or 15
+            )
+        )
+
+        # 3. Appel Service
+        service = get_triage_service()
+        result = service.predict(patient_input)
+
+        return (
+            f"🤖 PRÉDICTION ML ({result['french_triage_level']}) :\n"
+            f"- Gravité : {result['gravity_level']}\n"
+            f"- Confiance : {result['confidence_score']*100:.1f}%\n"
+            f"- Conseils : {', '.join(result['recommendations'])}"
+        )
+
+    except Exception as e:
+        return f"⚠️ Erreur Technique ML : {str(e)}"
