@@ -2,11 +2,23 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Dépendances système minimales (curl pour le healthcheck)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copie et installation des dépendances EXACTES
 COPY requirements.txt .
+# --no-cache-dir : Ne garde pas le cache d'installation (réduit la taille de l'image)
+# -r requirements.txt : Installe la liste complète figée
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copie du code
 COPY . .
 
 EXPOSE 8501
+
+# Vérifie que Streamlit répond bien (Best Practice Prod)
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health || exit 1
 
 CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]

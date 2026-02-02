@@ -1,38 +1,44 @@
 FROM python:3.11-slim
 
-# Gestionnaire de paquets UV (Performance)
+# Gestionnaire de paquets UV
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
 
-ENV UV_SYSTEM_PYTHON=1
+# Configuration UV
 ENV UV_COMPILE_BYTECODE=1
-ENV UV_CACHE_DIR=/root/.cache/uv/
 ENV UV_LINK_MODE=copy
-
-# --- OPTIMISATION HF ---
-ARG HF_TOKEN
-ENV HF_TOKEN=${HF_TOKEN}
-ENV HF_HOME=/app/model_cache
 
 # Dépendances système
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN uv pip install --no-cache-dir "griffe==1.5.1"
+# --- INSTALLATION DEPENDANCES ---
+COPY pyproject.toml uv.lock ./
 
+# Installation stricte depuis le lockfile
+# uv va créer un dossier /app/.venv contenant toutes tes libs
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install --index-strategy unsafe-best-match -r requirements.txt
+    uv sync --frozen --no-install-project
 
-# Téléchargement du modèle au build dans le dossier HF_HOME défini plus haut
+# --- [LE FIX EST ICI] ---
+# On place le bin du .venv en priorité dans le PATH.
+# Comme ça, quand on tape "python", c'est celui du venv qui se lance.
+ENV PATH="/app/.venv/bin:$PATH"
+# ------------------------
+
+# --- PRÉ-CHARGEMENT DU MODÈLE ---
+ARG HF_TOKEN
+ENV HF_TOKEN=${HF_TOKEN}
+
+# Maintenant "python" trouve sentence_transformers car il regarde dans le .venv
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')"
 
-# Vérification (Sanity Check)
+# Vérification
 RUN python -c "import chromadb; print('✓ chromadb OK')"
 
-# Copie de la nouvelle architecture
+# --- COPIE DU CODE ---
 COPY api/ ./api/
 COPY models/ ./models/
 COPY data/ ./data/
